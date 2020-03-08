@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3dbdaac51c9c49ce884a316bda57f7b3)](https://app.codacy.com/manual/samakunchan/samatech?utm_source=github.com&utm_medium=referral&utm_content=samakunchan/samatech&utm_campaign=Badge_Grade_Dashboard)
 [![PHP Badge](https://img.shields.io/badge/Language-PHP-blueviolet)](https://www.php.net/docs.php)
 [![Techno Badge](https://img.shields.io/badge/Technology-Symfony5-blue)](https://www.php.net/docs.php)
 [![Composer Badge](https://img.shields.io/badge/Dependency-Composer-lightgrey)](https://www.php.net/docs.php)
