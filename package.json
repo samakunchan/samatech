@@ -1,33 +1,23 @@
 {
-  "name": "samatech",
-  "version": "1.0.0",
-  "description": "Mon site web freelance",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "dependencies": {
-    "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1"
-  },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "@symfony/webpack-encore": "^0.28.3",
-    "webpack-notifier": "1.6.0"
+    "@symfony/webpack-encore": "^0.28.2",
+    "core-js": "^3.0.0",
+    "regenerator-runtime": "^0.13.2",
+    "webpack-notifier": "^1.6.0"
   },
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production --progress",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "encore production --progress"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  },
-  "author": "Samakunchan",
-  "license": "ISC"
+  }
 }
