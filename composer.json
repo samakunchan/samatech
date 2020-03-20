@@ -5,6 +5,7 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "liip/test-fixtures-bundle": "^1.7",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.0.*",
         "symfony/console": "5.0.*",
@@ -31,7 +32,8 @@
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {
-        "nelmio/alice": "^3.6",
+        "dama/doctrine-test-bundle": "^6.3",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
@@ -79,7 +81,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "5.0.*"
         }
     }
