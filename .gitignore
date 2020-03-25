@@ -23,3 +23,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /CMD.md
 /tests/DataFixtures/
+/assets/js/theme.js
+/PLUSTARD.md

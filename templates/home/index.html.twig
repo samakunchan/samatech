@@ -1,20 +1,161 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}{{ parent() }} - Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<main>
+    <!--================ Start Home Banner Area =================-->
+    <section class="home_banner_area">
+        <div class="banner_inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="banner_content">
+                            <h3 class="text-uppercase">Bonjour</h3>
+                            <h1 class="text-uppercase">Je suis Cédric Badjah</h1>
+                            <h5 class="text-uppercase">Developpeur Web</h5>
+                            <div class="d-flex align-items-center">
+                                <a class="primary_btn" href="{{ path('contact') }}"><span>Bosser avec moi</span></a>
+                                <a class="primary_btn tr-bg" href="{{ path('about') }}"><span>En savoir plus sur moi</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="home_right_img">
+                            <img class="" src="{{ asset('build/assets/media/images/about-us.52bec8f6.png') }}" alt="Image de la landing page">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Home Banner Area =================-->
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <!--================ Start Service Area =================-->
+    <section class="features_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="main_title">
+                        <h2 class="primary-color">Mes services</h2>
+                        <p>
+                            <q>Il n'y a pas de service auquel l'homme se porte avec plus de satisfaction que de donner un conseil. </q><br>
+                            Proverbe de Axel Oxenstiern - Réflexions et maximes (1645)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row feature_inner">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature_item">
+                        <img src="{{asset('build/assets/media/images/services/icone-web-browser.a385aa53.png')}}" alt="{{asset('build/assets/media/images/services/icone-web-browser.a385aa53.png')}}">
+                        <h4>Cross-browser compatibility</h4>
+                        <p>Les sites sont construits afin d'être supportés par les navigateurs les plus populaires: Chrome, Firefox, Safari, Opera, Microsoft Edge ect...</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature_item">
+                        <img src="{{ asset('build/assets/media/images/services/icone-conception.ce179d29.png') }}" alt="{{ asset('build/assets/media/images/services/icone-conception.ce179d29.png') }}">
+                        <h4>Conception</h4>
+                        <p>La conception des sites ou applications web se fait très bien avec les frameworks puissants du marché, les CMS les plus populaires, et même "from scratch".</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature_item">
+                        <img src="{{ asset('build/assets/media/images/services/icone-performance.319b7830.png') }}" alt="{{ asset('build/assets/media/images/services/icone-performance.319b7830.png') }}">
+                        <h4>Performance</h4>
+                        <p>Les technologies utilisés sont soigneusement choisis afin de rendre le site ou application web performant, maintenable et scalable.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature_item">
+                        <img src="{{ asset('build/assets/media/images/services/icone-responsive.8024451e.png') }}" alt="{{ asset('build/assets/media/images/services/icone-responsive.8024451e.png') }}">
+                        <h4>Responsive design</h4>
+                        <p>Les dernières technologies sont utilisés afin de permettre de rendre le site ou application web final facilement utilisable en format Desktop, tablet ou mobile.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Service Area =================-->
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/samatech/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/samatech/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <!--================Start Portfolio Area =================-->
+    <section class="portfolio_area" id="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main_title text-left">
+                        <h2 class="primary-color">quality work <br> Projet récemment ajouter </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gallery-item portfolio_box">
+                <div class="col-md-4 short_info">
+                    <a href="{{ asset('build/assets/media/images/portfolio/velooc.fb46ac96.png') }}" class="img-gal">
+                        <div
+                                class="single-gallery-image"
+                                style="background: url({{ asset('build/assets/media/images/portfolio/velooc.fb46ac96.png') }});">
+                        </div>
+                    </a>
+                    <h4>
+                        <a href="javascript:void(0)">Velooc</a>
+                    </h4>
+                    <p>Location de vélo à Lyon</p>
+                </div>
+                <div class="col-md-4 short_info">
+                    <a href="{{ asset('build/assets/media/images/portfolio/carrefour.b36cbb11.png') }}" class="img-gal">
+                        <div
+                                class="single-gallery-image"
+                                style="background: url({{ asset('build/assets/media/images/portfolio/carrefour.b36cbb11.png') }});">
+                        </div>
+                    </a>
+                    <h4>
+                        <a href="javascript:void(0)">Carrefour des mondes et des cultures</a>
+                    </h4>
+                    <p>Blog interreligieux</p>
+                </div>
+                <div class="col-md-4 short_info">
+                    <a href="{{ asset('build/assets/media/images/portfolio/vtr.5c2c13f9.png') }}" class="img-gal">
+                        <div
+                                class="single-gallery-image"
+                                style="background: url({{ asset('build/assets/media/images/portfolio/vtr.5c2c13f9.png') }});">
+                        </div>
+                    </a>
+                    <h4>
+                        <a href="javascript:void(0)">Vis tes rêves, village vacances</a>
+                    </h4>
+                    <p>Projet de village éco responsable</p>
+                </div>
+                <div class="col-md-6 short_info">
+                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">
+                        <div
+                                class="single-gallery-image"
+                                style="background: url({{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }});">
+                        </div>
+                    </a>
+                    <h4>
+                        <a href="javascript:void(0)">MyTravelDream</a>
+                    </h4>
+                    <p>Site e-commence</p>
+                </div>
+                <div class="col-md-6 short_info">
+                    <a href="{{ asset('build/assets/media/images/portfolio/violet.4552ceb3.png') }}" class="img-gal">
+                        <div
+                                class="single-gallery-image"
+                                style="background: url({{ asset('build/assets/media/images/portfolio/violet.4552ceb3.png') }});">
+                        </div>
+                    </a>
+                    <h4>
+                        <a href="javascript:void(0)">Maison Violet</a>
+                    </h4>
+                    <p>Site e-commence</p>
+                </div>
+                <a class="primary_btn tr-bg mt-5" style="max-width: 300px; margin: 0 auto" href="{{ path('portfolio') }}"><span>Voir plus de projet</span></a>
+            </div>
+            <div class="section-top-border"></div>
+        </div>
+    </section>
+    <!--================End Portfolio Area =================-->
+</main>
 {% endblock %}
