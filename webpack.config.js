@@ -30,7 +30,16 @@ Encore
     // .addEntry("js/theme", "./assets/js/theme.js") // pour la navbar
     .addEntry("js/navbar", "./assets/js/navbar.js") // pour la navbar
     //.addEntry("page2", "./assets/js/page2.js")
+    /*
+     * Les entrées CSS/JS de la partie admin
+     */
+    .addEntry("css/admin/theme", "./assets/admin/scss/theme.scss")
+    .addEntry("css/admin/fontawesome-free", "./assets/admin/css/fontawesome-free/css/all.min.css")
+    .addEntry("css/admin/icon-kit", "./assets/admin/css/icon-kit/dist/css/iconkit.min.css")
 
+    .addEntry("js/admin/theme", "./assets/admin/js/theme.js")
+    .addEntry("js/admin/popper", "./assets/admin/plugins/popper.js/dist/umd/popper.min.js")
+    .addEntry("js/admin/bootstrap", "./assets/admin/plugins/bootstrap/dist/js/bootstrap.min.js")
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
