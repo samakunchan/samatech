@@ -27,18 +27,18 @@
                         <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                             <ul class="nav navbar-nav menu_nav justify-content-end">
                                 <li class="nav-item active"><a class="nav-link" href="{{ path('home') }}">Accueil</a></li>
-                                <li class="nav-item"><a class="nav-link" href="javascript:void(0)">A propos</a></li>
-                                <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Services</a></li>
-                                <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Portfolio</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('about') }}">A propos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('service') }}">Services</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('portfolio') }}">Portfolio</a></li>
                                 <li class="nav-item submenu dropdown">
-                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
+                                    <a href="{{ path('blog') }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Blog</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Blog Details</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ path('blog') }}">Blog</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ path('blog_show', {'id': 1}) }}">Blog Details</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Contact</a></li>
-                                <li class="nav-item"><a class="nav-link" href="javascript:void(0)">Login</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">Contact</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('login') }}">Login</a></li>
                             </ul>
                         </div>
                     </div>
