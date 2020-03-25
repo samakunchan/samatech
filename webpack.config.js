@@ -23,7 +23,12 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry("app", "./assets/js/app.js")
+    .addEntry("app", "./assets/js/app.js") // j'ai désactivé ça parce que c'est pas facile a repérer
+    .addEntry("css/portfolio", "./assets/js/portfolio.js")
+    .addEntry("scss/style", "./assets/scss/style.scss")
+    .addEntry("css/bootstrap", "./assets/css/bootstrap.css")
+    // .addEntry("js/theme", "./assets/js/theme.js") // pour la navbar
+    .addEntry("js/navbar", "./assets/js/navbar.js") // pour la navbar
     //.addEntry("page2", "./assets/js/page2.js")
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -55,7 +60,7 @@ Encore
         images: "[path][name].[hash:8].[ext]",
     })
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
