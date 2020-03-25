@@ -94,13 +94,13 @@
                             <i class="ik ik-plus"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right menu-grid" aria-labelledby="menuDropdown">
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Dashboard">
+                            <a class="dropdown-item" href="{{ path('admin') }}" data-toggle="tooltip" data-placement="top" title="Dashboard">
                                 <i class="ik ik-bar-chart-2"></i>
                             </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Message">
+                            <a class="dropdown-item" href="{{ path('admin_messageries') }}" data-toggle="tooltip" data-placement="top" title="Message">
                                 <i class="ik ik-mail"></i>
                             </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Accounts">
+                            <a class="dropdown-item" href="{{ path('admin_account') }}" data-toggle="tooltip" data-placement="top" title="Accounts">
                                 <i class="ik ik-users"></i>
                             </a>
                             <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Sales">
@@ -111,24 +111,6 @@
                             </a>
                             <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Pages">
                                 <i class="ik ik-clipboard"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Chats">
-                                <i class="ik ik-message-square"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Contacts">
-                                <i class="ik ik-map-pin"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Blocks">
-                                <i class="ik ik-inbox"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Events">
-                                <i class="ik ik-calendar"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Notifications">
-                                <i class="ik ik-bell"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="More">
-                                <i class="ik ik-more-horizontal"></i>
                             </a>
                         </div>
                     </div>
@@ -146,15 +128,15 @@
                             <img class="avatar" src="{{ asset('build/assets/media/images/logo.6e097222.png') }}" alt="Mon avatar">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="javascript:void(0);">
+                            <a class="dropdown-item" href="{{ path('admin_account') }}">
                                 <i class="ik ik-user dropdown-icon"></i>
                                 Profile
                             </a>
-                            <a class="dropdown-item" href="javascript:void(0);">
+                            <a class="dropdown-item" href="{{ path('admin_settings') }}">
                                 <i class="ik ik-settings dropdown-icon"></i>
                                 Settings
                             </a>
-                            <a class="dropdown-item" href="javascript:void(0);">
+                            <a class="dropdown-item" href="{{ path('admin_messageries') }}">
                                 <span class="float-right">
                                     <span class="badge badge-primary">6</span>
                                 </span>
@@ -203,74 +185,80 @@
 
                         <!-- NAVIGATION -->
                         <div class="nav-lavel">Navigation</div>
-                        <div class="nav-item active">
-                            <a href="javascript:void(0);">
+                        <div class="nav-item {% if app.request.get('_route') is same as('admin')  %} active{% endif %}">
+                            <a href="{{ path('admin') }}">
                                 <i class="ik ik-bar-chart-2"></i>
                                 <span>Vus d'ensemble</span>
                             </a>
                         </div>
-                        <div class="nav-item has-sub">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_messageries') or app.request.get('_route') is same as('admin_messages_add') %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-command"></i>
                                 <span>Messages</span>
                                 <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="javascript:void(0);" class="menu-item">Boite de reception</a>
-                                <a href="javascript:void(0);" class="menu-item">Envoyer un email</a>
+                                <a href="{{ path('admin_messageries') }}" class="menu-item">Boite de reception</a>
+                                <a href="{{ path('admin_messages_add') }}" class="menu-item">Envoyer un email</a>
                             </div>
                         </div>
-                        <div class="nav-item has-sub">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_medias') or app.request.get('_route') is same as('admin_medias_add') %} active open{% endif %}">
                             <a href="javascript:void(0)">
                                 <i class="ik ik-layers"></i>
                                 <span>Media</span>
                                 <span class="badge badge-danger">150+</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="javascript:void(0);" class="menu-item">Bibliothèque</a>
-                                <a href="javascript:void(0);" class="menu-item">Ajouter</a>
+                                <a href="{{ path('admin_medias') }}" class="menu-item">Bibliothèque</a>
+                                <a href="{{ path('admin_medias_add') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
                         <!-- /NAVIGATION -->
 
                         <!-- CRUD -->
                         <div class="nav-lavel">CRUD</div>
-                        <div class="nav-item has-sub">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_articles')
+                            or app.request.get('_route') is same as('admin_articles_add')
+                            or app.request.get('_route') is same as('admin_categories_articles')
+                        %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-menu"></i>
                                 <span>Articles</span>
                                 <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="javascript:void(0);" class="menu-item">Tous les articles</a>
-                                <a href="javascript:void(0);" class="menu-item">Ajouter</a>
-                                <a href="javascript:void(0);" class="menu-item">Catégories</a>
+                                <a href="{{ path('admin_articles') }}" class="menu-item">Tous les articles</a>
+                                <a href="{{ path('admin_articles_add') }}" class="menu-item">Ajouter</a>
+                                <a href="{{ path('admin_categories_articles') }}" class="menu-item">Catégories</a>
                             </div>
                         </div>
-                        <div class="nav-item has-sub">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_services') or app.request.get('_route') is same as('admin_services_add') %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-box"></i>
                                 <span>Services</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="javascript:void(0);" class="menu-item">Listes des services</a>
-                                <a href="javascript:void(0);" class="menu-item">Ajouter</a>
+                                <a href="{{ path('admin_services') }}" class="menu-item">Listes des services</a>
+                                <a href="{{ path('admin_services_add') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
-                        <div class="nav-item has-sub">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_portfolios')
+                            or app.request.get('_route') is same as('admin_portfolio_add')
+                            or app.request.get('_route') is same as('admin_categories_portfolios')
+                        %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-gitlab"></i>
                                 <span>Portfolio</span>
                                 <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="javascript:void(0);" class="menu-item">Liste des portfolios</a>
-                                <a href="javascript:void(0);" class="menu-item">Ajouter</a>
-                                <a href="javascript:void(0);" class="menu-item">Catégories</a>
+                                <a href="{{ path('admin_portfolios') }}" class="menu-item">Liste des portfolios</a>
+                                <a href="{{ path('admin_portfolio_add') }}" class="menu-item">Ajouter</a>
+                                <a href="{{ path('admin_categories_portfolios') }}" class="menu-item">Catégories</a>
                             </div>
                         </div>
-                        <div class="nav-item">
-                            <a href="javascript:void(0);">
+                        <div class="nav-item {% if app.request.get('_route') is same as('admin_about') %} active{% endif %}">
+                            <a href="{{ path('admin_about') }}">
                                 <i class="ik ik-package"></i>
                                 <span>A propos</span>
                             </a>
@@ -279,8 +267,8 @@
 
                         <!-- CONFIGURATION -->
                         <div class="nav-lavel">Configuration</div>
-                        <div class="nav-item">
-                            <a href="javascript:void(0);">
+                        <div class="nav-item {% if app.request.get('_route') is same as('admin_settings') %} active{% endif %}">
+                            <a href="{{ path('admin_settings') }}">
                                 <i class="ik ik-terminal"></i>
                                 <span>Paramètres</span>
                             </a>
@@ -307,7 +295,9 @@
                     <h6>Chat List</h6>
                     <form class="mr-t-10">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search for friends ...">
+                            <label>
+                                <input type="text" class="form-control" placeholder="Search for friends ...">
+                            </label>
                             <i class="ik ik-search"></i>
                         </div>
                     </form>
@@ -397,7 +387,7 @@
                             <div class="message media reply">
                                 <figure class="user--online">
                                     <a href="javascript:void(0);">
-                                        <img src="img/users/3.jpg" class="rounded-circle" alt="">
+                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
                                     </a>
                                 </figure>
                                 <div class="message-body media-body">
@@ -407,7 +397,7 @@
                             <div class="message media">
                                 <figure class="user--online">
                                     <a href="javascript:void(0);">
-                                        <img src="img/users/1.jpg" class="rounded-circle" alt="">
+                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
                                     </a>
                                 </figure>
                                 <div class="message-body media-body">
@@ -417,7 +407,7 @@
                             <div class="message media reply">
                                 <figure class="user--offline">
                                     <a href="javascript:void(0);">
-                                        <img src="img/users/5.jpg" class="rounded-circle" alt="">
+                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
                                     </a>
                                 </figure>
                                 <div class="message-body media-body">
@@ -428,7 +418,7 @@
                             <div class="message media">
                                 <figure class="user--online">
                                     <a href="javascript:void(0);">
-                                        <img src="img/users/1.jpg" class="rounded-circle" alt="">
+                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
                                     </a>
                                 </figure>
                                 <div class="message-body media-body">
@@ -438,7 +428,7 @@
                             <div class="message media reply">
                                 <figure class="user--busy">
                                     <a href="javascript:void(0);">
-                                        <img src="img/users/5.jpg" class="rounded-circle" alt="">
+                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
                                     </a>
                                 </figure>
                                 <div class="message-body media-body">
@@ -448,7 +438,7 @@
                             <div class="message media">
                                 <figure class="user--online">
                                     <a href="javascript:void(0);">
-                                        <img src="img/users/1.jpg" class="rounded-circle" alt="">
+                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
                                     </a>
                                 </figure>
                                 <div class="message-body media-body">
