@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -7,6 +6,7 @@
 /public/bundles/
 /var/
 /vendor/
+
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -54,3 +54,4 @@ yarn-error.log
 /templates/admin/services_add.html.twig
 /templates/admin/settings.html.twig
 /templates/admin/account.html.twig
+/tests/

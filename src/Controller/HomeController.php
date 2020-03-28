@@ -86,11 +86,11 @@ class HomeController extends AbstractController
         return $this->render('home/pricing.html.twig', []);
     }
 
-    /**
-     * @Route("/login", name="login")
-     */
-    public function login()
-    {
-        return $this->render('home/login.html.twig', []);
-    }
+    // /**
+    //  * @Route("/login", name="login")
+    //  */
+    // public function login()
+    // {
+    //     return $this->render('home/login.html.twig', []);
+    // }
 }

@@ -123,8 +123,14 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.2"
+    },
     "liip/test-fixtures-bundle": {
         "version": "1.7.0"
+    },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
     },
     "monolog/monolog": {
         "version": "2.0.2"
@@ -181,7 +187,7 @@
         "version": "v5.0.5"
     },
     "symfony/browser-kit": {
-        "version": "v5.0.5"
+        "version": "v5.0.6"
     },
     "symfony/cache": {
         "version": "v5.0.5"
@@ -230,7 +236,7 @@
         "version": "v5.0.5"
     },
     "symfony/dom-crawler": {
-        "version": "v5.0.5"
+        "version": "v5.0.6"
     },
     "symfony/dotenv": {
         "version": "v5.0.5"
@@ -347,18 +353,6 @@
             "./config/packages/test/monolog.yaml"
         ]
     },
-    "symfony/notifier": {
-        "version": "5.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.0",
-            "ref": "c31585e252b32fe0e1f30b1f256af553f4a06eb9"
-        },
-        "files": [
-            "./config/packages/notifier.yaml"
-        ]
-    },
     "symfony/options-resolver": {
         "version": "v5.0.5"
     },
@@ -463,9 +457,6 @@
     "symfony/string": {
         "version": "v5.0.5"
     },
-    "symfony/test-pack": {
-        "version": "v1.0.6"
-    },
     "symfony/translation": {
         "version": "3.3",
         "recipe": {
@@ -560,7 +551,16 @@
     "symfony/yaml": {
         "version": "v5.0.5"
     },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.2"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.0.3"
+    },
     "twig/extra-bundle": {
+        "version": "v3.0.3"
+    },
+    "twig/inky-extra": {
         "version": "v3.0.3"
     },
     "twig/twig": {
