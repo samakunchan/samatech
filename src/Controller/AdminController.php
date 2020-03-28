@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\ProfilType;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -134,10 +138,28 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/account", name="admin_account")
+     * @Route("/account", name="admin_account", methods={"GET", "POST"})
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function account()
+    public function account(Request $request, UserRepository $userRepository)
     {
-        return $this->render('admin/account.html.twig', []);
+        $user = $userRepository->findOneBy(['email' => 'sam@test.fr']);
+        $form = $this->createForm(ProfilType::class, $user );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash(
+                'notice',
+                'Les données ont été mis à jours'
+            );
+        }
+        return $this->render('admin/account.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
