@@ -72,9 +72,6 @@ class SecurityController extends AbstractController
         $email = (new TemplatedEmail())
             ->from('notifications@samakunchan-technology.com')
             ->to('sam@test.fr')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
             ->priority(Email::PRIORITY_HIGH)
             ->subject('Réinitialisation de mot depasse')
             ->htmlTemplate( 'security/request_password.html.twig')
@@ -84,7 +81,6 @@ class SecurityController extends AbstractController
         $mailer->send($email);
         $this->addFlash('message', 'E-mail de réinitialisation du mot de passe envoyé !');
 
-        // On redirige vers la page de login
         return $this->redirectToRoute('app_login');
     }
 
