@@ -15,6 +15,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);

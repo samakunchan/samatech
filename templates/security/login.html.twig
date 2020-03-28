@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}-Authentification{% endblock %}
+
+{% block body %}
+    <!--================ Start Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content text-center">
+                    <h2>Authentification</h2>
+                    <div class="page_link">
+                        <a href="{{ path('home') }}">Home</a>
+                        <a href="javascript:void(0)">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Banner Area =================-->
+<div class="whole-wrap mt-5">
+    <div class="size-form-1">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+            {% for message in app.flashes('message') %}
+                <div class="flash-notice">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <h1 class="h4 mb-4 title-color">Connection</h1>
+            <label for="inputEmail" class="primary-color">Email</label>
+            <input
+                    type="email" value="{{ last_username }}"
+                    name="email" id="inputEmail"
+                    class="single-input-primary mb-4"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'email'"
+                    required autofocus
+            >
+            <label for="inputPassword" class="primary-color">Password</label>
+            <input type="password"
+                   name="password"
+                   id="inputPassword"
+                   class="single-input-primary mb-4"
+                   onfocus="this.placeholder = ''"
+                   onblur="this.placeholder = 'password'"
+                   required
+            >
+            <div class="mb-5 d-flex justify-content-around">
+                <div>
+                    <span style="color: #0056b3">Se souvenir de moi</span>
+                    <div class="primary-checkbox" style="float: left; margin: 4px;">
+                        <input type="checkbox" id="default-checkbox" name="_remember_me" checked>
+                        <label for="default-checkbox"></label>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ path('reset_password') }}">Mot de passe oublier</a>
+                </div>
+
+            </div>
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+            <button class="btn btn-block my-4 primary_btn" type="submit">Se connecter</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

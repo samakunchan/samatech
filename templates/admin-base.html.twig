@@ -37,8 +37,12 @@
                     <button type="button" id="navbar-fullscreen" class="nav-link">
                         <i class="ik ik-maximize"></i>
                     </button>
+                    <button type="button" class="nav-link ml-3">
+                        <i class="ik ik-home"></i>
+                    </button>
                 </div>
                 <div class="top-menu d-flex align-items-center">
+
 
                     <!-- DROPDOWN NOTIFICATION ALERT -->
                     <div class="dropdown">
@@ -125,7 +129,7 @@
                     <!-- USER NOTFICATION -->
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="javascript:void(0);" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="avatar" src="{{ asset('build/assets/media/images/logo.6e097222.png') }}" alt="Mon avatar">
+                            <img class="avatar" src="https://eu.ui-avatars.com/api/?name={{app.user.firstname}}+{{app.user.lastname}}&background=0D8ABC&color=fff" alt="Mon avatar">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="{{ path('admin_account') }}">

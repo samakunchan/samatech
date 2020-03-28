@@ -14,3 +14,8 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: 'notifications@samakunchan-technology.com'
