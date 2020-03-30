@@ -55,3 +55,4 @@ yarn-error.log
 /templates/admin/settings.html.twig
 /templates/admin/account.html.twig
 /tests/
+/public/uploads/

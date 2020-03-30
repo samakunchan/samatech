@@ -1,0 +1,8 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+    <h1>Ajouter un document</h1>
+    {{ form_start(form, {'attr': {'id': 'form'}}) }}
+    <button type="submit" class="btn btn-block my-4 primary_btn">{{ button_label|default('Mettre à jour') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

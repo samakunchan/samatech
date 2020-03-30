@@ -1,0 +1,52 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+    <h1>Bibliothèque</h1>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header"><h3>Data Table</h3></div>
+                <div class="card-body">
+                    <table id="data_table" class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Type</th>
+                                <th>Lien</th>
+                                <th>Ajouter le</th>
+                                <th class="nosort">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for document in documents %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ document.type }}</td>
+                                <td>
+                                    {% if document.type is same as('pdf') %}
+                                        <a href="{{ asset('uploads/images/'~ document.path) }}" title="{{ document.path }}" target="_blank">
+                                            <img src="{{ asset('build/assets/media/images/pdf.3fa92281.svg') }}" class="table-user-thumb" alt="{{ document.path }}">
+                                        </a>
+                                    {% else %}
+                                        <img src="{{ asset('uploads/images/'~ document.path) }}" class="table-user-thumb" alt="{{ document.path }}">
+                                    {% endif %}
+                                </td>
+                                <td>{{ document.createdAt | date('d/m/Y') }}</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <a href="javascript:void(0);"><i class="ik ik-eye"></i></a>
+                                        <a href="javascript:void(0);"><i class="ik ik-edit-2"></i></a>
+                                        <a href="javascript:void(0);"><i class="ik ik-trash-2"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
