@@ -206,15 +206,15 @@
                                 <a href="{{ path('admin_messages_add') }}" class="menu-item">Envoyer un email</a>
                             </div>
                         </div>
-                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_medias') or app.request.get('_route') is same as('admin_medias_add') %} active open{% endif %}">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('bibliotheque') or app.request.get('_route') is same as('bibliotheque_add_documents') %} active open{% endif %}">
                             <a href="javascript:void(0)">
                                 <i class="ik ik-layers"></i>
                                 <span>Media</span>
                                 <span class="badge badge-danger">150+</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="{{ path('admin_medias') }}" class="menu-item">Bibliothèque</a>
-                                <a href="{{ path('admin_medias_add') }}" class="menu-item">Ajouter</a>
+                                <a href="{{ path('bibliotheque') }}" class="menu-item">Bibliothèque</a>
+                                <a href="{{ path('bibliotheque_add_documents') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
                         <!-- /NAVIGATION -->
@@ -620,7 +620,7 @@
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    {{ encore_entry_script_tags('js/navbar') }}
+    {# {{ encore_entry_script_tags('js/navbar') }} #}
     {# {{ encore_entry_script_tags('js/admin/popper') }} supprimer le dossier popper aussi si ce n'est pas déjà fait. #}
     {{ encore_entry_script_tags('js/admin/bootstrap') }}
     {{ encore_entry_script_tags('css/portfolio') }}
