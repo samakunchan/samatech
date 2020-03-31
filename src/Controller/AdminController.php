@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ProfilType;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,13 +122,13 @@ class AdminController extends AbstractController
         return $this->render('admin/categories_portfolios.html.twig', []);
     }
 
-    /**
-     * @Route("/a-propos", name="admin_about")
-     */
-    public function about()
-    {
-        return $this->render('admin/about.html.twig', []);
-    }
+    // /**
+    //  * @Route("/a-propos", name="admin_about")
+    //  */
+    // public function about()
+    // {
+    //     return $this->render('admin/about.html.twig', []);
+    // }
 
     /**
      * @Route("/settings", name="admin_settings")
@@ -142,6 +143,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @param UserRepository $userRepository
      * @return Response
+     * @throws Exception
      */
     public function account(Request $request, UserRepository $userRepository)
     {
@@ -155,8 +157,9 @@ class AdminController extends AbstractController
             $entityManager->flush();
             $this->addFlash(
                 'notice',
-                'Les données ont été mis à jours'
+                'Les données ont été mis à jours.'
             );
+            return $this->redirectToRoute('admin_account');
         }
         return $this->render('admin/account.html.twig', [
             'form' => $form->createView()

@@ -10,14 +10,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
-    private $targetDirectory;
+    private $targetDirectoryPerso;
+    private $targetDirectoryImage;
 
-    public function __construct($targetDirectory)
+    public function __construct($targetDirectoryImage, $targetDirectoryPerso)
     {
-        $this->targetDirectory = $targetDirectory;
+        $this->targetDirectoryPerso = $targetDirectoryPerso;
+        $this->targetDirectoryImage = $targetDirectoryImage;
     }
 
-    public function upload(UploadedFile $file, Document $document, $type)
+    public function upload(UploadedFile $file, Document $document, $type, $folder = 'perso')
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
@@ -28,7 +30,7 @@ class FileService
             $document->setCreatedAt(new DateTime('now'));
         }
         $document->setUpdatedAt(new DateTime('now'));
-        $file->move($this->getTargetDirectory(), $fileName);
+        $file->move($this->getTargetDirectory($folder), $fileName);
 
         return $fileName;
     }
@@ -53,14 +55,16 @@ class FileService
                 // ... handle exception if something happens during file upload
             }
         }
-
-
         return $allUrl;
     }
 
-    public function getTargetDirectory()
+    public function getTargetDirectory($folder)
     {
-        return $this->targetDirectory;
+        if ($folder !== 'perso') {
+            return $this->targetDirectoryImage;
+        }
+        return $this->targetDirectoryPerso;
+
     }
 
 }
