@@ -8,8 +8,7 @@
     {{ encore_entry_link_tags('css/admin/fontawesome-free') }}
     {{ encore_entry_link_tags('css/admin/icon-kit') }}
     {{ encore_entry_link_tags('css/admin/theme') }}
-    {% block stylesheets %}
-    {% endblock %}
+    {% block stylesheets %}{% endblock %}
 </head>
 <body class="wrapper">
 
@@ -39,6 +38,9 @@
                     </button>
                     <button type="button" class="nav-link ml-3">
                         <i class="ik ik-home"></i>
+                    </button>
+                    <button type="button" class="nav-link ml-3">
+                        <a href="{{ path('home') }}"><i class="ik ik-home"></i></a>
                     </button>
                 </div>
                 <div class="top-menu d-flex align-items-center">

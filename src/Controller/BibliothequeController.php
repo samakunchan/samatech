@@ -6,7 +6,9 @@ use App\Entity\Document;
 use App\Form\DocumentType;
 use App\Repository\DocumentRepository;
 use App\Service\FileService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,6 +38,7 @@ class BibliothequeController extends AbstractController
      * @param FileService $service
      * @param EntityManagerInterface $entityManager
      * @return Response
+     * @throws Exception
      */
     public function add(Request $request, FileService $service, EntityManagerInterface $entityManager): Response
     {
@@ -49,7 +52,13 @@ class BibliothequeController extends AbstractController
             if ($form->getData()->getFile()->getMimeType() === 'application/pdf') {
                 $type = 'pdf';
             }
-            $service->upload($form->getData()->getFile(), $document, $type);
+            $fileName = $service->upload($form->getData()->getFile(), 'images');
+            $document->setType($type);
+            $document->setPath($fileName);
+            if (!$document->getCreatedAt()) {
+                $document->setCreatedAt(new DateTime('now'));
+            }
+            $document->setUpdatedAt(new DateTime('now'));
 
             $entityManager->persist($document);
             $entityManager->flush();

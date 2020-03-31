@@ -157,4 +157,22 @@ class Document
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newPhoto = null === $user ? null : $this;
+        if ($user->getPhoto() !== $newPhoto) {
+            $user->setPhoto($newPhoto);
+        }
+
+        return $this;
+    }
+
 }
