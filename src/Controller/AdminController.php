@@ -122,14 +122,6 @@ class AdminController extends AbstractController
         return $this->render('admin/categories_portfolios.html.twig', []);
     }
 
-    // /**
-    //  * @Route("/a-propos", name="admin_about")
-    //  */
-    // public function about()
-    // {
-    //     return $this->render('admin/about.html.twig', []);
-    // }
-
     /**
      * @Route("/settings", name="admin_settings")
      */

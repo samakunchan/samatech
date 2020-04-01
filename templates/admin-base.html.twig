@@ -264,7 +264,7 @@
                             </div>
                         </div>
                         <div class="nav-item {% if app.request.get('_route') is same as('admin_about') %} active{% endif %}">
-                            <a href="{{ path('admin_about') }}">
+                            <a href="{{ path('admin_about', {'slug': 'a-propos-de-moi'}) }}">
                                 <i class="ik ik-package"></i>
                                 <span>A propos</span>
                             </a>
