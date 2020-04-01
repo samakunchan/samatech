@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - A propos{% endblock %}
+{% block body %}
+<main>
+    <!--================ Start Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content text-center">
+                    <h2>About Us</h2>
+                    <div class="page_link">
+                        <a href="{{ path('home') }}">Home</a>
+                        <a href="javascript:void(0)">A propos de moi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Banner Area =================-->
+
+    <!--================ Start About Us Area =================-->
+    <section class="about_area section_gap">
+        <div class="container">
+            <div class="row justify-content-start align-items-center">
+                <div class="col-lg-5">
+                    <div class="about_img">
+                        <img class="single-gallery-image" src="{{ asset('uploads/perso/' ~ data.images[0].completeUrl) }}" alt="Ma photo" style="width: 700px; height: 700px; object-fit: cover">
+                    </div>
+                </div>
+                <div class="offset-lg-1 col-lg-5">
+                    <div class="main_title text-left">
+                        <h2>{{ data.title }}</h2>
+                        <p>{{ data.description | inky_to_html }}</p>
+                        <h3>Jetez un oeil à mes réalisations.</h3>
+                        <a class="primary_btn" href="javascript:void(0)"><span>Mes réalisations</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End About Us Area =================-->
+</main>
+{% endblock %}
