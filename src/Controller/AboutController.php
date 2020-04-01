@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\About;
 use App\Entity\Image;
 use App\Form\AboutType;
+use App\Repository\AboutRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -23,7 +24,7 @@ class AboutController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function about(Request $request, About $about, EntityManagerInterface $entityManager)
+    public function edit(Request $request, About $about, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(AboutType::class, $about);
         $form->handleRequest($request);
@@ -44,6 +45,17 @@ class AboutController extends AbstractController
             $entityManager->flush();
             $this->addFlash('notice','Les données ont été mis à jours');
         }
-        return $this->render('admin/about/about.html.twig', ['form' => $form->createView()]);
+        return $this->render('about/edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/a-propos-de-moi", name="about")
+     * @param AboutRepository $aboutRepository
+     * @return Response
+     */
+    public function show(AboutRepository $aboutRepository)
+    {
+        dump($aboutRepository->findOneBy(['slug'=> 'a-propos-de-moi']));
+        return $this->render('about/show.html.twig', ['data' => $aboutRepository->findOneBy(['slug'=> 'a-propos-de-moi'])]);
     }
 }

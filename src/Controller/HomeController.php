@@ -16,14 +16,6 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/a-propos-de-moi", name="about")
-     */
-    public function about()
-    {
-        return $this->render('home/about.html.twig', []);
-    }
-
-    /**
      * @Route("/service", name="service")
      */
     public function service()
@@ -85,12 +77,4 @@ class HomeController extends AbstractController
     {
         return $this->render('home/pricing.html.twig', []);
     }
-
-    // /**
-    //  * @Route("/login", name="login")
-    //  */
-    // public function login()
-    // {
-    //     return $this->render('home/login.html.twig', []);
-    // }
 }
