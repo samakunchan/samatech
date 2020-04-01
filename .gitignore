@@ -56,3 +56,4 @@ yarn-error.log
 /templates/admin/account.html.twig
 /tests/
 /public/uploads/
+/src/Migrations/
