@@ -203,17 +203,33 @@
         var gridButton = $('a.view-grid'),
             thumbButton = $('a.view-thumb'),
             listButton = $('a.view-list'),
-            // items = $('ul.view-as'),
+            items = $('ul.view-as'),
             displayButtons = $('.dispaly-option-buttons a');
 
         gridButton.click(function() {
             $('#layout-wrap .list-item').attr('class', 'col-xl-3 col-lg-4 col-12 col-sm-6 mb-4 list-item list-item-grid');
+            $('#layout-wrap .list-item .card').attr('class', 'card d-flex flex-row mb-3');
+
+            $('#layout-wrap .list-item a .icone-select').attr('class', 'icone-select fichier-font-size-115');
+            $('#layout-wrap .list-item a .image-select').attr('class', 'image-select');
+            $('#layout-wrap .list-item a .pdf-select').attr('class', 'pdf-select');
+
+            $('#layout-wrap .list-item a .image-select img').attr('class', 'responsive border-0 h-200 cover');
+            $('#layout-wrap .list-item a .pdf-select img').attr('class', 'responsive border-0 h-200 contain');
         });
         listButton.click(function() {
             $('#layout-wrap .list-item').attr('class', 'col-12 list-item');
         });
         thumbButton.click(function() {
             $('#layout-wrap .list-item').attr('class', 'col-12 list-item list-item-thumb');
+            $('#layout-wrap .list-item .card').attr('class', 'card d-flex flex-row mb-3 p-1');
+
+            $('#layout-wrap .list-item a .icone-select:first-child').attr('class', 'icone-select fichier-font-size-80');
+            $('#layout-wrap .list-item a .image-select').attr('class', 'image-select fichier-image');
+            $('#layout-wrap .list-item a .pdf-select').attr('class', 'pdf-select fichier-pdf');
+
+            $('#layout-wrap .list-item a .image-select img').attr('class', 'list-thumbnail responsive border-0');
+            $('#layout-wrap .list-item a .pdf-select img').attr('class', 'list-thumbnail responsive border-0');
         });
 
         $(displayButtons).on('click', function(){

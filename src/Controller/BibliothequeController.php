@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Document;
-use App\Form\DocumentType;
+use App\Form\DocumentsType;
 use App\Repository\DocumentRepository;
-use App\Service\FileService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,43 +26,55 @@ class BibliothequeController extends AbstractController
      */
     public function index(DocumentRepository $documentRepository)
     {
-        dump($documentRepository->findAll());
         return $this->render('bibliotheque/index.html.twig', [
-            'documents' => $documentRepository->findAll()
+            'pdfs' => $documentRepository->findBy(['folder' => 'pdf']),
+            'nones' => $documentRepository->findBy(['folder' => 'non-repertorier']),
+            'images' => $documentRepository->findBy(['folder' => 'images']),
+            'total' => $documentRepository->findAll()
         ]);
     }
 
     /**
      * @Route("/add", name="bibliotheque_add_documents")
      * @param Request $request
-     * @param FileService $service
      * @param EntityManagerInterface $entityManager
      * @return Response
      * @throws Exception
      */
-    public function add(Request $request, FileService $service, EntityManagerInterface $entityManager): Response
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $document = new Document();
-        $form = $this->createForm(DocumentType::class, $document);
+        $form = $this->createForm(DocumentsType::class, $document);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $type = 'image';
-            if ($form->getData()->getFile()->getMimeType() === 'application/pdf') {
-                $type = 'pdf';
+        if ($form->isSubmitted() && $form->isValid()){
+            $files = $request->files->get('documents')['files'];
+            /**
+             * @var UploadedFile $file
+             */
+            foreach ($files as $file)
+            {
+                $document = new Document();
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                $document->setCompleteUrl($fileName);
+                $document->setUpdatedAt(new DateTime('now'));
+                if ($file->getMimeType() === 'application/pdf') {
+                    $document->setFolder('pdf');
+                } else {
+                    $document->setFolder('non-repertorier');
+                }
+                $entityManager->persist($document);
+                $entityManager->flush();
+                if ($file->getMimeType() === 'application/pdf') {
+                    $file->move($this->getParameter('pdf'), $fileName);
+                } else if ($file->getMimeType() === 'image/*') {
+                    $file->move($this->getParameter('non_repertorier'), $fileName);
+                }
             }
-            $fileName = $service->upload($form->getData()->getFile(), 'images');
-            $document->setType($type);
-            $document->setPath($fileName);
-            if (!$document->getCreatedAt()) {
-                $document->setCreatedAt(new DateTime('now'));
-            }
-            $document->setUpdatedAt(new DateTime('now'));
-
-            $entityManager->persist($document);
-            $entityManager->flush();
+            $this->addFlash('notice','Les données ont été mis à jours');
         }
+
         return $this->render('bibliotheque/add.html.twig', [
             'form' => $form->createView()
         ]);

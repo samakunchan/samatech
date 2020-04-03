@@ -15,8 +15,8 @@ class AboutType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('images', CollectionType::class, [
-                'entry_type'   => ImageType::class,
+            ->add('documents', CollectionType::class, [
+                'entry_type'   => DocumentType::class,
                 'allow_add'    => true,
                 'allow_delete' => true
             ])
