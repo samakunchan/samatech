@@ -61,15 +61,20 @@ class BibliothequeController extends AbstractController
                 $document->setUpdatedAt(new DateTime('now'));
                 if ($file->getMimeType() === 'application/pdf') {
                     $document->setFolder('pdf');
+                } else if ($file->getMimeType() === 'image/png' || $file->getMimeType() === 'image/jpg') {
+                    $document->setFolder('images');
                 } else {
                     $document->setFolder('non-repertorier');
                 }
+                // dd($file->getMimeType());
                 $entityManager->persist($document);
                 $entityManager->flush();
                 if ($file->getMimeType() === 'application/pdf') {
                     $file->move($this->getParameter('pdf'), $fileName);
-                } else if ($file->getMimeType() === 'image/*') {
-                    $file->move($this->getParameter('non_repertorier'), $fileName);
+                } else if ($file->getMimeType() === 'image/png' || $file->getMimeType() === 'image/jpg') {
+                    $file->move($this->getParameter('images'), $fileName);
+                } else {
+                    $file->move($this->getParameter('non-repertorier'), $fileName);
                 }
             }
             $this->addFlash('notice','Les données ont été mis à jours');
