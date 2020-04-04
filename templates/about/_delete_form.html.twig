@@ -1,0 +1,31 @@
+<form method="post" action="{{ path('bibliotheque_delete_document', {'id': file.id}) }}" id="deleteDocument{{ file.id }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ file.id) }}">
+    <button class="list-delete" style="border: none; background: none; padding: 6px;"><i class="ik ik-trash-2" style="font-size: 14px"></i></button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script>
+    document.getElementById('deleteDocument'+ {{ file.id }}).addEventListener('submit', event => {
+        event.preventDefault();
+        return Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            console.log(result);
+            if (result.value) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                );
+                document.getElementById('deleteDocument'+ {{ file.id }}).submit()
+            }
+        })
+    });
+</script>
