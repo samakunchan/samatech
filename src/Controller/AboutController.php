@@ -8,13 +8,13 @@ use App\Form\AboutType;
 use App\Repository\AboutRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 
 class AboutController extends AbstractController
 {
@@ -26,35 +26,28 @@ class AboutController extends AbstractController
      * @param CacheInterface $cache
      * @return Response
      * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public function edit(Request $request, About $about, EntityManagerInterface $entityManager, CacheInterface $cache)
+    public function edit(Request $request, About $about, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(AboutType::class, $about);
-
-        $result = $cache->get($about->getUpdatedAt()->format('YmdHis'), function (ItemInterface $item) use ($request, $entityManager, $about, $form) {
-            $item->expiresAfter(3600);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()){
-                $documentsCollection = $form->getData()->getDocuments();
-                foreach ($documentsCollection as $document)
-                {
-                    /**
-                     * @var Document $document
-                     */
-                    $document->setAbout($about);
-                    $document->setUpdatedAt(new DateTime('now'));
-                    $document->setFolder('images/perso');
-                    $about->addDocument($document);
-                }
-                $about->setUpdatedAt(new DateTime('now'));
-                $entityManager->persist($about);
-                $entityManager->flush();
-                $this->addFlash('notice','Les données ont été mis à jours');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $documentsCollection = $form->getData()->getDocuments();
+            foreach ($documentsCollection as $document)
+            {
+                /**
+                 * @var Document $document
+                 */
+                $document->setAbout($about);
+                $document->setUpdatedAt(new DateTime('now'));
+                $document->setFolder('images');
+                $about->addDocument($document);
             }
-            return $this->render('about/edit.html.twig', ['form' => $form->createView()]);
-        });
-        if ($result) {
-            return $result;
+            $about->setUpdatedAt(new DateTime('now'));
+            $entityManager->persist($about);
+            $entityManager->flush();
+            $this->addFlash('notice','Les données ont été mis à jours');
         }
         return $this->render('about/edit.html.twig', ['form' => $form->createView()]);
     }

@@ -25,7 +25,9 @@
             <div class="row justify-content-start align-items-center">
                 <div class="col-lg-5">
                     <div class="about_img">
-                        <img class="single-gallery-image" src="{{ asset('uploads/perso/' ~ data.images[0].completeUrl) }}" alt="Ma photo" style="width: 700px; height: 700px; object-fit: cover">
+                        <img class="single-gallery-image" src="{{ asset('uploads/' ~ data.documents[0].folder ~ '/' ~ data.documents[0].completeUrl) }}" alt="Ma photo" style="width: 700px; height:
+                        700px;
+                        object-fit: cover">
                     </div>
                 </div>
                 <div class="offset-lg-1 col-lg-5">
