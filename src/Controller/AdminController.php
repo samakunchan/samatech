@@ -43,22 +43,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/medias", name="admin_medias")
-     */
-    public function medias()
-    {
-        return $this->render('admin/medias.html.twig', []);
-    }
-
-    /**
-     * @Route("/medias/add", name="admin_medias_add")
-     */
-    public function mediasAdd()
-    {
-        return $this->render('admin/medias_add.html.twig', []);
-    }
-
-    /**
      * @Route("/articles", name="admin_articles")
      */
     public function articles()
@@ -80,22 +64,6 @@ class AdminController extends AbstractController
     public function categoriesArticles()
     {
         return $this->render('admin/categories_articles.html.twig', []);
-    }
-
-    /**
-     * @Route("/services", name="admin_services")
-     */
-    public function services()
-    {
-        return $this->render('admin/services.html.twig', []);
-    }
-
-    /**
-     * @Route("/services/add", name="admin_services_add")
-     */
-    public function servicesAdd()
-    {
-        return $this->render('admin/services_add.html.twig', []);
     }
 
     /**

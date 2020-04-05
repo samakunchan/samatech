@@ -13,7 +13,7 @@ class DocumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', FileType::class, ['label' => false, 'required' => false])
+            ->add('file', FileType::class, ['label' => false, 'required' => true])
         ;
     }
 

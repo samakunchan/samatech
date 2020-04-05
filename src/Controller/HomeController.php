@@ -16,14 +16,6 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/service", name="service")
-     */
-    public function service()
-    {
-        return $this->render('home/service.html.twig', []);
-    }
-
-    /**
      * @Route("/contact", name="contact")
      */
     public function contact()
