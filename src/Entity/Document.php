@@ -37,7 +37,7 @@ class Document
     private $tempFileName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="documents", cascade={"persist"})
      */
     private $about;
 
