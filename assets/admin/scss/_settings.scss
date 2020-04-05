@@ -640,3 +640,24 @@ $i: 20;
         width: 100%!important;
     }
 }
+.h-200{
+  height: 200px!important;
+}
+.cover{
+  object-fit: cover;
+}
+.contain{
+  object-fit: contain;
+}
+.fichier-image, .fichier-pdf{
+  width: 80px;
+  text-align: center;
+}
+.fichier-font-size-80{
+  font-size: 80px;
+  text-align: center;
+}
+.fichier-font-size-115{
+  font-size: 115px;
+  text-align: center;
+}

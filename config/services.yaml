@@ -4,8 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    mes_fichiers_de_la_bdd: '%kernel.project_dir%/public/uploads/images'
-    mes_fichiers_de_la_bdd_perso: '%kernel.project_dir%/public/uploads/perso'
+    non_repertorier: '%kernel.project_dir%/public/uploads/non-repertorier'
+    pdf: '%kernel.project_dir%/public/uploads/pdf'
+    images: '%kernel.project_dir%/public/uploads/images'
 
 services:
     # default configuration for services in *this* file
@@ -29,7 +30,3 @@ services:
     # please note that last definitions always *replace* previous ones
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
-    App\Service\FileService:
-        arguments:
-            $targetDirectoryPerso: '%mes_fichiers_de_la_bdd_perso%'
-            $targetDirectoryImage: '%mes_fichiers_de_la_bdd%'

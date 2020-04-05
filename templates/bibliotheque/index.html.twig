@@ -1,52 +1,280 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-    <h1>Bibliothèque</h1>
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Bibliothèque</h5>
+                        <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">bibliothèque</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">liste</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">all</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- STATISTIQUES FICHIERS -->
     <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header"><h3>Data Table</h3></div>
-                <div class="card-body">
-                    <table id="data_table" class="table">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Type</th>
-                                <th>Lien</th>
-                                <th>Ajouter le</th>
-                                <th class="nosort">&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for document in documents %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>{{ document.type }}</td>
-                                <td>
-                                    {% if document.type is same as('pdf') %}
-                                        <a href="{{ asset('uploads/images/'~ document.path) }}" title="{{ document.path }}" target="_blank">
-                                            <img src="{{ asset('build/assets/media/images/pdf.3fa92281.svg') }}" class="table-user-thumb" alt="{{ document.path }}">
-                                        </a>
-                                    {% else %}
-                                        <img src="{{ asset('uploads/images/'~ document.path) }}" class="table-user-thumb" alt="{{ document.path }}">
-                                    {% endif %}
-                                </td>
-                                <td>{{ document.createdAt | date('d/m/Y') }}</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <a href="javascript:void(0);"><i class="ik ik-eye"></i></a>
-                                        <a href="javascript:void(0);"><i class="ik ik-edit-2"></i></a>
-                                        <a href="javascript:void(0);"><i class="ik ik-trash-2"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-red st-cir-card text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div id="status-round-1" class="chart-shadow st-cir-chart" style="width:80px;height:80px">
+                                <i class="ik ik-file align-middle" style="font-size: 80px"></i>
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            <h3 class=" fw-700 mb-5">Total fichiers</h3>
+                        </div>
+                    </div>
+                    <span class="st-bt-lbl">{{ total | length }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-blue st-cir-card text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div id="status-round-2" class="chart-shadow st-cir-chart" style="width:80px;height:80px">
+                                <img src="{{ asset('build/assets/media/images/pdf.3fa92281.svg') }}" alt="fichier pdf">
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            {% if pdfs %}
+                                <h3 class="fw-700 mb-5">{{ ((pdfs | length * 100)/(total |length)) | number_format(2) }}%</h3>
+                            {% else %}
+                                <h3 class="fw-700 mb-5">0%</h3>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="st-bt-lbl">{{ pdfs | length }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-green st-cir-card text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div id="status-round-3" class="chart-shadow st-cir-chart" style="width:80px;height:80px">
+                                <i class="ik ik-camera align-middle" style="font-size: 80px"></i>
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            {% if images %}
+                                <h3 class="fw-700 mb-5">{{ ((images | length * 100)/(total |length)) | number_format(2) }}%</h3>
+                            {% else %}
+                                <h3 class="fw-700 mb-5">0%</h3>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="st-bt-lbl">{{ images | length }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-grey st-cir-card text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div id="status-round-3" class="chart-shadow st-cir-chart" style="width:80px;height:80px">
+                                <i class="ik ik-hash align-middle" style="font-size: 80px"></i>
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            {% if nones %}
+                                <h3 class="fw-700 mb-5">{{ ((nones | length * 100)/(total |length)) | number_format(2) }}%</h3>
+                            {% else %}
+                                <h3 class="fw-700 mb-5">0%</h3>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="st-bt-lbl">{{ nones | length }}</span>
                 </div>
             </div>
         </div>
     </div>
+    <!-- :STATISTIQUES FICHIERS -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- NAVIGATION -->
+            <div class="mb-2 clearfix">
+                <a class="btn pt-0 pl-0 d-md-none d-lg-none" data-toggle="collapse" href="#displayOptions" role="button" aria-expanded="true" aria-controls="displayOptions">
+                    Display Options
+                    <i class="ik ik-chevron-down align-middle"></i>
+                </a>
+                <div class="collapse d-md-block display-options" id="displayOptions">
+
+                    <!-- GRID BUTTON -->
+                    <div class="mr-3 d-inline-block float-md-left dispaly-option-buttons">
+                        <a href="javascript:void(0);" class="mr-1 view-list active">
+                            <i class="ik ik-menu view-icon"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="mr-1 view-thumb">
+                            <i class="ik ik-list view-icon"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="mr-1 view-grid">
+                            <i class="ik ik-grid view-icon"></i>
+                        </a>
+                    </div>
+                    <!-- /GRID BUTTON -->
+
+                    <div class="d-block d-md-inline-block">
+                        <div class="btn-group float-md-left mr-1 mb-1">
+                            <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Order By
+                                <i class="ik ik-chevron-down mr-0 align-middle"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                            </div>
+                        </div>
+                        <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                            <form action="">
+                                <input type="text" class="form-control" placeholder="Search.." required>
+                                <button type="submit" class="btn btn-icon"><i class="ik ik-search"></i></button>
+                                <button type="button" id="adv_wrap_toggler" class="adv-btn ik ik-chevron-down dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="adv-search-wrap dropdown-menu dropdown-menu-right" aria-labelledby="adv_wrap_toggler">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Full Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Email">
+                                    </div>
+                                    <button class="btn btn-theme">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="float-md-right">
+                        <span class="text-muted text-small mr-2">Displaying 1-10 of 210 items </span>
+                        <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            20
+                            <i class="ik ik-chevron-down mr-0 align-middle"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">10</a>
+                            <a class="dropdown-item" href="#">20</a>
+                            <a class="dropdown-item" href="#">30</a>
+                            <a class="dropdown-item" href="#">50</a>
+                            <a class="dropdown-item" href="#">100</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /NAVIGATION -->
+            <div class="separator mb-20"></div>
+
+            <div class="row layout-wrap" id="layout-wrap">
+                {% for document in total | reverse %}
+                    <div class="col-12 list-item">
+                        <div class="card d-flex flex-row mb-3">
+                            <a class="d-flex card-img" href="#editLayoutItem{{ loop.index }}" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
+                                {% if document.folder is same as('images') %}
+                                    <div class="image-select">
+                                        <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive
+                                    border-0">
+                                    </div>
+                                {% elseif document.folder is same as('pdf') %}
+                                    <div class="pdf-select">
+                                        <img src="{{ asset('build/assets/media/images/pdf.3fa92281.svg') }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive border-0">
+                                    </div>
+                                {% else %}
+                                    <div class="icone-select">
+                                        <i class="ik ik-file"></i>
+                                    </div>
+                                {% endif %}
+                                <span class="badge badge-pill badge-primary position-absolute badge-top-left">Dossier {{ document.folder }}</span>
+                            </a>
+                            <div class="d-flex flex-grow-1 min-width-zero card-content">
+                                <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center" style="min-height: 100px;">
+                                    <a class="list-item-heading mb-1 truncate w-40 w-xs-100" href="#editLayoutItem{{ loop.index }}" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
+                                        <strong>/{{ document.completeUrl | slice(0, 25) }}...</strong>
+                                    </a>
+                                    <p class="mb-1 text-muted text-small category w-15 w-xs-100">{{ document.title }}</p>
+                                    <p class="mb-1 text-muted text-small date w-15 w-xs-100">{{ document.updatedAt | date('d/m/Y h:m:s') }}</p>
+                                    <div class="w-15 w-xs-100">
+                                        {% if document.about %}
+                                            <span class="badge badge-pill badge-green">Associé</span>
+                                        {% else %}
+                                            <span class="badge badge-pill badge-secondary">Non associé</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="list-actions">
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}"><i class="ik ik-eye"></i></a>
+                                    {{ include('partials/documents/_delete_form.html.twig') }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade edit-layout-modal" id="editLayoutItem{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="editLayoutItemLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editLayoutItemLabel">{{ document.completeUrl }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% if document.folder is same as('images') %}
+                                        <div class="image-select text-center">
+                                            <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                 alt="Donec sit amet est at sem iaculis aliquam."
+                                                 class="w-50">
+                                            {{ include('partials/documents/_edit_form.html.twig') }}
+                                        </div>
+                                    {% elseif document.folder is same as('pdf') %}
+                                        <object type="application/pdf"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                width="100%"
+                                                height="800">
+                                        </object>
+
+                                    {% else %}
+                                        <object type="application/pdf"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                width="100%"
+                                                height="800">
+                                        </object>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <a href="layout-edit-item.html" class="btn btn-primary">Edit</a>
+                                    <button type="button" class="btn btn-danger list-delete">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
+
+
 
 {% endblock %}
-

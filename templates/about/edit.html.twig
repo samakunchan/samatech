@@ -49,13 +49,12 @@
                         {{ form_label(form.title, 'Description') }}
                         {{ form_widget(form.description, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
                     </div>
-
-                    {{ form_label(form.images, 'Images', {'label_attr': {'style': 'font-weight: bold'}}) }}
-                    {% for image in form.images %}
+                    {{ form_label(form.documents, 'Images', {'label_attr': {'style': 'font-weight: bold'}}) }}
+                    {{ form_widget(form.documents, { 'attr': {'class': 'image-edit'} }) }}
+                    {% for document in form.documents %}
                         <div class="previous-img-{{ loop.index -1 }}">
-                            <img src="{{ asset('uploads/perso/' ~ image.vars.data.completeUrl) }}" alt="Image" width="300">
-                            {{ form_errors(image) }}
-                            {{ form_widget(image, { 'attr': {'class': 'image-edit'} }) }}
+                            <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="300">
+                            {{ form_errors(document) }}
                         </div>
                     {% endfor %}
                     <button type="submit" class="btn my-4 primary_btn">{{ button_label|default('Mettre à jour ton profil') }}</button>
@@ -141,5 +140,17 @@
             contextmenu: "link image imagetools table",
         });
     </script>
-
+    <script>
+        const indexImage = document.getElementById('about_documents').querySelectorAll('input').length;
+        const template = document.getElementById('about_documents')
+            .getAttribute('data-prototype')
+            .replace(/__name__label__/g, "")
+            .replace(/__name__/g, ''+ indexImage +'');
+        document
+            .getElementById('about_documents')
+            .innerHTML = document.getElementById('about_documents')
+            .getAttribute('data-prototype')
+            .replace(/__name__label__/g, "")
+            .replace(/__name__/g, ''+ indexImage +'');
+    </script>
 {% endblock %}

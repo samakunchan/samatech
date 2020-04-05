@@ -30,9 +30,9 @@ class About
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="about", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="about", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private $images;
+    private $documents;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -51,7 +51,7 @@ class About
 
     public function __construct()
     {
-        $this->images = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,30 +84,30 @@ class About
     }
 
     /**
-     * @return Collection|Image[]
+     * @return Collection|Document[]
      */
-    public function getImages(): Collection
+    public function getDocuments(): Collection
     {
-        return $this->images;
+        return $this->documents;
     }
 
-    public function addImage(Image $image): self
+    public function addDocument(Document $image): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
+        if (!$this->documents->contains($image)) {
+            $this->documents[] = $image;
             $image->setAbout($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Image $image): self
+    public function removeDocument(Document $documents): self
     {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
+        if ($this->documents->contains($documents)) {
+            $this->documents->removeElement($documents);
             // set the owning side to null (unless already changed)
-            if ($image->getAbout() === $this) {
-                $image->setAbout(null);
+            if ($documents->getAbout() === $this) {
+                $documents->setAbout(null);
             }
         }
 
