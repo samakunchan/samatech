@@ -3,6 +3,9 @@
 {% block body %}
     <h1>Ajouter un document</h1>
     {{ form_start(form, {'attr': {'id': 'form'}}) }}
-    <button type="submit" class="btn btn-block my-4 primary_btn">{{ button_label|default('Mettre à jour') }}</button>
+        {{ form_errors(form.files) }}
+        {{ form_label(form.files, 'Ajouter des fichiers') }}
+        {{ form_widget(form.files, { 'attr': {'class': 'form-control'} }) }}
+    <button type="submit" class="btn btn-block my-4 primary_btn">{{ button_label|default('Telecharger') }}</button>
     {{ form_end(form) }}
 {% endblock %}

@@ -1,70 +1,35 @@
 <?php
-# Service FileService complet
 
-namespace App\Service;
 
-use App\Entity\Document;
-use DateTime;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+namespace App\Services;
+
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
-    private $targetDirectoryPerso;
-    private $targetDirectoryImage;
+    /**
+     * @var string
+     */
+    private $folder;
 
-    public function __construct($targetDirectoryImage, $targetDirectoryPerso)
-    {
-        $this->targetDirectoryPerso = $targetDirectoryPerso;
-        $this->targetDirectoryImage = $targetDirectoryImage;
-    }
-
-    public function upload(UploadedFile $file, Document $document, $type, $folder = 'perso')
+    public function transformToUrl(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-        $document->setType($type);
-        $document->setPath($fileName);
-        if (!$document->getCreatedAt()) {
-            $document->setCreatedAt(new DateTime('now'));
+        if ($file->getMimeType() === 'application/pdf') {
+            $this->folder = 'pdf';
+        } else if ($file->getMimeType() === 'image/png' || $file->getMimeType() === 'image/jpg' || $file->getMimeType() === 'image/jpeg') {
+            $this->folder = 'images';
+        } else {
+            $this->folder = 'non_repertorier';
         }
-        $document->setUpdatedAt(new DateTime('now'));
-        $file->move($this->getTargetDirectory($folder), $fileName);
-
-        return $fileName;
+        return ['filename' => $fileName, 'folder' => $this->folder];
     }
 
-
-    public function multiUpload($files, $type) // reçoit a un tableau de fichier
+    public function moveToFolder(UploadedFile $file, $folder, $fileName)
     {
-        $allUrl = [];
-        foreach($files as $file)
-        {
-            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-            $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-            $document = new Document();
-            $document->setType($type);
-            $document->setPath($fileName);
-
-            try {
-                $file->move($this->getTargetDirectory(), $fileName);
-                $allUrl[] = $document;
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-        }
-        return $allUrl;
+        $file->move($folder, $fileName);
     }
-
-    public function getTargetDirectory($folder)
-    {
-        if ($folder !== 'perso') {
-            return $this->targetDirectoryImage;
-        }
-        return $this->targetDirectoryPerso;
-
-    }
-
 }
