@@ -1,12 +1,12 @@
-<form method="post" action="{{ path('bibliotheque_delete_document', {'id': file.id}) }}" id="deleteDocument{{ file.id }}">
+<form method="post" action="{{ path('bibliotheque_delete_document', {'id': document.id}) }}" id="deleteDocument{{ document.id }}">
     <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ file.id) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ document.id) }}">
     <button class="list-delete" style="border: none; background: none; padding: 6px;"><i class="ik ik-trash-2" style="font-size: 14px"></i></button>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
-    document.getElementById('deleteDocument'+ {{ file.id }}).addEventListener('submit', event => {
+    document.getElementById('deleteDocument'+ {{ document.id }}).addEventListener('submit', event => {
         event.preventDefault();
         return Swal.fire({
             title: 'Are you sure?',
@@ -24,7 +24,7 @@
                     'Your file has been deleted.',
                     'success'
                 );
-                document.getElementById('deleteDocument'+ {{ file.id }}).submit()
+                document.getElementById('deleteDocument'+ {{ document.id }}).submit()
             }
         })
     });

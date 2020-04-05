@@ -1,0 +1,28 @@
+<form method="post" action="{{ path('bibliotheque_list') }}" id="editDocument{{ document.id }}">
+    <label for="titleFichier{{ document.id }}">Titre</label>
+    <input id="titleFichier{{ document.id }}" type="text" class="form-control" value="{{ document.title }}" name="_title">
+    <input id="idFichier{{ document.id }}" type="hidden" class="form-control" value="{{ document.id }}" name="_id">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="_token" value="{{ csrf_token('edit' ~ document.id) }}">
+    <button class="list-edit" style="border: none; background: none; padding: 6px;"><i class="ik ik-edit-2" style="font-size: 14px"></i></button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script>
+    document.getElementById('editDocument'+ {{ document.id }}).addEventListener('submit', event => {
+        event.preventDefault();
+        return Swal.fire({
+            title: 'Voulez vous modifier les informations de ce document?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, c\'est bon!',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.value) {
+                document.getElementById('editDocument'+ {{ document.id }}).submit();
+            }
+        })
+    });
+</script>

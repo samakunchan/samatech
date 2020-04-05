@@ -187,16 +187,16 @@
             <div class="separator mb-20"></div>
 
             <div class="row layout-wrap" id="layout-wrap">
-                {% for file in total | reverse %}
+                {% for document in total | reverse %}
                     <div class="col-12 list-item">
                         <div class="card d-flex flex-row mb-3">
                             <a class="d-flex card-img" href="#editLayoutItem{{ loop.index }}" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
-                                {% if file.folder is same as('images') %}
+                                {% if document.folder is same as('images') %}
                                     <div class="image-select">
-                                        <img src="{{ asset('uploads/' ~ file.folder ~'/'~ file.completeUrl) }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive
+                                        <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive
                                     border-0">
                                     </div>
-                                {% elseif file.folder is same as('pdf') %}
+                                {% elseif document.folder is same as('pdf') %}
                                     <div class="pdf-select">
                                         <img src="{{ asset('build/assets/media/images/pdf.3fa92281.svg') }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive border-0">
                                     </div>
@@ -205,17 +205,17 @@
                                         <i class="ik ik-file"></i>
                                     </div>
                                 {% endif %}
-                                <span class="badge badge-pill badge-primary position-absolute badge-top-left">Dossier {{ file.folder }}</span>
+                                <span class="badge badge-pill badge-primary position-absolute badge-top-left">Dossier {{ document.folder }}</span>
                             </a>
                             <div class="d-flex flex-grow-1 min-width-zero card-content">
                                 <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center" style="min-height: 100px;">
                                     <a class="list-item-heading mb-1 truncate w-40 w-xs-100" href="#editLayoutItem{{ loop.index }}" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
-                                        <strong>/{{ file.completeUrl | slice(0, 25) }}...</strong>
+                                        <strong>/{{ document.completeUrl | slice(0, 25) }}...</strong>
                                     </a>
-                                    <p class="mb-1 text-muted text-small category w-15 w-xs-100">{{ file.title }}</p>
-                                    <p class="mb-1 text-muted text-small date w-15 w-xs-100">{{ file.updatedAt | date('d/m/Y h:m:s') }}</p>
+                                    <p class="mb-1 text-muted text-small category w-15 w-xs-100">{{ document.title }}</p>
+                                    <p class="mb-1 text-muted text-small date w-15 w-xs-100">{{ document.updatedAt | date('d/m/Y h:m:s') }}</p>
                                     <div class="w-15 w-xs-100">
-                                        {% if file.about %}
+                                        {% if document.about %}
                                             <span class="badge badge-pill badge-green">Associé</span>
                                         {% else %}
                                             <span class="badge badge-pill badge-secondary">Non associé</span>
@@ -224,9 +224,7 @@
                                 </div>
                                 <div class="list-actions">
                                     <a href="javascript:void(0);" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}"><i class="ik ik-eye"></i></a>
-                                    <a href="javascript:void(0);"><i class="ik ik-edit-2"></i></a>
-
-                                    {{ include('about/_delete_form.html.twig') }}</a>
+                                    {{ include('partials/documents/_delete_form.html.twig') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -236,26 +234,27 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editLayoutItemLabel">{{ file.completeUrl }}</h5>
+                                    <h5 class="modal-title" id="editLayoutItemLabel">{{ document.completeUrl }}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    {% if file.folder is same as('images') %}
-                                        <div class="image-select">
-                                            <img src="{{ asset('uploads/' ~ file.folder ~'/'~ file.completeUrl) }}"
+                                    {% if document.folder is same as('images') %}
+                                        <div class="image-select text-center">
+                                            <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
                                                  alt="Donec sit amet est at sem iaculis aliquam."
-                                                 class="w-100">
+                                                 class="w-50">
+                                            {{ include('partials/documents/_edit_form.html.twig') }}
                                         </div>
-                                    {% elseif file.folder is same as('pdf') %}
+                                    {% elseif document.folder is same as('pdf') %}
                                         <object type="application/pdf"
-                                                data="{{ asset('uploads/' ~ file.folder ~'/'~ file.completeUrl) }}"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
                                                 width="100%"
                                                 height="800">
                                         </object>
 
                                     {% else %}
                                         <object type="application/pdf"
-                                                data="{{ asset('uploads/' ~ file.folder ~'/'~ file.completeUrl) }}"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
                                                 width="100%"
                                                 height="800">
                                         </object>

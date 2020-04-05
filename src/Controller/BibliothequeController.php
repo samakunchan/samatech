@@ -21,11 +21,21 @@ class BibliothequeController extends AbstractController
 {
     /**
      * @Route("/", name="list")
+     * @param Request $request
      * @param DocumentRepository $documentRepository
      * @return Response
      */
-    public function index(DocumentRepository $documentRepository)
+    public function index(Request $request, DocumentRepository $documentRepository)
     {
+        if ($request->isMethod('PUT')){
+            if ($this->isCsrfTokenValid('edit'.$request->request->get('_id'), $request->request->get('_token'))) {
+                $document = $documentRepository->findOneBy(['id' => $request->request->get('_id')]);
+                $document->setTitle($request->request->get('_title'));
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($document);
+                $entityManager->flush();
+            }
+        }
         return $this->render('bibliotheque/index.html.twig', [
             'pdfs' => $documentRepository->findBy(['folder' => 'pdf']),
             'nones' => $documentRepository->findBy(['folder' => 'non-repertorier']),
@@ -58,7 +68,7 @@ class BibliothequeController extends AbstractController
                 $document->setFolder($data['folder']);
                 $entityManager->persist($document);
                 $entityManager->flush();
-                $fileService->moveToFolder($file, $this->getParameter('images'), $data['filename']);
+                $fileService->moveToFolder($file, $this->getParameter($data['folder']), $data['filename']);
             }
             $this->addFlash('notice','Les données ont été mis à jours');
         }

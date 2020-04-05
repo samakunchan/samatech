@@ -23,19 +23,13 @@ class FileService
         } else if ($file->getMimeType() === 'image/png' || $file->getMimeType() === 'image/jpg' || $file->getMimeType() === 'image/jpeg') {
             $this->folder = 'images';
         } else {
-            $this->folder = 'non-repertorier';
+            $this->folder = 'non_repertorier';
         }
         return ['filename' => $fileName, 'folder' => $this->folder];
     }
 
     public function moveToFolder(UploadedFile $file, $folder, $fileName)
     {
-        if ($file->getMimeType() === 'application/pdf') {
-            $file->move($folder, $fileName);
-        } else if ($file->getMimeType() === 'image/png' || $file->getMimeType() === 'image/jpg' || $file->getMimeType() === 'image/jpeg') {
-            $file->move($folder, $fileName);
-        } else {
-            $file->move($folder, $fileName);
-        }
+        $file->move($folder, $fileName);
     }
 }
