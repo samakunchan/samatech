@@ -1,0 +1,30 @@
+{{ form_start(form) }}
+    <div class="card-body row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                {{ form_errors(form.title) }}
+                {{ form_label(form.title, 'Titre') }}
+                {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_errors(form.description) }}
+                {{ form_label(form.title, 'Description') }}
+                {{ form_widget(form.description, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="from-group">
+                {{ form_errors(form.documents) }}
+                {{ form_label(form.documents, 'Image') }}
+                {% for document in form.documents %}
+                    {{ form_errors(document) }}
+                    <div class="previous-img-{{ loop.index -1 }}">
+                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="300">
+                    </div>
+                {% endfor %}
+                {{ form_widget(form.documents, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+        <button type="submit" class="btn my-4 primary_btn">{{ button_label|default('Mettre à jour ton profil') }}</button>
+    </div>
+{{ form_end(form) }}

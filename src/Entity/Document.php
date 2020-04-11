@@ -40,11 +40,6 @@ class Document
     private $tempFileName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="documents", cascade={"persist"})
-     */
-    private $about;
-
-    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $folder;
@@ -53,6 +48,11 @@ class Document
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="documents")
+     */
+    private $about;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="icone")

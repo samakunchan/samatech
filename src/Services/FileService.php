@@ -43,6 +43,8 @@ class FileService
         if(null === $fileName){
             return;
         }
+        // dump($folder, $fileName, $oldFile);
+        // dd(isset($fileName));
         if (isset($fileName)) {
             if (file_exists($folder.'/'.$oldFile)) {
                 unlink($folder.'/'.$oldFile);

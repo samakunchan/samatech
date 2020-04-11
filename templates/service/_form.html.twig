@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-    <div class="row">
+    <div class="card-body row">
         <div class="col-lg-6">
             <div class="form-group">
                 {{ form_errors(form.title) }}
@@ -35,7 +35,6 @@
                     </div>
                 {% endfor %}
             </div>
-
         </div>
     </div>
     <button class="btn bg-light-blue float-left">{{ button_label|default('Ajouter') }}</button>

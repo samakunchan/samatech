@@ -37,11 +37,6 @@ class About
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private $updatedAt;
 
     /**
@@ -110,18 +105,6 @@ class About
                 $documents->setAbout(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
