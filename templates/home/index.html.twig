@@ -46,34 +46,15 @@
                 </div>
             </div>
             <div class="row feature_inner">
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature_item">
-                        <img src="{{asset('build/assets/media/images/services/icone-web-browser.a385aa53.png')}}" alt="{{asset('build/assets/media/images/services/icone-web-browser.a385aa53.png')}}">
-                        <h4>Cross-browser compatibility</h4>
-                        <p>Les sites sont construits afin d'être supportés par les navigateurs les plus populaires: Chrome, Firefox, Safari, Opera, Microsoft Edge ect...</p>
+                {% for service in services %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="feature_item">
+                            <img src="{{ asset('uploads/' ~ service.icone[0].folder ~'/'~ service.icone[0].completeUrl ) }}" alt="{{ service.title }} image">
+                            <h4>{{ service.title }}</h4>
+                            <p>{{ service.description }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature_item">
-                        <img src="{{ asset('build/assets/media/images/services/icone-conception.ce179d29.png') }}" alt="{{ asset('build/assets/media/images/services/icone-conception.ce179d29.png') }}">
-                        <h4>Conception</h4>
-                        <p>La conception des sites ou applications web se fait très bien avec les frameworks puissants du marché, les CMS les plus populaires, et même "from scratch".</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature_item">
-                        <img src="{{ asset('build/assets/media/images/services/icone-performance.319b7830.png') }}" alt="{{ asset('build/assets/media/images/services/icone-performance.319b7830.png') }}">
-                        <h4>Performance</h4>
-                        <p>Les technologies utilisés sont soigneusement choisis afin de rendre le site ou application web performant, maintenable et scalable.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature_item">
-                        <img src="{{ asset('build/assets/media/images/services/icone-responsive.8024451e.png') }}" alt="{{ asset('build/assets/media/images/services/icone-responsive.8024451e.png') }}">
-                        <h4>Responsive design</h4>
-                        <p>Les dernières technologies sont utilisés afin de permettre de rendre le site ou application web final facilement utilisable en format Desktop, tablet ou mobile.</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

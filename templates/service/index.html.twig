@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Service{% endblock %}
+{% block body %}
+    <main>
+        <!--================ Start Banner Area =================-->
+        <section class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+                <div class="container">
+                    <div class="banner_content text-center">
+                        <h2>Services</h2>
+                        <div class="page_link">
+                            <a href="{{ path('home') }}">Home</a>
+                            <a href="javascript:void(0)">Services</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ End Banner Area =================-->
+        <!--================ Start Service Area =================-->
+        {% for service in services %}
+            <section class="service_area {% if loop.index is even %} section_gap_service {% else %} section_gap {% endif %}">
+                <div class="container">
+                    <div class="row justify-content-around align-items-center {% if loop.index is even %} flex-row-reverse {% endif %}">
+                        <div class="col-lg-5">
+                            <div class="service_img">
+                                <img src="{{ asset('uploads/' ~ service.image[0].folder ~'/'~ service.image[0].completeUrl ) }}" alt="Image sur le Cross browser compatibility">
+                            </div>
+                        </div>
+
+                        <div class="{% if loop.index is odd %} offset-lg-1 {% endif %} col-lg-5">
+                            <div class="main_title text-left">
+                                <h2>{{ service.title }}</h2>
+                                <p>{{ service.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <hr>
+        {% endfor %}
+        <!--================ End Service Area =================-->
+    </main>
+{% endblock %}

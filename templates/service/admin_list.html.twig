@@ -1,0 +1,77 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+    <style>
+        .feature_item {
+            padding: 45px 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            -webkit-transition: all 0.4s ease 0s;
+            -moz-transition: all 0.4s ease 0s;
+            -o-transition: all 0.4s ease 0s;
+            transition: all 0.4s ease 0s;
+            box-shadow: 0 15px 30px rgba(77, 87, 222, 0.3);
+            background: #fff;
+        }
+        .service-title i{
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+        }
+    </style>
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Services</h5>
+                        <span>Les prestations de service que je propose.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Services</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Liste</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="service-title mb-5">
+        <a href="{{ path('service_new') }}">
+            <i class="ik ik-file-plus bg-green"></i>
+        </a>
+    </div>
+    <div class="row feature_inner">
+        {% for service in services %}
+            <div class="col-lg-3 col-md-6">
+                <div class="feature_item">
+                    <img src="{{ asset('uploads/' ~ service.icone[0].folder ~'/'~ service.icone[0].completeUrl ) }}" alt="{{ service.title }} image">
+                    <h4>{{ service.title }}</h4>
+                    <div class="service-title d-flex justify-content-center align-content-center">
+                        <a href="{{ path('service_edit', {'id': service.id}) }}"><i class="ik ik-edit bg-aqua"></i></a>
+                        {{ include('service/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

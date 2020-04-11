@@ -57,3 +57,5 @@ yarn-error.log
 /tests/
 /public/uploads/
 /src/Migrations/
+/templates/service/_ajax_document.html.twig
+/src/Services/Fetcher.php
