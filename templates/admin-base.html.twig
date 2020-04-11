@@ -238,14 +238,14 @@
                                 <a href="{{ path('admin_categories_articles') }}" class="menu-item">Catégories</a>
                             </div>
                         </div>
-                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_services') or app.request.get('_route') is same as('admin_services_add') %} active open{% endif %}">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('service_admin') or app.request.get('_route') is same as('service_new') %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-box"></i>
                                 <span>Services</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="{{ path('admin_services') }}" class="menu-item">Listes des services</a>
-                                <a href="{{ path('admin_services_add') }}" class="menu-item">Ajouter</a>
+                                <a href="{{ path('service_admin') }}" class="menu-item">Listes des services</a>
+                                <a href="{{ path('service_new') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_portfolios')

@@ -1,0 +1,42 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                {{ form_errors(form.title) }}
+                {{ form_label(form.title, 'Titre') }}
+                {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_errors(form.description) }}
+                {{ form_label(form.title, 'Description') }}
+                {{ form_widget(form.description, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
+            </div>
+        </div>
+        <div class="col-lg-6 row">
+            <div class="form-group col-lg-6">
+                {{ form_errors(form.icone) }}
+                {{ form_label(form.icone, 'Icone') }}
+                {{ form_widget(form.icone, { 'attr': {'class': 'form-control'} }) }}
+                {% for document in form.icone %}
+                    <div class="previous-img-{{ loop.index -1 }}">
+                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="150">
+                        {{ form_errors(document) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group col-lg-6">
+                {{ form_errors(form.image) }}
+                {{ form_label(form.image, 'Image') }}
+                {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
+                {% for document in form.image %}
+                    <div class="previous-img-{{ loop.index -1 }}">
+                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="150">
+                        {{ form_errors(document) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <button class="btn bg-light-blue float-left">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(form) }}

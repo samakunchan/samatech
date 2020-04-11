@@ -5,10 +5,10 @@ namespace App\Entity;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DocumentRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Document
 {
@@ -21,6 +21,8 @@ class Document
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
+     * @Assert\Length(max="50")
      */
     private $completeUrl;
 
@@ -31,6 +33,7 @@ class Document
 
     /**
      * @var UploadedFile $file
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $file;
 
@@ -50,6 +53,16 @@ class Document
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="icone")
+     */
+    private $serviceIcone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="image")
+     */
+    private $serviceImage;
 
     /**
      * @return mixed
@@ -208,6 +221,38 @@ class Document
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTempFileName()
+    {
+        return $this->tempFileName;
+    }
+
+    public function getServiceIcone(): ?Service
+    {
+        return $this->serviceIcone;
+    }
+
+    public function setServiceIcone(?Service $serviceIcone): self
+    {
+        $this->serviceIcone = $serviceIcone;
+
+        return $this;
+    }
+
+    public function getServiceImage(): ?Service
+    {
+        return $this->serviceImage;
+    }
+
+    public function setServiceImage(?Service $serviceImage): self
+    {
+        $this->serviceImage = $serviceImage;
 
         return $this;
     }

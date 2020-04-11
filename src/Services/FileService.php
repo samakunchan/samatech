@@ -12,15 +12,21 @@ class FileService
      * @var string
      */
     private $folder;
+    /**
+     * @var UploadedFile $file
+     */
+    private $file;
 
     public function transformToUrl(UploadedFile $file)
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $this->file = $file;
+//        dd($this->file);
+        $originalFilename = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-        if ($file->getMimeType() === 'application/pdf') {
+        $fileName = $safeFilename.'-'.uniqid().'.'.$this->file->guessExtension();
+        if ($this->file->getMimeType() === 'application/pdf') {
             $this->folder = 'pdf';
-        } else if ($file->getMimeType() === 'image/png' || $file->getMimeType() === 'image/jpg' || $file->getMimeType() === 'image/jpeg') {
+        } else if ($this->file->getMimeType() === 'image/png' || $this->file->getMimeType() === 'image/jpg' || $this->file->getMimeType() === 'image/jpeg') {
             $this->folder = 'images';
         } else {
             $this->folder = 'non_repertorier';
@@ -28,8 +34,22 @@ class FileService
         return ['filename' => $fileName, 'folder' => $this->folder];
     }
 
-    public function moveToFolder(UploadedFile $file, $folder, $fileName)
+    public function moveToFolder($folder, $fileName)
     {
-        $file->move($folder, $fileName);
+        // dd($file, $folder, $fileName);
+        $this->file->move($folder, $fileName);
+    }
+
+    public function uploadFolder($folder, $fileName, $oldFile)
+    {
+        if(null === $fileName){
+            return;
+        }
+        if (isset($fileName)) {
+            if (file_exists($folder.'/'.$oldFile)) {
+                unlink($folder.'/'.$oldFile);
+            }
+        }
+        $this->file->move($folder, $fileName);
     }
 }

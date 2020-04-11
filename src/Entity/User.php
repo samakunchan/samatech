@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -64,6 +66,16 @@ class User implements UserInterface
      * @Assert\Length(max="50")
      */
     private $resetToken;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Service", mappedBy="user")
+     */
+    private $services;
+
+    public function __construct()
+    {
+        $this->services = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,6 +199,37 @@ class User implements UserInterface
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+            // set the owning side to null (unless already changed)
+            if ($service->getUser() === $this) {
+                $service->setUser(null);
+            }
+        }
 
         return $this;
     }
