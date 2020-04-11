@@ -33,8 +33,10 @@
         </div>
     </div>
     <!-- /PAGE HEADER -->
-
-    {{ include('service/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <div class="card">
+        <div class="card-header"><h3>Basic form elements</h3></div>
+        {{ include('service/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
 
     <a class="btn btn-info" href="{{ path('service_admin') }}">Retour</a>
 {% endblock %}

@@ -1,7 +1,6 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-
     <!-- PAGE HEADER -->
     <div class="page-header">
         <div class="row align-items-end">
@@ -36,30 +35,8 @@
                 </div>
             {% endfor %}
             <div class="card">
-                <div class="card-header"><h3>Basic form elements</h3></div>
-                <div class="card-body">
-                    {{ form_start(form, {'attr': {'id': 'form'}}) }}
-                    <div class="form-group">
-                        {{ form_errors(form.title) }}
-                        {{ form_label(form.title, 'Titre') }}
-                        {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_errors(form.description) }}
-                        {{ form_label(form.title, 'Description') }}
-                        {{ form_widget(form.description, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
-                    </div>
-                    {{ form_label(form.documents, 'Images', {'label_attr': {'style': 'font-weight: bold'}}) }}
-                    {{ form_widget(form.documents, { 'attr': {'class': 'image-edit'} }) }}
-                    {% for document in form.documents %}
-                        <div class="previous-img-{{ loop.index -1 }}">
-                            <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="300">
-                            {{ form_errors(document) }}
-                        </div>
-                    {% endfor %}
-                    <button type="submit" class="btn my-4 primary_btn">{{ button_label|default('Mettre à jour ton profil') }}</button>
-                    {{ form_end(form) }}
-                </div>
+                <div class="card-header"><h3>Formulaire de modification</h3></div>
+                {{ include('about/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
             </div>
         </div>
     </div>
@@ -139,18 +116,5 @@
             toolbar_mode: 'sliding',
             contextmenu: "link image imagetools table",
         });
-    </script>
-    <script>
-        const indexImage = document.getElementById('about_documents').querySelectorAll('input').length;
-        const template = document.getElementById('about_documents')
-            .getAttribute('data-prototype')
-            .replace(/__name__label__/g, "")
-            .replace(/__name__/g, ''+ indexImage +'');
-        document
-            .getElementById('about_documents')
-            .innerHTML = document.getElementById('about_documents')
-            .getAttribute('data-prototype')
-            .replace(/__name__label__/g, "")
-            .replace(/__name__/g, ''+ indexImage +'');
     </script>
 {% endblock %}

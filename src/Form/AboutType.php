@@ -18,7 +18,8 @@ class AboutType extends AbstractType
             ->add('documents', CollectionType::class, [
                 'entry_type'   => DocumentType::class,
                 'allow_add'    => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'required' => false,
             ])
         ;
     }
