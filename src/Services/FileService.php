@@ -20,7 +20,6 @@ class FileService
     public function transformToUrl(UploadedFile $file)
     {
         $this->file = $file;
-//        dd($this->file);
         $originalFilename = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$this->file->guessExtension();
@@ -36,7 +35,6 @@ class FileService
 
     public function moveToFolder($folder, $fileName)
     {
-        // dd($file, $folder, $fileName);
         $this->file->move($folder, $fileName);
     }
 

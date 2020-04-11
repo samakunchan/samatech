@@ -68,8 +68,6 @@ class ServiceController extends AbstractController
                 $result->setFolder($data['folder']);
                 if ($key === 0) {$result->setServiceIcone($service);} else {$result->setServiceImage($service);}
                 if ($key === 0) {$service->addIcone($result);} else {$service->addImage($result);}
-                // dd($service);
-                // $result->setServiceIcone($service)? ($key === 0) : $result->setServiceImage($service);
                 $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
             }
             $entityManager = $this->getDoctrine()->getManager();

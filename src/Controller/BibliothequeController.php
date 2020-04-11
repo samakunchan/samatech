@@ -68,7 +68,7 @@ class BibliothequeController extends AbstractController
                 $document->setFolder($data['folder']);
                 $entityManager->persist($document);
                 $entityManager->flush();
-                $fileService->moveToFolder($file, $this->getParameter($data['folder']), $data['filename']);
+                $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
             }
             $this->addFlash('notice','Les données ont été mis à jours');
         }
