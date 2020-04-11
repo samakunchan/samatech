@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/bibliotheque", name="bibliotheque_")
+ * @Route("/admin/bibliotheque", name="bibliotheque_")
  */
 class BibliothequeController extends AbstractController
 {
@@ -45,7 +45,7 @@ class BibliothequeController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="add_documents")
+     * @Route("/ajouter-document", name="add_documents")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param FileService $fileService
@@ -84,6 +84,10 @@ class BibliothequeController extends AbstractController
     public function delete(Request $request, Document $document): Response
     {
         if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
+            $file = $this->getParameter($document->getFolder()).'/'.$document->getCompleteUrl();
+            if (file_exists($file)) {
+                unlink($file);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($document);
             $entityManager->flush();

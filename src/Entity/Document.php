@@ -21,7 +21,6 @@ class Document
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      * @Assert\Length(max="50")
      */
     private $completeUrl;
@@ -33,7 +32,6 @@ class Document
 
     /**
      * @var UploadedFile $file
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $file;
 
