@@ -86,78 +86,6 @@ class Document
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function preUpload()
-    {
-        if ($this->file === null){
-            return;
-        }
-        if ($this->completeUrl !== null) {
-            $this->tempFileName = $this->completeUrl;
-        }
-        $originalFilename = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$this->file->guessExtension();
-        $this->completeUrl = $fileName;
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if(null === $this->file){
-            return;
-        }
-        if (isset($this->tempFileName)) {
-            $oldFile = $this->getUploadRootDir().'/'.$this->tempFileName;
-            if (file_exists($oldFile)) {
-                unlink($oldFile);
-            }
-        }
-        $this->file->move($this->getUploadRootDir(), $this->completeUrl);
-    }
-
-    /**
-     * @ORM\PreRemove()
-     */
-    public function preRemoveUpload()
-    {
-        $this->tempFileName = $this->getUploadRootDir().'/'.$this->completeUrl;
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if (file_exists($this->tempFileName)) {
-            unlink($this->tempFileName);
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getUploadDir()
-    {
-        return 'uploads/'.$this->folder;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getUploadRootDir()
-    {
-        // On retourne le chemin relatif vers l'image pour notre code PHP
-        return __DIR__ . '/../../public/'.$this->getUploadDir();
-    }
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -223,9 +151,6 @@ class Document
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getTempFileName()
     {
         return $this->tempFileName;
