@@ -225,7 +225,7 @@
                         <div class="nav-lavel">CRUD</div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_articles')
                             or app.request.get('_route') is same as('admin_articles_add')
-                            or app.request.get('_route') is same as('admin_categories_articles')
+                            or app.request.get('_route') is same as('environnement_index')
                         %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-menu"></i>
@@ -235,7 +235,6 @@
                             <div class="submenu-content">
                                 <a href="{{ path('admin_articles') }}" class="menu-item">Tous les articles</a>
                                 <a href="{{ path('admin_articles_add') }}" class="menu-item">Ajouter</a>
-                                <a href="{{ path('admin_categories_articles') }}" class="menu-item">Catégories</a>
                             </div>
                         </div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('service_admin') or app.request.get('_route') is same as('service_new') %} active open{% endif %}">
@@ -277,6 +276,10 @@
                             <a href="{{ path('admin_settings') }}">
                                 <i class="ik ik-terminal"></i>
                                 <span>Paramètres</span>
+                            </a>
+                            <a href="{{ path('environnement_index') }}">
+                                <i class="ik ik-git-pull-request"></i>
+                                <span>Environnement</span>
                             </a>
                         </div>
                         <!-- CONFIGURATION -->

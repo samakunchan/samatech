@@ -59,14 +59,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/categories-articles", name="admin_categories_articles")
-     */
-    public function categoriesArticles()
-    {
-        return $this->render('admin/categories_articles.html.twig', []);
-    }
-
-    /**
      * @Route("/portfolios", name="admin_portfolios")
      */
     public function portfolio()
