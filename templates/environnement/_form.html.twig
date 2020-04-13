@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_errors(form.type) }}
+        {{ form_label(form.type, 'Titre') }}
+        {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+        {{ form_errors(form.categories) }}
+        {{ form_label(form.categories, 'Categories') }}
+    <span class="service-title">
+        <a href="javascript:void(0)" id="add_category"><i class="ik ik-plus bg-blue"></i></a>
+    </span>
+    <div class="row category-container">
+        {% for category in form.categories %}
+            <div class="col-lg-3 edit-category">
+                <div class="previous-cat-type-{{ loop.index -1 }}">
+                    {{ form_errors(category.type) }}
+                    {{ form_widget(category.type, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="previous-cat-desc-{{ loop.index -1 }}">
+                    {{ form_errors(category.description) }}
+                    {{ form_widget(category.description, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="btn">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(form) }}
+

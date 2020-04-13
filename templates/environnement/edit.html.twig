@@ -1,0 +1,112 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Edit Environnement{% endblock %}
+
+{% block body %}
+    <style>
+        .service-title i{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+        }
+    </style>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Environnement</h5>
+                        <span>Mettre à jour un environnement.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('environnement_index') }}">Environnement</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Mise a jour</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Type: {{ environnement.type | title }}</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+<div class="col-lg-12 col-md-12">
+    <div class="card service-title">
+        <div class="card-header">
+            <h3>Modifier l'environnement: {{ environnement.type | title }}</h3>
+        </div>
+        <div class="card-body">
+            {{ include('environnement/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
+    </div>
+</div>
+    <br>
+    <a href="{{ path('environnement_index') }}" class="btn bg-blue text-white">Retour</a>
+
+    <script>
+        for (let i = 0; i < document.getElementsByClassName('edit-category').length; i++) {
+            document.querySelector('.previous-cat-desc-' + i).insertAdjacentHTML('afterend', '<a href=\"javascript:void(0)\" id="embedFormDelBtn'+i+'"><i class="ik ik-trash-2 bg-red"></i></a>');
+            document.getElementById('embedFormDelBtn' + i).addEventListener('click', () => {
+                document.getElementsByClassName('edit-category')[i].remove();
+            })
+        }
+        document.getElementById('add_category').addEventListener('click', () => {
+            const count = document.getElementsByClassName('edit-category').length;
+            // Cette div contiendra divCat et divDesc, et sera ajouter et effacer
+            const div = document.createElement('div');
+            div.classList.add('col-lg-3', 'edit-category');
+
+            const divCat = document.createElement('div');
+            divCat.classList.add(`previous-cat-type-${count}`);
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = `environnement_categories_${count}_type`;
+            input.classList.add('form-control');
+            input.name = `environnement[categories][${count}][type]`;
+
+            const divDesc = document.createElement('div');
+            divDesc.classList.add(`previous-desc-type-${count}`);
+            const textarea = document.createElement('textarea');
+            textarea.id = `environnement_categories_${count}_description`;
+            textarea.name = `environnement[categories][${count}][description]`;
+            textarea.classList.add('form-control');
+            const a = document.createElement('a');
+            a.href = 'javascript:void(0)';
+            a.id = `embedFormDelBtn${count}`;
+            a.innerHTML = `<i class="ik ik-trash-2 bg-red"></i>`;
+
+            divCat.appendChild(input);
+            divDesc.appendChild(textarea);
+            div.appendChild(divCat);
+            div.appendChild(divDesc);
+            div.appendChild(a);
+            document.querySelector('.category-container').appendChild(div);
+
+            document.getElementById(`embedFormDelBtn${count}`).addEventListener('click', () => {
+                // On supprimer la div courante
+                div.remove();
+            })
+        });
+    </script>
+{% endblock %}

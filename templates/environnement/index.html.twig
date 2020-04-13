@@ -1,0 +1,120 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Environnement index{% endblock %}
+
+{% block body %}
+    <style>
+        .service-title i{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+        }
+    </style>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Environnement</h5>
+                        <span>Chaque environnement contient des catégories spécifiques.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Environnement</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Liste</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+
+
+    <div class="col-lg-6 col-md-6">
+        <div class="card service-title">
+            <div class="card-header justify-content-between">
+                <h3>Gestion des environnements</h3>
+                <a href="{{ path('environnement_new') }}">
+                    <i class="ik ik-plus bg-blue"></i>
+                </a>
+            </div>
+            {% for environnement in environnements %}
+            <div class="d-flex align-items-baseline">
+                {{ include('environnement/_delete_form.html.twig') }}
+                <a class="p-2" href="{{ path('environnement_edit', {'id': environnement.id}) }}" style="border-radius: 5px;">
+                    <i class="ik ik-edit bg-aqua"></i>
+                </a>
+                <span>{{ environnement.type }}</span>
+            </div>
+            {% else %}
+                <span>Aucun environnement à gérer.</span>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-7">
+        <div class="card">
+            <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                {% for environnement in environnements %}
+                    <li class="nav-item d-flex service-title">
+                        <a class="nav-link {% if loop.index is same as(1) %} active {% endif %}" id="pills-timeline-tab" data-toggle="pill" href="#{{ environnement.type }}" role="tab" aria-controls="pills-timeline" aria-selected="true">{{ environnement.type | title }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link active">
+                            Default
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content" id="pills-tabContent">
+                {% for environnement in environnements %}
+                    <div class="tab-pane fade show {% if loop.index is same as(1) %}active {% endif %}" id="{{ environnement.type }}" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                        <div class="card-body">
+                            <h6>Les categories:</h6>
+                            <div class="profiletimeline mt-0 service-title">
+                                {% for category in environnement.categories %}
+                                    <h6>{{ category.type }}</h6>
+                                    {% if category.description %}
+                                        <p class="text-aqua text-sm-left">{{ category.description }}</p>
+                                        <hr>
+                                    {% else %}
+                                        <p class="text-warning text-sm-left">Pas de description.</p>
+                                        <hr>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="tab-pane fade show active">
+                        <div class="card-body">
+                            Aucun environnement n'a été créé.
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

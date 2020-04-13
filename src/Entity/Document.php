@@ -63,6 +63,11 @@ class Document
     private $serviceImage;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="image")
+     */
+    private $category;
+
+    /**
      * @return mixed
      */
     public function getFile()
@@ -176,6 +181,18 @@ class Document
     public function setServiceImage(?Service $serviceImage): self
     {
         $this->serviceImage = $serviceImage;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
