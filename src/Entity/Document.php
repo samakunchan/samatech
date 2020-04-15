@@ -68,6 +68,11 @@ class Document
     private $category;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Portfolio", inversedBy="image")
+     */
+    private $portfolio;
+
+    /**
      * @return mixed
      */
     public function getFile()
@@ -193,6 +198,18 @@ class Document
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPortfolio(): ?Portfolio
+    {
+        return $this->portfolio;
+    }
+
+    public function setPortfolio(?Portfolio $portfolio): self
+    {
+        $this->portfolio = $portfolio;
 
         return $this;
     }

@@ -13,7 +13,7 @@
 <body class="wrapper">
 
     <!-- HEADER -->
-    <header class="header-top" header-theme="light">
+    <header class="header-top" header-theme="dark">
         <div class="container-fluid">
             <div class="d-flex justify-content-between">
                 <div class="top-menu d-flex align-items-center">
@@ -247,19 +247,16 @@
                                 <a href="{{ path('service_new') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
-                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_portfolios')
-                            or app.request.get('_route') is same as('admin_portfolio_add')
-                            or app.request.get('_route') is same as('admin_categories_portfolios')
-                        %} active open{% endif %}">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('portfolio_index')
+                            or app.request.get('_route') is same as('portfolio_new') %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-gitlab"></i>
                                 <span>Portfolio</span>
                                 <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="{{ path('admin_portfolios') }}" class="menu-item">Liste des portfolios</a>
-                                <a href="{{ path('admin_portfolio_add') }}" class="menu-item">Ajouter</a>
-                                <a href="{{ path('admin_categories_portfolios') }}" class="menu-item">Catégories</a>
+                                <a href="{{ path('portfolio_index') }}" class="menu-item">Liste des portfolios</a>
+                                <a href="{{ path('portfolio_new') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
                         <div class="nav-item {% if app.request.get('_route') is same as('admin_about') %} active{% endif %}">

@@ -38,9 +38,15 @@ class Category
      */
     private $environnement;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Portfolio", mappedBy="category", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $portfolios;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
+        $this->portfolios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +117,37 @@ class Category
     public function setEnvironnement(?Environnement $environnement): self
     {
         $this->environnement = $environnement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Portfolio[]
+     */
+    public function getPortfolios(): Collection
+    {
+        return $this->portfolios;
+    }
+
+    public function addPortfolio(Portfolio $portfolio): self
+    {
+        if (!$this->portfolios->contains($portfolio)) {
+            $this->portfolios[] = $portfolio;
+            $portfolio->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removePortfolio(Portfolio $portfolio): self
+    {
+        if ($this->portfolios->contains($portfolio)) {
+            $this->portfolios->removeElement($portfolio);
+            // set the owning side to null (unless already changed)
+            if ($portfolio->getCategory() === $this) {
+                $portfolio->setCategory(null);
+            }
+        }
 
         return $this;
     }
