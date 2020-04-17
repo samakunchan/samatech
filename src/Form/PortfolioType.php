@@ -8,6 +8,7 @@ use App\Form\Type\TagsInputType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,6 +30,12 @@ class PortfolioType extends AbstractType
                         ;
                 },
                 'choice_label' => 'type'
+            ])
+            ->add('image', CollectionType::class, [
+                'entry_type'   => DocumentType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'required' => false,
             ])
             ->add('tags', TagsInputType::class, [
                 'label' => 'Ajouter des tags',
