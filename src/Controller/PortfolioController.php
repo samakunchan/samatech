@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Portfolio;
 use App\Form\PortfolioType;
+use App\Repository\CategoryRepository;
 use App\Repository\PortfolioRepository;
 use App\Services\FileService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,25 +12,37 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/portfolio")
- */
+
 class PortfolioController extends AbstractController
 {
     /**
-     * @Route("/", name="portfolio_index", methods={"GET"})
-     * @param PortfolioRepository $portfolioRepository
+     * @Route("/portfolio/{slug}", name="portfolio_show", methods={"GET"})
+     * @param Portfolio $portfolio
      * @return Response
      */
-    public function index(PortfolioRepository $portfolioRepository): Response
+    public function show(Portfolio $portfolio): Response
     {
-        return $this->render('portfolio/index.html.twig', [
-            'portfolios' => $portfolioRepository->findAll(),
+        return $this->render('portfolio/show.html.twig', [
+            'portfolio' => $portfolio,
         ]);
     }
 
     /**
-     * @Route("/new", name="portfolio_new", methods={"GET","POST"})
+     * @Route("/admin/portfolio", name="portfolio_index", methods={"GET"})
+     * @param PortfolioRepository $portfolioRepository
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
+    public function index(PortfolioRepository $portfolioRepository, CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('portfolio/index.html.twig', [
+            'portfolios' => $portfolioRepository->findAll(),
+            'categories' => $categoryRepository->findAllCategoriesPortfolio(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/portfolio/new", name="portfolio_new", methods={"GET","POST"})
      * @param Request $request
      * @param FileService $fileService
      * @return Response
@@ -49,7 +62,7 @@ class PortfolioController extends AbstractController
                     $result->setFolder($data['folder']);
                     $result->setPortfolio($portfolio);
                     $portfolio->addImage($result);
-                    $fileService->createThumbnail($result->getFile(), 'uploads/thumbs/'.$data['filename'], 300);
+                    $fileService->createThumbnail($result->getFile(), 'uploads/thumbs/'.$data['filename'], 500);
                     $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
                 }
             }
@@ -69,20 +82,7 @@ class PortfolioController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="portfolio_show", methods={"GET"})
-     * @param Portfolio $portfolio
-     * @return Response
-     */
-    public function show(Portfolio $portfolio): Response
-    {
-        // TODO Faire le show front. La liste sur la page home et la vue individuel dans sa propre page
-        return $this->render('portfolio/show.html.twig', [
-            'portfolio' => $portfolio,
-        ]);
-    }
-
-    /**
-     * @Route("/edit/{slug}", name="portfolio_edit", methods={"GET","POST"})
+     * @Route("/admin/portfolio/edit/{slug}", name="portfolio_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Portfolio $portfolio
      * @param FileService $fileService
@@ -95,7 +95,6 @@ class PortfolioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $documentsCollection = [$form->getData()->getImage()];
-            // dd($form->getData());
             foreach ($documentsCollection as $document) {
                 foreach ($document as $image) {
                     if ($image && $image->getFile()) {
@@ -106,10 +105,10 @@ class PortfolioController extends AbstractController
                         $portfolio->addImage($image);
                         if ($image->getTempFileName()) {
                             $fileService->clearThumbnail($this->getParameter('thumbs'), $dataEdit['filename'], $image->getTempFileName());
-                            $fileService->createThumbnail($image->getFile(), 'uploads/thumbs/'.$dataEdit['filename'], 300);
+                            $fileService->createThumbnail($image->getFile(), 'uploads/thumbs/'.$dataEdit['filename'], 500);
                             $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $image->getTempFileName());
                         } else {
-                            $fileService->createThumbnail($image->getFile(), 'uploads/thumbs/'.$dataEdit['filename'], 300);
+                            $fileService->createThumbnail($image->getFile(), 'uploads/thumbs/'.$dataEdit['filename'], 500);
                             $fileService->moveToFolder($this->getParameter($dataEdit['folder']), $dataEdit['filename']);
                         }
                     }
@@ -128,7 +127,7 @@ class PortfolioController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="portfolio_delete", methods={"DELETE"})
+     * @Route("/admin/portfolio/{id}", name="portfolio_delete", methods={"DELETE"})
      * @param Request $request
      * @param Portfolio $portfolio
      * @return Response

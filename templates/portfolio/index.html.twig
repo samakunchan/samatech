@@ -3,6 +3,21 @@
 {% block title %}Portfolio index{% endblock %}
 
 {% block body %}
+    <style>
+        .service-title i{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+        }
+    </style>
     <!-- PAGE HEADER -->
     <div class="page-header">
         <div class="row align-items-end">
@@ -33,36 +48,80 @@
         </div>
     </div>
     <!-- /PAGE HEADER -->
+    <div class="col-lg-10 col-md-7">
+        <a class="btn bg-blue text-white" href="{{ path('portfolio_new') }}">Ajouter</a>
+        <div class="card">
+            <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                <li class="nav-item d-flex service-title">
+                    <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#all" role="tab" aria-controls="pills-timeline" aria-selected="true">All</a>
+                </li>
+                {% for category in categories %}
+                    <li class="nav-item d-flex service-title">
+                        <a class="nav-link" id="pills-timeline-tab" data-toggle="pill" href="#{{ category.type }}" role="tab" aria-controls="pills-timeline" aria-selected="true">{{ category.type | title }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link active">
+                            Default
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for portfolio in portfolios %}
-            <tr>
-                <td>{{ portfolio.id }}</td>
-                <td>{{ portfolio.title }}</td>
-                <td>{{ portfolio.category.type }}</td>
-                <td>{{ portfolio.description }}</td>
-                <td>
-                    <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}">show</a>
-                    <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('portfolio_new') }}">Create new</a>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                    <div class="card-body">
+                        <h6>Les projets:</h6>
+                        <div class="profiletimeline mt-0 service-title">
+                            {% for portfolio in portfolios %}
+                                <h6>{{ portfolio.title }}</h6>
+                                <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}"><i class="ik ik-eye bg-default"></i></a>
+                                <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>
+                                {{ include('portfolio/_delete_form.html.twig') }}
+                                {% if portfolio.description %}
+                                    <p class="text-aqua text-sm-left mt-5">{{ portfolio.description }}</p>
+                                    <hr>
+                                {% else %}
+                                    <p class="text-warning text-sm-left">Pas de description.</p>
+                                    <hr>
+                                {% endif %}
+                            {% else %}
+                                <p class="text-warning text-sm-left">Pas de projet créé pour cette technologie pour le moment.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% for category in categories %}
+                    <div class="tab-pane fade show" id="{{ category.type }}" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                        <div class="card-body">
+                            <h6>Les projets:</h6>
+                            <div class="profiletimeline mt-0 service-title">
+                                {% for portfolio in category.portfolios %}
+                                    <h6>{{ portfolio.title }}</h6>
+                                    <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}"><i class="ik ik-eye bg-default"></i></a>
+                                    <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>
+                                    {{ include('portfolio/_delete_form.html.twig') }}
+                                    {% if portfolio.description %}
+                                        <p class="text-aqua text-sm-left mt-5">{{ portfolio.description }}</p>
+                                        <hr>
+                                    {% else %}
+                                        <p class="text-warning text-sm-left">Pas de description.</p>
+                                        <hr>
+                                    {% endif %}
+                                {% else %}
+                                        <p class="text-warning text-sm-left">Pas de projet créé pour cette technologie pour le moment.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="tab-pane fade show active">
+                        <div class="card-body">
+                            Aucun environnement n'a été créé.
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
