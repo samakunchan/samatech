@@ -19,6 +19,15 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    public function findAllCategoriesPortfolio()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.environnement = :val')
+            ->setParameter('val', '4')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */

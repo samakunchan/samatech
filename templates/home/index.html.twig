@@ -59,84 +59,253 @@
         </div>
     </section>
     <!--================ End Service Area =================-->
-
     <!--================Start Portfolio Area =================-->
     <section class="portfolio_area" id="portfolio">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="main_title text-left">
-                        <h2 class="primary-color">quality work <br> Projet récemment ajouter </h2>
+                        <h2>quality work <br> Recently done project </h2>
                     </div>
                 </div>
             </div>
-
-            <div class="row gallery-item portfolio_box">
-                <div class="col-md-4 short_info">
-                    <a href="{{ asset('build/assets/media/images/portfolio/velooc.fb46ac96.png') }}" class="img-gal">
-                        <div
-                                class="single-gallery-image"
-                                style="background: url({{ asset('build/assets/media/images/portfolio/velooc.fb46ac96.png') }});">
-                        </div>
-                    </a>
-                    <h4>
-                        <a href="javascript:void(0)">Velooc</a>
-                    </h4>
-                    <p>Location de vélo à Lyon</p>
-                </div>
-                <div class="col-md-4 short_info">
-                    <a href="{{ asset('build/assets/media/images/portfolio/carrefour.b36cbb11.png') }}" class="img-gal">
-                        <div
-                                class="single-gallery-image"
-                                style="background: url({{ asset('build/assets/media/images/portfolio/carrefour.b36cbb11.png') }});">
-                        </div>
-                    </a>
-                    <h4>
-                        <a href="javascript:void(0)">Carrefour des mondes et des cultures</a>
-                    </h4>
-                    <p>Blog interreligieux</p>
-                </div>
-                <div class="col-md-4 short_info">
-                    <a href="{{ asset('build/assets/media/images/portfolio/vtr.5c2c13f9.png') }}" class="img-gal">
-                        <div
-                                class="single-gallery-image"
-                                style="background: url({{ asset('build/assets/media/images/portfolio/vtr.5c2c13f9.png') }});">
-                        </div>
-                    </a>
-                    <h4>
-                        <a href="javascript:void(0)">Vis tes rêves, village vacances</a>
-                    </h4>
-                    <p>Projet de village éco responsable</p>
-                </div>
-                <div class="col-md-6 short_info">
-                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">
-                        <div
-                                class="single-gallery-image"
-                                style="background: url({{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }});">
-                        </div>
-                    </a>
-                    <h4>
-                        <a href="javascript:void(0)">MyTravelDream</a>
-                    </h4>
-                    <p>Site e-commence</p>
-                </div>
-                <div class="col-md-6 short_info">
-                    <a href="{{ asset('build/assets/media/images/portfolio/violet.4552ceb3.png') }}" class="img-gal">
-                        <div
-                                class="single-gallery-image"
-                                style="background: url({{ asset('build/assets/media/images/portfolio/violet.4552ceb3.png') }});">
-                        </div>
-                    </a>
-                    <h4>
-                        <a href="javascript:void(0)">Maison Violet</a>
-                    </h4>
-                    <p>Site e-commence</p>
-                </div>
-                <a class="primary_btn tr-bg mt-5" style="max-width: 300px; margin: 0 auto" href="javascript:void(0)"><span>Voir plus de projet</span></a>
+            <div class="filters portfolio-filter">
+                <ul>
+                    <li class="active" data-filter="*">all</li>
+                    <li data-filter=".shopify">Shopify</li>
+                    <li data-filter=".wordpress"> Wordpress</li>
+                    <li data-filter=".angular">Angular</li>
+                    <li data-filter=".symfony">Symfony</li>
+                </ul>
             </div>
-            <div class="section-top-border"></div>
+
+            <div class="filters-content">
+                <div class="row portfolio-grid justify-content-center">
+                    {% for portfolio in portfolios %}
+                        <div class="col-lg-4 col-md-6 all {{ portfolio.category.type | lower }}">
+                            <div class="portfolio_box">
+                                <div class="single_portfolio">
+                                    <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl) }}" alt="{{ portfolio.title }}">
+                                    <div class="overlay"></div>
+                                    <a href="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl) }}" class="img-gal">
+                                        <div class="icon">
+                                            <span class="lnr lnr-cross"></span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="short_info">
+                                    <h4>
+                                        <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}">{{ portfolio.title }}</a>
+                                    </h4>
+                                    <p>
+                                        {% for tag in portfolio.tags %}
+                                            {{ tag }},
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
         </div>
     </section>
     <!--================End Portfolio Area =================-->
+{#    <!--================Start Portfolio Area =================-->#}
+{#    <section class="portfolio_area" id="portfolio">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-lg-12">#}
+{#                    <div class="main_title text-left">#}
+{#                        <h2 class="primary-color">quality work <br> Projet récemment ajouter </h2>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+{#            <div class="row gallery-item portfolio_box">#}
+{#                {% for portfolio in portfolios %}#}
+{#                    <div class="col-md-4 short_info">#}
+{#                        <a href="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl) }}" class="img-gal">#}
+{#                            <div class="single-gallery-image" style="background: url({{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl) }});"></div>#}
+{#                        </a>#}
+{#                        <h4>#}
+{#                            <a href="javascript:void(0)">{{ portfolio.title }}</a>#}
+{#                        </h4>#}
+{#                        <p>{{ portfolio.description }}</p>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                <div class="filters portfolio-filter">#}
+{#                    <ul>#}
+{#                        <li class="active" data-filter="*">all</li>#}
+{#                        <li data-filter=".popular">Shopify</li>#}
+{#                        <li data-filter=".latest"> Wordpress</li>#}
+{#                        <li data-filter=".following">Angular</li>#}
+{#                        <li data-filter=".upcoming">upcoming</li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#                <div class="filters-content">#}
+{#                    <div class="row portfolio-grid justify-content-center">#}
+{#                        <div class="col-lg-4 col-md-6 all latest">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">minimal design</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all popular">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">Paint wall</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all latest">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">female light</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all popular">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">fourth air</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all following">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">together sign</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all upcoming">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">multiply fowl</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all upcoming following">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">green heaven</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all following">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4>fly male</h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-lg-4 col-md-6 all upcoming">#}
+{#                            <div class="portfolio_box">#}
+{#                                <div class="single_portfolio">#}
+{#                                    <img class="img-fluid w-100" src="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" alt="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}">#}
+{#                                    <div class="overlay"></div>#}
+{#                                    <a href="{{ asset('build/assets/media/images/portfolio/mtd.0906a91a.png') }}" class="img-gal">#}
+{#                                        <div class="icon">#}
+{#                                            <span class="lnr lnr-cross"></span>#}
+{#                                        </div>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="short_info">#}
+{#                                    <h4><a href="">season face</a></h4>#}
+{#                                    <p>Animated, portfolio</p>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <a class="primary_btn tr-bg mt-5" style="max-width: 300px; margin: 0 auto" href="javascript:void(0)"><span>Voir plus de projet</span></a>#}
+{#            </div>#}
+{#            <div class="section-top-border"></div>#}
+{#        </div>#}
+{#    </section>#}
+{#    <!--================End Portfolio Area =================-->#}
 </main>
 {% endblock %}

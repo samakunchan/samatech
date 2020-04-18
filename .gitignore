@@ -59,3 +59,4 @@ yarn-error.log
 /src/Migrations/
 /templates/service/_ajax_document.html.twig
 /src/Services/Fetcher.php
+/public/uploads/thumbs/

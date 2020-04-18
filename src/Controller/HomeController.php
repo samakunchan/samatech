@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PortfolioRepository;
 use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +13,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      * @param ServiceRepository $serviceRepository
+     * @param PortfolioRepository $portfolioRepository
      * @return Response
      */
-    public function index(ServiceRepository $serviceRepository): Response
+    public function index(ServiceRepository $serviceRepository, PortfolioRepository $portfolioRepository): Response
     {
         return $this->render('home/index.html.twig', [
             'services' => $serviceRepository->findAll(),
+            'portfolios' => $portfolioRepository->findAll(),
         ]);
     }
 
@@ -27,21 +30,6 @@ class HomeController extends AbstractController
     public function contact()
     {
         return $this->render('home/contact.html.twig', []);
-    }
-
-    /**
-     * @Route("/portfolio", name="portfolio")
-     */
-    public function portfolio()
-    {
-        return $this->render('home/portfolio.html.twig', []);
-    }
-    /**
-     * @Route("/portfolio/{id}", name="portfolio_show")
-     */
-    public function portfolioShow()
-    {
-        return $this->render('home/portfolio_show.html.twig', []);
     }
 
     /**
