@@ -79,7 +79,7 @@
                                 <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>
                                 {{ include('portfolio/_delete_form.html.twig') }}
                                 {% if portfolio.description %}
-                                    <p class="text-aqua text-sm-left mt-5">{{ portfolio.description }}</p>
+                                    <p class="text-aqua text-sm-left mt-5">{{ portfolio.description | inky_to_html }}</p>
                                     <hr>
                                 {% else %}
                                     <p class="text-warning text-sm-left">Pas de description.</p>
@@ -102,7 +102,7 @@
                                     <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>
                                     {{ include('portfolio/_delete_form.html.twig') }}
                                     {% if portfolio.description %}
-                                        <p class="text-aqua text-sm-left mt-5">{{ portfolio.description }}</p>
+                                        <p class="text-aqua text-sm-left mt-5">{{ portfolio.description | inky_to_html }}</p>
                                         <hr>
                                     {% else %}
                                         <p class="text-warning text-sm-left">Pas de description.</p>

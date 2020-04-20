@@ -2,105 +2,12 @@
 
 {% block title %}New Portfolio{% endblock %}
 
-{% block body %}
-    <!-- PAGE HEADER -->
-    <div class="page-header">
-        <div class="row align-items-end">
-            <div class="col-lg-8">
-                <div class="page-header-title">
-                    <i class="ik ik-file-text bg-blue"></i>
-                    <div class="d-inline">
-                        <h5>Portfolio</h5>
-                        <span>Création d'un portfolio.</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <nav class="breadcrumb-container" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('service_admin') }}">Portfolio</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">Ajouter</a>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <!-- /PAGE HEADER -->
-
-    <div class="col-lg-10 col-md-10">
-        <div class="card service-title">
-            <div class="card-header">
-                <h3>Ajouter</h3>
-            </div>
-            <div class="card-body">
-                {{ form_start(form) }}
-                <div class="card-body row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            {{ form_errors(form.title) }}
-                            {{ form_label(form.title, 'Titre') }}
-                            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_errors(form.description) }}
-                            {{ form_label(form.title, 'Description') }}
-                            {{ form_widget(form.description, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            {{ form_errors(form.category) }}
-                            {{ form_label(form.category, 'Catégorie') }}
-                            {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_errors(form.tags) }}
-                            {{ form_label(form.tags, 'Tags') }}
-                            {{ form_widget(form.tags, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_errors(form.image) }}
-                            {{ form_label(form.image, 'Image') }}
-                            {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            {% for document in form.image %}
-                                <div class="previous-img-{{ loop.index -1 }}">
-                                    <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="150">
-                                    {{ form_errors(document) }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <button class="btn">{{ button_label|default('Save') }}</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-
-    <a class="btn bg-blue text-white" href="{{ path('portfolio_index') }}">Retour</a>
-
-{% endblock %}
-{% block javascripts %}
-    <script>
-        const indexImage = document.getElementById('portfolio_image').querySelectorAll('input').length;
-        document.getElementById('portfolio_image').innerHTML = document.getElementById('portfolio_image')
-            .getAttribute('data-prototype')
-            .replace(/__name__label__/g, "")
-            .replace(/__name__/g, ''+ indexImage +'');
-    </script>
+{% block stylesheets %}
+    {{ parent() }}
     <script src="https://cdn.tiny.cloud/1/6qd97lg5y99jsq2fp5obudoutdl0uwbsisp89bj8mkwsthmh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: '#portfolio_description',
             plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
             imagetools_cors_hosts: ['picsum.photos'],
             menubar: 'file edit view insert format tools table help',
@@ -170,5 +77,93 @@
             toolbar_mode: 'sliding',
             contextmenu: "link image imagetools table",
         });
+    </script>
+{% endblock %}
+{% block body %}
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Portfolio</h5>
+                        <span>Création d'un portfolio.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('service_admin') }}">Portfolio</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Ajouter</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+
+    <div class="col-lg-10 col-md-10">
+        <div class="card service-title">
+            <div class="card-header">
+                <h3>Ajouter</h3>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                <div class="card-body row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_errors(form.title) }}
+                            {{ form_label(form.title, 'Titre') }}
+                            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.description) }}
+                            {{ form_label(form.title, 'Description') }}
+                            {{ form_widget(form.description, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_errors(form.category) }}
+                            {{ form_label(form.category, 'Catégorie') }}
+                            {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.tags) }}
+                            {{ form_label(form.tags, 'Tags') }}
+                            {{ form_widget(form.tags, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.image) }}
+                            {{ form_label(form.image, 'Image') }}
+                            {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+                <button class="btn">{{ button_label|default('Ajouter') }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <a class="btn bg-blue text-white" href="{{ path('portfolio_index') }}">Retour</a>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        const indexImage = document.getElementById('portfolio_image').querySelectorAll('input').length;
+        document.getElementById('portfolio_image').innerHTML = document.getElementById('portfolio_image')
+            .getAttribute('data-prototype')
+            .replace(/__name__label__/g, "")
+            .replace(/__name__/g, ''+ indexImage +'');
     </script>
 {% endblock %}
