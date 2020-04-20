@@ -77,7 +77,7 @@
                         <div class="form-group">
                             {% for document in form.image %}
                                 <div class="previous-img-{{ loop.index -1 }}">
-                                    <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="150">
+                                    <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl ~ '.webp') }}" alt="Image" width="150">
                                     {{ form_errors(document) }}
                                 </div>
                             {% endfor %}

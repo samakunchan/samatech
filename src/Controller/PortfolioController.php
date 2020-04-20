@@ -7,6 +7,7 @@ use App\Form\PortfolioType;
 use App\Repository\CategoryRepository;
 use App\Repository\PortfolioRepository;
 use App\Services\FileService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,13 +58,13 @@ class PortfolioController extends AbstractController
             $documentsCollection = [$form->getData()->getImage()[0]];
             foreach ($documentsCollection as $key => $result){
                 if ($result) {
-                    $data = $fileService->transformToUrl($result->getFile());
+                    $data = $fileService->transformToWebP($result->getFile());
                     $result->setCompleteUrl($data['filename']);
                     $result->setFolder($data['folder']);
                     $result->setPortfolio($portfolio);
+                    $result->setUpdatedAt(new DateTime('now'));
                     $portfolio->addImage($result);
-                    $fileService->createThumbnail($result->getFile(), 'uploads/thumbs/'.$data['filename'], 500);
-                    $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
                 }
             }
 
@@ -98,18 +99,16 @@ class PortfolioController extends AbstractController
             foreach ($documentsCollection as $document) {
                 foreach ($document as $image) {
                     if ($image && $image->getFile()) {
-                        $dataEdit = $fileService->transformToUrl($image->getFile());
+                        $dataEdit = $fileService->transformToWebP($image->getFile());
                         $image->setCompleteUrl($dataEdit['filename']);
                         $image->setPortfolio($portfolio);
                         $image->setFolder('images');
                         $portfolio->addImage($image);
                         if ($image->getTempFileName()) {
-                            $fileService->clearThumbnail($this->getParameter('thumbs'), $dataEdit['filename'], $image->getTempFileName());
-                            $fileService->createThumbnail($image->getFile(), 'uploads/thumbs/'.$dataEdit['filename'], 500);
-                            $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $image->getTempFileName());
+                            $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
                         } else {
-                            $fileService->createThumbnail($image->getFile(), 'uploads/thumbs/'.$dataEdit['filename'], 500);
-                            $fileService->moveToFolder($this->getParameter($dataEdit['folder']), $dataEdit['filename']);
+                            $image->setUpdatedAt(new DateTime('now'));
+                            $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
                         }
                     }
                 }
@@ -136,12 +135,8 @@ class PortfolioController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$portfolio->getId(), $request->request->get('_token'))) {
             $image = $this->getParameter($portfolio->getImage()[0]->getFolder()).'/'.$portfolio->getImage()[0]->getCompleteUrl();
-            $thumb = $this->getParameter('thumbs').'/'.$portfolio->getImage()[0]->getCompleteUrl();
-            if (file_exists($image)) {
-                unlink($image);
-            }
-            if (file_exists($thumb)){
-                unlink($thumb);
+            if (file_exists($image.'.webp')) {
+                unlink($image.'.webp');
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($portfolio);

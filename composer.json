@@ -35,7 +35,10 @@
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*",
         "twig/cssinliner-extra": "^3.0",
-        "twig/inky-extra": "^3.0"
+        "twig/inky-extra": "^3.0",
+      "ext-gd": "*",
+        "ext-intl": "*",
+      "ext-exif": "*"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.3",

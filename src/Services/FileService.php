@@ -35,6 +35,13 @@ class FileService
      */
     private $file;
 
+    /**
+     * @param UploadedFile $file
+     * @return array
+     * Transforme le file en url prêt à être enregistrer dans le controller et détermine le dossier auquel le fichier va appartenir
+     * Ex: "exemple-584zad4.jpeg",
+     *          un dossier "images"
+     */
     public function transformToUrl(UploadedFile $file)
     {
         $this->file = $file;
@@ -51,12 +58,71 @@ class FileService
         return ['filename' => $fileName, 'folder' => $this->folder];
     }
 
+    /**
+     * @param UploadedFile $file
+     * @return array
+     * Transforme le file en url prêt à être enregistrer dans le controller et détermine le dossier auquel le fichier va appartenir.
+     * Dans ce cas, l'extension est séparer pour plus de flexibilité
+     * Ex: "exemple-584zad4",
+     *      l'extension: "jpeg",
+     *      un dossier "images"
+     */
+    public function transformToWebP(UploadedFile $file)
+    {
+        $this->file = $file;
+        $originalFilename = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+        $fileName = $safeFilename.'-'.uniqid();
+        if ($this->file->getMimeType() === 'application/pdf') {
+            $this->folder = 'pdf';
+        } else if ($this->file->getMimeType() === 'image/png' || $this->file->getMimeType() === 'image/jpg' || $this->file->getMimeType() === 'image/jpeg') {
+            $this->folder = 'images';
+        } else {
+            $this->folder = 'non_repertorier';
+        }
+        return ['filename' => $fileName, 'ext' => $this->file->guessExtension(), 'folder' => $this->folder];
+    }
+
+    /**
+     * @param $folder
+     * @param $fileName
+     * Déplace le fichier png, jpeg, jpg créer dans son dossier
+     */
     public function moveToFolder($folder, $fileName)
     {
         $this->file->move($folder, $fileName);
     }
 
-    public function uploadFolder($folder, $fileName, $oldFile)
+    /**
+     * @param $folder
+     * @param $ext
+     * @param $fileName
+     * Déplace le fichier wepb créer dans son dossier et supprime les fichiers inutiles
+     */
+    public function moveToFolderAndModifyToWebP($folder, $ext, $fileName)
+    {
+        $this->file->move($folder, $fileName.'.'. $ext);
+        if ($ext === 'png') {
+            $img = imagecreatefrompng($folder.'/'. $fileName.'.'. $ext);
+        } else {
+            $img = imagecreatefromjpeg($folder.'/'. $fileName.'.'. $ext);
+        }
+        imagepalettetotruecolor($img);
+        imagealphablending($img, true);
+        imagesavealpha($img, true);
+        imagewebp($img, $folder .'/'. $fileName.'.webp', 100);
+        imagedestroy($img);
+        unlink($folder.'/'.$fileName.'.'. $ext);
+    }
+
+    /**
+     * @param $folder
+     * @param $ext
+     * @param $fileName
+     * @param $oldFile
+     * Supprime l'ancien fichier png, jpeg, jpg et webp et installe le nouveau fichier webp
+     */
+    public function uploadFolder($folder, $ext, $fileName, $oldFile)
     {
         if(null === $fileName){
             return;
@@ -66,8 +132,20 @@ class FileService
                 unlink($folder.'/'.$oldFile);
             }
         }
-        $this->file->move($folder, $fileName);
+        $this->file->move($folder, $fileName.'.'. $ext);
+        if ($ext === 'png') {
+            $img = imagecreatefrompng($folder.'/'. $fileName.'.'. $ext);
+        } else {
+            $img = imagecreatefromjpeg($folder.'/'. $fileName.'.'. $ext);
+        }
+        imagepalettetotruecolor($img);
+        imagealphablending($img, true);
+        imagesavealpha($img, true);
+        imagewebp($img, $folder .'/'. $fileName.'.webp', 100);
+        imagedestroy($img);
+        unlink($folder.'/'.$fileName.'.'. $ext);
     }
+
     public function clearThumbnail($folder, $filename, $oldFile)
     {
         if(null === $filename){

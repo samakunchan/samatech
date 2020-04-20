@@ -7,7 +7,6 @@ parameters:
     non_repertorier: '%kernel.project_dir%/public/uploads/non-repertorier'
     pdf: '%kernel.project_dir%/public/uploads/pdf'
     images: '%kernel.project_dir%/public/uploads/images'
-    thumbs: '%kernel.project_dir%/public/uploads/thumbs'
 
 services:
     # default configuration for services in *this* file
