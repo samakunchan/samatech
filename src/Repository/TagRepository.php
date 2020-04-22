@@ -19,6 +19,15 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
+    public function findAllBlogsTags()
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.blogs', 'b')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Tag[] Returns an array of Tag objects
     //  */

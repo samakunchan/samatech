@@ -1,0 +1,184 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Edit Blog{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="https://cdn.tiny.cloud/1/6qd97lg5y99jsq2fp5obudoutdl0uwbsisp89bj8mkwsthmh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#blog_content',
+            plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+            imagetools_cors_hosts: ['picsum.photos'],
+            menubar: 'file edit view insert format tools table help',
+            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media link anchor codesample | ltr rtl',
+            toolbar_sticky: true,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            image_advtab: true,
+            content_css: '//www.tiny.cloud/css/codepen.min.css',
+            link_list: [
+                { title: 'My page 1', value: 'http://www.tinymce.com' },
+                { title: 'My page 2', value: 'http://www.moxiecode.com' }
+            ],
+            image_list: [
+                { title: 'My page 1', value: 'http://www.tinymce.com' },
+                { title: 'My page 2', value: 'http://www.moxiecode.com' }
+            ],
+            image_class_list: [
+                { title: 'None', value: '' },
+                { title: 'Some class', value: 'class-name' }
+            ],
+            importcss_append: true,
+            file_picker_callback: function (cb) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+
+                /*
+                  Note: In modern browsers input[type="file"] is functional without
+                  even adding it to the DOM, but that might not be the case in some older
+                  or quirky browsers like IE, so you might want to add it to the DOM
+                  just in case, and visually hide it. And do not forget do remove it
+                  once you do not need it anymore.
+                */
+
+                input.onchange = function () {
+                    var file = this.files[0];
+
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        /*
+                          Note: Now we need to register the blob in TinyMCEs image blob
+                          registry. In the next release this part hopefully won't be
+                          necessary, as we are looking to handle it internally.
+                        */
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+
+                        /* call the callback and populate the Title field with the file name */
+                        cb(blobInfo.blobUri(), { title: file.name });
+                    };
+                    reader.readAsDataURL(file);
+                };
+
+                input.click();
+            },
+            height: 600,
+            image_caption: true,
+            quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+            noneditable_noneditable_class: "mceNonEditable",
+            toolbar_mode: 'sliding',
+            contextmenu: "link image imagetools table",
+        });
+    </script>
+{% endblock %}
+{% block body %}
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Blog</h5>
+                        <span>Modification d'un article de mon blog.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('service_admin') }}">Blog</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Modifier</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">{{ blog.slug | slice(0, 12)}}...</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+
+
+    <div class="col-lg-12 col-md-12">
+        <div class="card service-title">
+            <div class="card-header">
+                <h3>Ajouter</h3>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                <div class="card-body row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_errors(form.title) }}
+                            {{ form_label(form.title, 'Titre') }}
+                            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.content) }}
+                            {{ form_label(form.content, 'Description') }}
+                            {{ form_widget(form.content, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_errors(form.category) }}
+                            {{ form_label(form.category, 'Catégorie') }}
+                            {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.tags) }}
+                            {{ form_label(form.tags, 'Tags') }}
+                            {{ form_widget(form.tags, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group edit-blog">
+                            {{ form_errors(form.mainImage) }}
+                            {{ form_label(form.mainImage, 'Image') }}
+                            {{ form_widget(form.mainImage, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {% for document in form.mainImage %}
+                                <div class="previous-img-{{ loop.index -1 }}">
+                                    <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl ~ '.webp') }}" alt="Image" width="150">
+                                    {{ form_errors(document) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <button class="btn">{{ button_label|default('Mettre à jour ') }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <a class="btn bg-blue text-white" href="{{ path('portfolio_index') }}">Retour</a>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.querySelector('.edit-blog').textContent = '';
+        const div = document.createElement('div');
+        div.classList.add(`previous-blog-0`);
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.id = `blog_mainImage_0_file`;
+        input.classList.add('form-control');
+        input.name = `blog[mainImage][0][file]`;
+        div.appendChild(input);
+        div.appendChild(input);
+        document.querySelector('.edit-blog').appendChild(div);
+    </script>
+{% endblock %}
