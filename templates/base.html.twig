@@ -95,7 +95,10 @@
                                 <a href="javascript:void(0)">
                                     <img src="{{asset('build/assets/media/images/logo.6e097222.png')}}" alt="Logo du site">
                                 </a>
-                            <p class="sam-color-primary">Copyright © {{ 'now'|date('Y') }} Samakunchan Technology</p>
+                            <p class="sam-color-primary">
+                                Copyright © {{ 'now'|date('Y') }} Samakunchan Technology |
+                                <small ><a class="text-blue" href="{{ path('cgv_show', {'slug': 'conditions-generales-de-ventes'}) }}">Conditions générales de ventes</a></small>
+                            </p>
                             </div>
                             <!--
                             <div class="footer_social">
