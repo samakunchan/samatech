@@ -40,6 +40,7 @@ class BlogController extends AbstractController
     public function blogSideBar(BlogRepository $blogRepository, CategoryRepository $categoryRepository, TagRepository $tagRepository)
     {
         // TODO Faire une pagination ou un load more
+        // TODO Mettre les nouveaux articles ou des articles aléatoires dans la navbar redesigner
 
         return $this->render('blog/blog_side_bar.html.twig', [
             'posts' => $blogRepository->findAllOrderByView(),
@@ -56,7 +57,6 @@ class BlogController extends AbstractController
     public function show(Blog $blog): Response
     {
         if ($blog) {
-            dump('ok');
             $blog->setView($blog->getView() + 1);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($blog);
