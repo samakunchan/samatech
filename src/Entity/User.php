@@ -72,9 +72,15 @@ class User implements UserInterface
      */
     private $services;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Blog", mappedBy="user")
+     */
+    private $blog;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
+        $this->blog = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +234,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($service->getUser() === $this) {
                 $service->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Blog[]
+     */
+    public function getBlog(): Collection
+    {
+        return $this->blog;
+    }
+
+    public function addBlog(Blog $blog): self
+    {
+        if (!$this->blog->contains($blog)) {
+            $this->blog[] = $blog;
+            $blog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlog(Blog $blog): self
+    {
+        if ($this->blog->contains($blog)) {
+            $this->blog->removeElement($blog);
+            // set the owning side to null (unless already changed)
+            if ($blog->getUser() === $this) {
+                $blog->setUser(null);
             }
         }
 

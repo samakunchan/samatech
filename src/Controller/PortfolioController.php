@@ -112,7 +112,6 @@ class PortfolioController extends AbstractController
                         }
                     }
                 }
-
             }
             $this->getDoctrine()->getManager()->flush();
 
