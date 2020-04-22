@@ -1,0 +1,54 @@
+
+{% block body %}
+    <div class="blog_right_sidebar">
+        <aside class="single_sidebar_widget search_widget">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Posts">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="lnr lnr-magnifier"></i></button>
+                </div>
+            </div><!-- /input-group -->
+            <div class="br"></div>
+        </aside>
+        <aside class="single_sidebar_widget popular_post_widget">
+            <h3 class="widget_title">Popular Posts</h3>
+            {% for post in posts | reverse %}
+                <div class="media post_item">
+                    <img src="{{ asset('uploads/images/' ~ post.mainImage[0].completeUrl ~ '.webp') }}" alt="post" width="80">
+                    <div class="media-body">
+                        <a href="javascript:void(0);"><h3>{{ post.title }}</h3></a>
+                        <p>{{ post.createdAt | date('d/m/Y') }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="br"></div>
+        </aside>
+        <aside class="single_sidebar_widget ads_widget">
+            <a href="#"><img class="img-fluid" src="http://placehold.it/200X200" alt=""></a>
+            <div class="br"></div>
+        </aside>
+        <aside class="single_sidebar_widget post_category_widget">
+            <h4 class="widget_title">Catégories</h4>
+            <ul class="list cat-list">
+                {% for category in categories %}
+                    <li>
+                        <a href="#" class="d-flex justify-content-between">
+                            <p>{{ category.type }}</p>
+                            <p>{{ category.blogs | length }}</p>
+                        </a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+            <div class="br"></div>
+        </aside>
+        <aside class="single-sidebar-widget tag_cloud_widget">
+            <h4 class="widget_title">Tag Clouds</h4>
+            <ul class="list">
+                {% for tag in tags %}
+                    <li><a href="#">{{ tag.name | title }}</a></li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+{% endblock %}

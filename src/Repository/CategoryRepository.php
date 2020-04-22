@@ -28,6 +28,16 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function findAllCategoriesBlog()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.environnement = :val')
+            ->setParameter('val', '2')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */

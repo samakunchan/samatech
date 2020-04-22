@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+{% endblock %}
+{% block body %}
+    <main>
+        <!--================ Start Banner Area =================-->
+        <section class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+                <div class="container">
+                    <div class="banner_content text-center">
+                        <h2>Blog</h2>
+                        <div class="page_link">
+                            <a href="{{ path('home') }}">Home</a>
+                            <a href="javascript:void(0)">Blog</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ End Banner Area =================-->
+        <!--================Blog Categorie Area =================-->
+        <section class="blog_categorie_area mt-5">
+            <div class="container">
+                <div class="owl-carousel owl-theme">
+                    {% for category in categories %}
+                        <div class="item">
+                            <div class="categories_post">
+                                <img src="https://placem.at/places?txt=Hello+World&random=1" alt="post">
+                                <div class="categories_details">
+                                    <div class="categories_text">
+                                        <a href="javascript:void(0);"><h5>{{ category.type }}</h5></a>
+                                        <div class="border_line"></div>
+                                        <small>{{ category.description }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!--================Blog Categorie Area =================-->
+        <!--================Blog Area =================-->
+        <section class="blog_area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="blog_left_sidebar">
+                            {% for post in posts | reverse %}
+                                <article class="row blog_item">
+                                    <div class="col-md-3">
+                                        <div class="blog_info text-right">
+                                            <div class="post_tag">
+                                                {% for tag in post.tags %}
+                                                    <a href="javascript:void(0);">{{ tag | title}} {% if loop.last is same as(false) %},{% endif %}</a>
+                                                {% endfor %}
+                                            </div>
+                                            <ul class="blog_meta list">
+                                                <li><a href="javascript:void(0);">{{ post.createdAt | date('d/m/Y à H:m:s') }}<i class="lnr lnr-calendar-full"></i></a></li>
+                                                <li><a href="javascript:void(0);">{% if post.view > 1 %} {{ post.view }} Vues {% elseif post.view is same as(1) %} 1 Vue {% else %} Aucune Vue {% endif %} <i class="lnr lnr-eye"></i></a></li>
+                                                <li><a href="{{ path('blog_show_detail', {'slug': post.slug}) }}#disqus_thread">06 Comments<i class="lnr lnr-bubble"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="blog_post">
+                                            <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~post.mainImage[0].completeUrl~'.webp') }}" alt="{{ post.title }} image">
+                                            <div class="blog_details">
+                                                <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}"><h2>{{ post.title }}</h2></a>
+                                                <p>{{ post.content | slice(0, 200) | inky_to_html }}</p>
+                                                <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}" class="primary_btn"><span>Lire l'article</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        {{ render(controller('App\\Controller\\BlogController::blogSideBar')) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================Blog Area =================-->
+    </main>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script id="dsq-count-scr" src="//http-samakunchan-technology-com.disqus.com/count.js" async></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            responsiveClass:true,
+            items: 4,
+            center: true
+        })
+    </script>
+{% endblock %}
