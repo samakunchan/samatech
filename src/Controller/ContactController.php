@@ -43,7 +43,7 @@ class ContactController extends AbstractController
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
-        $recaptcha = new ReCaptcha($this->getParameter('recaptcha'));
+        $recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
         $resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
         if ($form->isSubmitted() && $form->isValid()) {
             if ($resp->isSuccess()) {
