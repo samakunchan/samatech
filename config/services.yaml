@@ -8,7 +8,6 @@ parameters:
     pdf: '%kernel.project_dir%/public/uploads/pdf'
     images: '%kernel.project_dir%/public/uploads/images'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
-    recaptcha: '6LdYnfEUAAAAABulTsnSbwgzoM4R7E6gPF6aYEQv' # la clé recapcha est aussi dans le fichier .env.local
 
 
 services:
