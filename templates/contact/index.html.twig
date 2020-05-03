@@ -1,0 +1,136 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Contact index{% endblock %}
+
+{% block body %}
+    <style>
+        .service-title i{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+        }
+    </style>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-mail bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Messageries</h5>
+                        <span>Boite de reception de tout mes messages.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Messageries</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Liste</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                 <span class="badge badge-info">Message non lu: {{  unread | length }}</span>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Categorie</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contact in paginate_contacts.results %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('contact_show', {'id': contact.id}) }}">
+                                    {{ contact.category.type }}
+                                    {% if contact.readed is same as(false) %} <span class="badge badge-info">Non lu</span> {% endif %}
+                                </a>
+                            </td>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if paginate_contacts.hasToPaginate %}
+                    <div class="navigation text-center">
+                        <ul class="pagination">
+                            {% if paginate_contacts.hasPreviousPage %}
+                                <li class="paginate_button page-item next previous">
+                                    <a class="page-link" href="{{ path('contact_index', {page: paginate_contacts.previousPage}) }}" rel="previous">
+                                        <i class="ik ik-arrow-left"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="paginate_button page-item previous disabled">
+                                    <span class="page-link">
+                                        <i class="ik ik-arrow-left"></i>
+                                    </span>
+                                </li>
+                            {% endif %}
+
+                            {% for i in 1..paginate_contacts.lastPage %}
+                                {% if i == paginate_contacts.currentPage %}
+                                    <li class="paginate_button page-item active">
+                                        <span class="page-link">{{ i }}
+                                            <span class="sr-only">AAA</span>
+                                        </span>
+                                    </li>
+                                {% else %}
+                                    <li class="paginate_button page-item ">
+                                        <a class="page-link" href="{{ path('contact_index_paginated', {page: i}) }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if paginate_contacts.hasNextPage %}
+                                <li class="paginate_button page-item next">
+                                    <a class="page-link" href="{{ path('contact_index_paginated', {page: paginate_contacts.nextPage}) }}" rel="next">
+                                        <i class="ik ik-arrow-right"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="paginate_button page-item next disabled">
+                                    <span class="page-link">
+                                        <i class="ik ik-arrow-right"></i>
+                                    </span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

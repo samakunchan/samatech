@@ -1,0 +1,121 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<style>
+    .service-title i{
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 22px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+    }
+</style>
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div class="row align-items-end">
+        <div class="col-lg-8">
+            <div class="page-header-title">
+                <i class="ik ik-mail bg-blue"></i>
+                <div class="d-inline">
+                    <h5>Messageries</h5>
+                    <span>Boite de reception de tout mes messages.</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="javascript:void(0);">Messageries</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="javascript:void(0);">Liste</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- /PAGE HEADER -->
+<a class="btn bg-blue text-white" href="{{ path('contact_index') }}">Retour</a>
+
+<div class="col-lg-12 col-md-12">
+    <div class="card">
+        <div class="card-header service-title">
+            <h3>{{ contact.category.type }}</h3>
+            {{ include('contact/_delete_form.html.twig') }}
+        </div>
+        <div class="card-body">
+            <small><span class="text-blue">Nom</span>: {{ contact.name }}</small><br>
+            <small><span class="text-blue">Email</span>: {{ contact.email }}</small><br>
+            <small><span class="text-blue">Tel</span>: {% if contact.phone %} {{ contact.phone }} {% else %}Non renseigné{% endif %} </small><br>
+            <small><span class="text-blue">Categorie</span>: {{ contact.category.type }}</small><br>
+            <small><span class="text-blue">Date</span>: {{ contact.contactedAt ? contact.contactedAt|date('d/m/Y à H:i:s') : '' }}</small>
+            <hr>
+            <p>{{ contact.message }}</p>
+            {% if contact.document.count is not same as(0) %}
+                {% for document in contact.document %}
+                    {% if document.folder is same as('pdf') %}
+                        <a href="javascript:void(0);" class="service-title" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
+                            <i class="ik ik-file-text bg-blue"></i>
+                        </a>
+                    {% endif %}
+                    <div class="modal fade edit-layout-modal" id="editLayoutItem{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="editLayoutItemLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editLayoutItemLabel">{{ document.completeUrl }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% if document.folder is same as('images') %}
+                                        <div class="image-select text-center">
+                                            <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                 alt="Donec sit amet est at sem iaculis aliquam."
+                                                 class="w-50">
+                                            {{ include('bibliotheque/_edit_form.html.twig') }}
+                                        </div>
+                                    {% elseif document.folder is same as('pdf') %}
+                                        <object type="application/pdf"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                width="100%"
+                                                height="800">
+                                        </object>
+
+                                    {% else %}
+                                        <object type="application/pdf"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                width="100%"
+                                                height="800">
+                                        </object>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <a href="javascript:void(0);" class="btn btn-primary">Edit</a>
+                                    <button type="button" class="btn btn-danger list-delete">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

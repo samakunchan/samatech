@@ -4,8 +4,12 @@
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
+        "ext-exif": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
+        "ext-intl": "*",
         "fzaninotto/faker": "^1.9",
+        "google/recaptcha": "^1.2",
         "laminas/laminas-code": "^3.4",
         "liip/test-fixtures-bundle": "^1.7",
         "sensio/framework-extra-bundle": "^5.1",
@@ -27,6 +31,7 @@
         "symfony/security-bundle": "5.0.*",
         "symfony/serializer-pack": "*",
         "symfony/string": "5.0.*",
+        "symfony/swiftmailer-bundle": "^3.4",
         "symfony/translation": "5.0.*",
         "symfony/twig-bundle": "5.0.*",
         "symfony/twig-pack": "^1.0",
@@ -35,10 +40,7 @@
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*",
         "twig/cssinliner-extra": "^3.0",
-        "twig/inky-extra": "^3.0",
-      "ext-gd": "*",
-        "ext-intl": "*",
-      "ext-exif": "*"
+        "twig/inky-extra": "^3.0"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.3",

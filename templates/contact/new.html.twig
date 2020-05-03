@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Contact{% endblock %}
+
+{% block body %}
+    <h1>Create new Contact</h1>
+
+
+    <main>
+        <!--================ Start Banner Area =================-->
+        <section class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+                <div class="container">
+                    <div class="banner_content text-center">
+                        <h2>Contact Us</h2>
+                        <div class="page_link">
+                            <a href="{{ path('home') }}">Home</a>
+                            <a href="javascript:void(0)">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ End Banner Area =================-->
+
+        <!--================Contact Area =================-->
+        <section class="contact_area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="contact_info">
+                            <div class="info_item">
+                                <i class="lnr lnr-home"></i>
+                                <h6>Montpellier, France</h6>
+                                <p>rue du pré aux clercs</p>
+                            </div>
+                            <div class="info_item">
+                                <i class="lnr lnr-phone-handset"></i>
+                                <h6><a href="javascript:void(0)">06 46 60 34 61</a></h6>
+                                <p>Du lundi au Vendredi:  9h00 à 18h00</p>
+                            </div>
+                            <div class="info_item">
+                                <i class="lnr lnr-envelope"></i>
+                                <h6><a href="javascript:void(0)">cedric.badjah@gmail.com</a></h6>
+                                <p>Envoyez moi votre requête quand vous le voulez!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        {{ include('contact/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================Contact Area =================-->
+    </main>
+{% endblock %}

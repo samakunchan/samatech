@@ -48,11 +48,17 @@ class Category
      */
     private $blogs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="categories")
+     */
+    private $contacts;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
         $this->portfolios = new ArrayCollection();
         $this->blogs = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +189,37 @@ class Category
             // set the owning side to null (unless already changed)
             if ($blog->getCategory() === $this) {
                 $blog->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->contains($contact)) {
+            $this->contacts->removeElement($contact);
+            // set the owning side to null (unless already changed)
+            if ($contact->getCategory() === $this) {
+                $contact->setCategory(null);
             }
         }
 
