@@ -78,6 +78,11 @@ class Document
     private $blog;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="document")
+     */
+    private $contact;
+
+    /**
      * @return mixed
      */
     public function getFile()
@@ -227,6 +232,18 @@ class Document
     public function setBlog(?Blog $blog): self
     {
         $this->blog = $blog;
+
+        return $this;
+    }
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?Contact $contact): self
+    {
+        $this->contact = $contact;
 
         return $this;
     }

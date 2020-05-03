@@ -197,15 +197,13 @@
                                 <span>Vus d'ensemble</span>
                             </a>
                         </div>
-                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('admin_messageries') or app.request.get('_route') is same as('admin_messages_add') %} active open{% endif %}">
+                        <div class="nav-item has-sub {% if app.request.get('_route') is same as('contact_index') or app.request.get('_route') is same as('contact_show') %} active open{% endif %}">
                             <a href="javascript:void(0);">
                                 <i class="ik ik-command"></i>
                                 <span>Messages</span>
-                                <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="{{ path('admin_messageries') }}" class="menu-item">Boite de reception</a>
-                                <a href="{{ path('admin_messages_add') }}" class="menu-item">Envoyer un email</a>
+                                <a href="{{ path('contact_index') }}" class="menu-item">Boite de reception</a>
                             </div>
                         </div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('bibliotheque_list') or app.request.get('_route') is same as('bibliotheque_add_documents') %} active open{% endif %}">
@@ -233,7 +231,7 @@
                                 <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="{{ path('admin_articles') }}" class="menu-item">Tous les articles</a>
+                                <a href="{{ path('blog_index') }}" class="menu-item">Tous les articles</a>
                                 <a href="{{ path('admin_articles_add') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>
