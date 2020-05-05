@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Form\ProfilType;
+use App\Repository\BlogRepository;
+use App\Repository\ContactRepository;
+use App\Repository\DocumentRepository;
 use App\Repository\UserRepository;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,77 +20,24 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/", name="admin")
+     * @param BlogRepository $blogRepository
+     * @param DocumentRepository $documentRepository
+     * @param ContactRepository $contactRepository
+     * @return Response
      */
-    public function index()
+    public function index(BlogRepository $blogRepository, DocumentRepository $documentRepository, ContactRepository $contactRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
         return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+            'blogs' => $blogRepository->findAll(),
+            'views' => $blogRepository->findTotalViews(),
+            'documents' => $documentRepository->findAll(),
+            'images' => $documentRepository->findBy(['folder' => 'images']),
+            'pdfs' => $documentRepository->findBy(['folder' => 'pdf']),
+            'non_repertoriers' => $documentRepository->findBy(['folder' => 'non_repertorier']),
+            'contacts' => $contactRepository->findAll(),
+            'contacts_non_lus' => $contactRepository->findBy(['readed' => false]),
         ]);
-    }
-
-    /**
-     * @Route("/messageries", name="admin_messageries")
-     */
-    public function messages()
-    {
-        return $this->render('admin/messageries.html.twig', []);
-    }
-
-    /**
-     * @Route("/messages/add", name="admin_messages_add")
-     */
-    public function messagesAdd()
-    {
-        return $this->render('admin/messageries_add.html.twig', []);
-    }
-
-    /**
-     * @Route("/articles", name="admin_articles")
-     */
-    public function articles()
-    {
-        return $this->render('admin/articles.html.twig', []);
-    }
-
-    /**
-     * @Route("/articles/add", name="admin_articles_add")
-     */
-    public function articlesAdd()
-    {
-        return $this->render('admin/articles_add.html.twig', []);
-    }
-
-    /**
-     * @Route("/portfolios", name="admin_portfolios")
-     */
-    public function portfolio()
-    {
-        return $this->render('admin/portfolios.html.twig', []);
-    }
-
-    /**
-     * @Route("/portfolio/add", name="admin_portfolio_add")
-     */
-    public function portfolioAdd()
-    {
-        return $this->render('admin/portfolio_add.html.twig', []);
-    }
-
-    /**
-     * @Route("/categories-portfolios", name="admin_categories_portfolios")
-     */
-    public function categoriesPortfolios()
-    {
-        return $this->render('admin/categories_portfolios.html.twig', []);
-    }
-
-    /**
-     * @Route("/settings", name="admin_settings")
-     */
-    public function settings()
-    {
-        return $this->render('admin/settings.html.twig', []);
     }
 
     /**

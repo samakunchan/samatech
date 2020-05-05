@@ -19,6 +19,20 @@ class DocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, Document::class);
     }
 
+    //    /**
+    //     * Requete sql afin de compter tout les images, tout les pdf et autre en une seul requete
+    //     * ça ne marche pas encore
+    //     */
+    //    public function findTotalEachFolder()
+    //    {
+    //        return $this->createQueryBuilder('d')
+    //            ->select('d.folder')
+    //            ->getQuery()
+    //            ->getArrayResult()
+    //            ;
+    //    }
+
+
     // /**
     //  * @return Document1[] Returns an array of Document1 objects
     //  */

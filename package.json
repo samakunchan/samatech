@@ -23,6 +23,7 @@
     }
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
     "datatables.net": "^1.10.20",
     "jquery": "^3.5.0",
     "popper.js": "^1.16.1"

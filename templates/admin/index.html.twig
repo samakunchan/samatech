@@ -1,15 +1,191 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <section class="row clearfix">
+        <!-- Nombre de post -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="widget">
+                <div class="widget-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="state">
+                            <h6>Articles</h6>
+                            <h2>{{ blogs | length }}</h2>
+                        </div>
+                        <div class="icon">
+                            <i class="ik ik-award"></i>
+                        </div>
+                    </div>
+                    <small class="text-small mt-10 d-block">Nombre total d'articles</small>
+                </div>
+                <div class="progress progress-sm">
+                    <div class="progress-bar bg-green" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- /Nombre de post -->
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <!-- Nombre de vues -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="widget">
+                <div class="widget-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="state">
+                            <h6>Vues</h6>
+                            <h2>{{ views[0]['total'] }}</h2>
+                        </div>
+                        <div class="icon">
+                            <i class="ik ik-award"></i>
+                        </div>
+                    </div>
+                    <small class="text-small mt-10 d-block">Les vues les pages du blog</small>
+                </div>
+                <div class="progress progress-sm">
+                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- /Nombre de vues -->
 
-    <h2>C'est mon dashboard</h2>
-</div>
+        <!-- Nombre de messages non lus -->
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="widget">
+                <div class="widget-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="state">
+                            <h6>Messages</h6>
+                            <h2>{{ contacts_non_lus | length }}</h2>
+                        </div>
+                        <div class="icon">
+                            <i class="ik ik-calendar"></i>
+                        </div>
+                    </div>
+                    <small class="text-small mt-10 d-block">Seulement les messages non lus</small>
+                </div>
+                <div class="progress progress-sm">
+                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row">
+        <!-- API WEATHER -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <h4 class="card-title">Weather Report</h4>
+                    </div>
+                    <div class="d-flex align-items-center flex-row mt-30">
+                        <div class="p-2 f-50 text-info"><i class="wi wi-day-showers"></i> <span id="temp_c">23</span></div>
+                        <div class="p-2">
+                            <h3 class="mb-0" id="day">loading...</h3><small id="location">loading...</small></div>
+                    </div>
+                    <table class="table table-borderless">
+                        <tbody>
+                        <tr>
+                            <td>Wind</td>
+                            <td class="font-medium" id="wind_kph">loading...</td>
+                        </tr>
+                        <tr>
+                            <td>Humidity</td>
+                            <td class="font-medium" id="humidity">loading...</td>
+                        </tr>
+                        <tr>
+                            <td>Pressure</td>
+                            <td class="font-medium" id="pressure_in">loading...</td>
+                        </tr>
+                        <tr>
+                            <td>Cloud</td>
+                            <td class="font-medium" id="cloud">loading...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <ul class="list-unstyled row text-center city-weather-days mb-0 mt-20">
+                        <li class="col"><i class="wi wi-day-sunny mr-5"></i><span>09:30</span><h3>20<sup>°</sup></h3></li>
+                        <li class="col"><i class="wi wi-day-cloudy mr-5"></i><span>11:30</span><h3>22<sup>°</sup></h3></li>
+                        <li class="col"><i class="wi wi-day-hail mr-5"></i><span>13:30</span><h3>25<sup>°</sup></h3></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /API WEATHER -->
 
+        <!-- CHART.JS DOCUMENT -->
+        <div class="col-md-6">
+            <div class="card" style="min-height: 422px;">
+                <div class="card-header"><h3>Compte rendu des documents</h3></div>
+                <div class="card-body">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- /CHART.JS DOCUMENT -->
+    </section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script id="dsq-count-scr" src="//http-samakunchan-technology-com.disqus.com/count.js" async></script>
+    <script>
+        const ctx = document.getElementById('myChart');
+        const myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Images', 'PDF', 'Non repertorier'
+                ],
+                datasets: [{
+                    label: '# documents',
+                    data: [ '{{ images | length }}', '{{ pdfs | length }}', '{{ non_repertoriers | length }}' ],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ]
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    <script>
+        fetch('http://api.weatherapi.com/v1/current.json?key=6f069061751d4e5b8fe91438200505&q=Montpellier')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                let day = '';
+                console.log(new Date(data.location.localtime).getDay())
+                if (new Date(data.location.localtime).getDay() === 1 ){
+                    day = 'Lundi';
+                } else if (new Date(data.location.localtime).getDay() === 2 ){
+                    day = 'Mardi';
+                } else if (new Date(data.location.localtime).getDay() === 3 ){
+                    day = 'Mercredi';
+                } else if (new Date(data.location.localtime).getDay() === 4 ){
+                    day = 'Jeudi';
+                } else if (new Date(data.location.localtime).getDay() === 5 ){
+                    day = 'Vendredi';
+                } else if (new Date(data.location.localtime).getDay() === 6 ){
+                    day = 'Samedi';
+                } else if (new Date(data.location.localtime).getDay() === 7 ){
+                    day = 'Dimanche';
+                }
+                document.getElementById('day').innerHTML = day;
+                document.getElementById('location').innerHTML = data.location.name +', ' +data.location.region;
+                document.getElementById('temp_c').innerHTML = data.current.temp_c + '<sup>°</sup>';
+                document.getElementById('wind_kph').innerHTML = data.current.wind_kph + ' Km/h';
+                document.getElementById('humidity').innerHTML = data.current.humidity;
+                document.getElementById('pressure_in').innerHTML = data.current.pressure_in;
+                document.getElementById('cloud').innerHTML = `<img src="${data.current.condition.icon}">`;
+            })
+            .catch(err => console.error('Voici l\'érreur =>', err))
+    </script>
 {% endblock %}

@@ -72,10 +72,9 @@
             <div class="filters portfolio-filter">
                 <ul>
                     <li class="active" data-filter="*">all</li>
-                    <li data-filter=".shopify">Shopify</li>
-                    <li data-filter=".wordpress"> Wordpress</li>
-                    <li data-filter=".angular">Angular</li>
-                    <li data-filter=".symfony">Symfony</li>
+                    {% for category in categories %}
+                        <li data-filter=".{{ category.type | lower }}">{{ category.type | title }}</li>
+                    {% endfor %}
                 </ul>
             </div>
 
