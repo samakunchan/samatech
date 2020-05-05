@@ -28,7 +28,14 @@ class BlogRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
+    public function findTotalViews()
+    {
+        return $this->createQueryBuilder('b')
+            ->select('SUM(b.view) as total')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Blog[] Returns an array of Blog objects
     //  */

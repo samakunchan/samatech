@@ -39,9 +39,6 @@ class BlogController extends AbstractController
      */
     public function blogSideBar(BlogRepository $blogRepository, CategoryRepository $categoryRepository, TagRepository $tagRepository)
     {
-        // TODO Faire une pagination ou un load more
-        // TODO Mettre les nouveaux articles ou des articles aléatoires dans la navbar redesigner
-
         return $this->render('blog/blog_side_bar.html.twig', [
             'posts' => $blogRepository->findAllOrderByView(),
             'categories' => $categoryRepository->findAllCategoriesBlog(),
@@ -92,6 +89,7 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $documentsCollection = [$form->getData()->getMainImage()[0]];
+            // Fais pas attention a ce foreach
             foreach ($documentsCollection as $key => $result){
                 if ($result) {
                     $data = $fileService->transformToWebP($result->getFile());
