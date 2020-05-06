@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Blog;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,15 @@ class BlogRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Blog::class);
+    }
+
+    public function findAllPaginated(int $page = 1): Paginator
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->orderBy('b.createdAt', 'DESC')
+        ;
+
+        return (new Paginator($qb))->paginate($page);
     }
 
     public function findAllOrderByView()

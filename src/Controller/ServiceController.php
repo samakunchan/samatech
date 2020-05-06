@@ -62,14 +62,16 @@ class ServiceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $bothImages = [$form->getData()->getIcone()[0], $form->getData()->getImage()[0]];
             foreach ($bothImages as $key => $result){
-                $data = $fileService->transformToUrl($result->getFile());
+                $data = $fileService->transformToWebP($result->getFile());
                 $result->setCompleteUrl($data['filename']);
                 $result->setUpdatedAt(new DateTime('now'));
                 $result->setFolder($data['folder']);
+                $result->setExt('.webp');
                 if ($key === 0) {$result->setServiceIcone($service);} else {$result->setServiceImage($service);}
                 if ($key === 0) {$service->addIcone($result);} else {$service->addImage($result);}
-                $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
+                $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
             }
+            $service->setUser($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($service);
             $entityManager->flush();
@@ -94,13 +96,13 @@ class ServiceController extends AbstractController
             $bothImages = [$form->getData()->getIcone()[0], $form->getData()->getImage()[0]];
             foreach ($bothImages as $key => $resultEdit){
                 if ($resultEdit->getFile()) {
-                    $dataEdit = $fileService->transformToUrl($resultEdit->getFile());
+                    $dataEdit = $fileService->transformToWebP($resultEdit->getFile());
                     $resultEdit->setCompleteUrl($dataEdit['filename']);
                     $resultEdit->setUpdatedAt(new DateTime('now'));
                     $resultEdit->setFolder($dataEdit['folder']);
                     if ($key === 0) {$resultEdit->setServiceIcone($service);} else {$resultEdit->setServiceImage($service);}
                     if ($key === 0) {$service->addIcone($resultEdit);} else {$service->addImage($resultEdit);}
-                    $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $resultEdit->getTempFileName());
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $resultEdit->getTempFileName());
                 }
             }
             $this->getDoctrine()->getManager()->flush();

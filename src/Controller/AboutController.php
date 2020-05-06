@@ -31,14 +31,15 @@ class AboutController extends AbstractController
             $documentsCollection = [$form->getData()->getDocuments()[0]];
             foreach ($documentsCollection as $document) {
                 if ($document->getFile()) {
-                    $dataEdit = $fileService->transformToUrl($document->getFile());
+                    $dataEdit = $fileService->transformToWebP($document->getFile());
                     $document->setCompleteUrl($dataEdit['filename']);
                     $document->setAbout($about);
                     $document->setUpdatedAt(new DateTime('now'));
                     $document->setFolder('images');
+                    $document->setExt('.webp');
                     $about->addDocument($document);
                     if ($document->getTempFileName()) {
-                        $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $document->getTempFileName());
+                        $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $document->getTempFileName());
                     }
                 }
             }

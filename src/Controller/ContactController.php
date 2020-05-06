@@ -55,6 +55,7 @@ class ContactController extends AbstractController
                         $result->setFolder($data['folder']);
                         $result->setContact($contact);
                         $result->setUpdatedAt(new DateTime('now'));
+                        $result->setExt($data['ext']);
                         $contact->addDocument($result);
                         $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
                     }

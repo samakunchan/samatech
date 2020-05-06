@@ -80,7 +80,7 @@ class FileService
         } else {
             $this->folder = 'non_repertorier';
         }
-        return ['filename' => $fileName, 'ext' => $this->file->guessExtension(), 'folder' => $this->folder];
+        return ['filename' => $fileName, 'ext' => '.'.$this->file->guessExtension(), 'folder' => $this->folder];
     }
 
     /**
@@ -101,18 +101,18 @@ class FileService
      */
     public function moveToFolderAndModifyToWebP($folder, $ext, $fileName)
     {
-        $this->file->move($folder, $fileName.'.'. $ext);
-        if ($ext === 'png') {
-            $img = imagecreatefrompng($folder.'/'. $fileName.'.'. $ext);
+        $this->file->move($folder, $fileName. $ext);
+        if ($ext === '.png') {
+            $img = imagecreatefrompng($folder.'/'. $fileName. $ext);
         } else {
-            $img = imagecreatefromjpeg($folder.'/'. $fileName.'.'. $ext);
+            $img = imagecreatefromjpeg($folder.'/'. $fileName. $ext);
         }
         imagepalettetotruecolor($img);
         imagealphablending($img, true);
         imagesavealpha($img, true);
         imagewebp($img, $folder .'/'. $fileName.'.webp', 100);
         imagedestroy($img);
-        unlink($folder.'/'.$fileName.'.'. $ext);
+        unlink($folder.'/'.$fileName. $ext);
     }
 
     /**

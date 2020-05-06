@@ -231,7 +231,7 @@
                                 <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
-                                <a href="{{ path('blog_index') }}" class="menu-item">Tous les articles</a>
+                                <a href="{{ path('blog_index_paginated', {page: 1}) }}" class="menu-item">Tous les articles</a>
                                 <a href="{{ path('blog_new') }}" class="menu-item">Ajouter</a>
                             </div>
                         </div>

@@ -83,6 +83,11 @@ class Document
     private $contact;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ext;
+
+    /**
      * @return mixed
      */
     public function getFile()
@@ -244,6 +249,18 @@ class Document
     public function setContact(?Contact $contact): self
     {
         $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getExt(): ?string
+    {
+        return $this->ext;
+    }
+
+    public function setExt(string $ext): self
+    {
+        $this->ext = $ext;
 
         return $this;
     }
