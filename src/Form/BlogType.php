@@ -8,7 +8,6 @@ use App\Form\Type\TagsInputType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,16 +26,14 @@ class BlogType extends AbstractType
                     return $er
                         ->createQueryBuilder('c')
                         ->andWhere('c.environnement = :val')
-                        ->setParameter('val', '2')
+                        ->setParameter('val', '1')
                         ;
                 },
                 'choice_label' => 'type'
             ])
-            ->add('mainImage', CollectionType::class, [
-                'entry_type'   => DocumentType::class,
-                'allow_add'    => true,
-                'allow_delete' => true,
-                'required' => false,
+            ->add('mainImage', DocumentType::class, [
+                'label' => false,
+                'required' => false
             ])
             ->add('tags', TagsInputType::class, [
                 'label' => 'Ajouter des tags',

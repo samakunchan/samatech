@@ -73,11 +73,6 @@ class Document
     private $portfolio;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Blog", inversedBy="mainImage")
-     */
-    private $blog;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="document")
      */
     private $contact;
@@ -225,18 +220,6 @@ class Document
     public function setPortfolio(?Portfolio $portfolio): self
     {
         $this->portfolio = $portfolio;
-
-        return $this;
-    }
-
-    public function getBlog(): ?Blog
-    {
-        return $this->blog;
-    }
-
-    public function setBlog(?Blog $blog): self
-    {
-        $this->blog = $blog;
 
         return $this;
     }

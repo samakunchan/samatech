@@ -36,7 +36,7 @@ class Contact
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="contacts")
      * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
-    private $category;
+    private $categories;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -101,12 +101,12 @@ class Contact
 
     public function getCategory(): ?Category
     {
-        return $this->category;
+        return $this->categories;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(?Category $categories): self
     {
-        $this->category = $category;
+        $this->categories = $categories;
 
         return $this;
     }

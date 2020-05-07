@@ -35,11 +35,6 @@ class Blog
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="blog", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $mainImage;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="blogs", cascade={"persist", "remove"})
      */
     private $tags;
@@ -69,9 +64,14 @@ class Blog
      */
     private $view;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
+     */
+    private $mainImage;
+
+
     public function __construct()
     {
-        $this->mainImage = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -112,37 +112,6 @@ class Blog
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getMainImage(): Collection
-    {
-        return $this->mainImage;
-    }
-
-    public function addMainImage(Document $mainImage): self
-    {
-        if (!$this->mainImage->contains($mainImage)) {
-            $this->mainImage[] = $mainImage;
-            $mainImage->setBlog($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMainImage(Document $mainImage): self
-    {
-        if ($this->mainImage->contains($mainImage)) {
-            $this->mainImage->removeElement($mainImage);
-            // set the owning side to null (unless already changed)
-            if ($mainImage->getBlog() === $this) {
-                $mainImage->setBlog(null);
-            }
-        }
 
         return $this;
     }
@@ -234,4 +203,17 @@ class Blog
 
         return $this;
     }
+
+    public function getMainImage(): ?Document
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(?Document $mainImage): self
+    {
+        $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
 }

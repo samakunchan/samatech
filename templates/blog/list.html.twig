@@ -69,7 +69,7 @@
                                     <div class="col-md-9">
                                         <div class="blog_post">
                                             {% if post.mainImage is not empty %}
-                                                <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~post.mainImage[0].completeUrl~'.webp') }}" alt="{{ post.title }} image">
+                                                <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~ post.mainImage.completeUrl~ post.mainImage.ext) }}" alt="{{ post.title }} image">
                                             {% else %}
                                                 <img class="w-50 float-left mr-3" src="http://placehold.it/300x300" alt="{{ post.title }} image">
                                             {% endif %}

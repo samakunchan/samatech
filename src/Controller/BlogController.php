@@ -67,7 +67,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/blog", name="blog_index", methods={"GET"})
+     * @Route("/admin/blog", defaults={"page": "1"}, name="blog_index", methods={"GET"})
      * @Route("/admin/blog/{page<[1-9]\d*>}", methods="GET", name="blog_index_paginated")
      * @param BlogRepository $blogRepository
      * @param int $page
@@ -93,18 +93,15 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentsCollection = [$form->getData()->getMainImage()[0]];
-            foreach ($documentsCollection as $key => $result){
-                if ($result) {
-                    $data = $fileService->transformToWebP($result->getFile());
-                    $result->setCompleteUrl($data['filename']);
-                    $result->setFolder($data['folder']);
-                    $result->setBlog($blog);
-                    $result->setExt('.webp');
-                    $result->setUpdatedAt(new DateTime('now'));
-                    $blog->addMainImage($result);
-                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
-                }
+            $image = $form->getData()->getMainImage();
+            if ($image) {
+                $data = $fileService->transformToWebP($image->getFile());
+                $image->setCompleteUrl($data['filename']);
+                $image->setFolder($data['folder']);
+                $image->setExt('.webp');
+                $image->setUpdatedAt(new DateTime('now'));
+                $blog->setMainImage($image);
+                $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
             }
             $blog->setUser($this->getUser());
             $blog->setSlug($blog->getTitle());
@@ -134,28 +131,20 @@ class BlogController extends AbstractController
     {
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentsCollection = [$form->getData()->getMainImage()];
-            foreach ($documentsCollection as $document) {
-                foreach ($document as $image) {
-                    if ($image && $image->getFile()) {
-                        $dataEdit = $fileService->transformToWebP($image->getFile());
-                        $image->setCompleteUrl($dataEdit['filename']);
-                        $image->setBlog($blog);
-                        $image->setFolder('images');
-                        $image->setExt('.webp');
-                        $blog->addMainImage($image);
-                        if ($image->getTempFileName()) {
-                            $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
-                        } else {
-                            $image->setUpdatedAt(new DateTime('now'));
-                            $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
-                        }
-                    }
+            $image = $form->getData()->getMainImage();
+            if ($image && $image->getFile()) {
+                $dataEdit = $fileService->transformToWebP($image->getFile());
+                $image->setCompleteUrl($dataEdit['filename']);
+                $image->setFolder('images');
+                $image->setExt('.webp');
+                if ($image->getTempFileName()) {
+                    $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
+                } else {
+                    $image->setUpdatedAt(new DateTime('now'));
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
                 }
             }
-
             $blog->setUpdatedAt(new DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
 
@@ -177,8 +166,8 @@ class BlogController extends AbstractController
     public function delete(Request $request, Blog $blog): Response
     {
         if ($this->isCsrfTokenValid('delete'.$blog->getId(), $request->request->get('_token'))) {
-            if ($blog->getMainImage()[0] !== null) {
-                $image = $this->getParameter($blog->getMainImage()[0]->getFolder()).'/'.$blog->getMainImage()[0]->getCompleteUrl();
+            if ($blog->getMainImage() !== null) {
+                $image = $this->getParameter($blog->getMainImage()->getFolder()).'/'.$blog->getMainImage()->getCompleteUrl();
                 if (file_exists($image.'.webp')) {
                     unlink($image.'.webp');
                 }

@@ -151,12 +151,9 @@
                             {{ form_widget(form.mainImage, { 'attr': {'class': 'form-control'} }) }}
                         </div>
                         <div class="form-group">
-                            {% for document in form.mainImage %}
-                                <div class="previous-img-{{ loop.index -1 }}">
-                                    <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl ~ ~ document.vars.data.ext) }}" alt="Image" width="150">
-                                    {{ form_errors(document) }}
-                                </div>
-                            {% endfor %}
+                            <div class="previous-img">
+                                <img src="{{ asset('uploads/images/' ~ form.mainImage.vars.data.completeUrl ~ form.mainImage.vars.data.ext) }}" alt="Image" width="150">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,20 +162,6 @@
             </div>
         </div>
     </div>
-    <a class="btn bg-blue text-white" href="{{ path('portfolio_index') }}">Retour</a>
+    <a class="btn bg-blue text-white" href="{{ path('blog_index') }}">Retour</a>
 {% endblock %}
-{% block javascripts %}
-    <script>
-        document.querySelector('.edit-blog').textContent = '';
-        const div = document.createElement('div');
-        div.classList.add(`previous-blog-0`);
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.id = `blog_mainImage_0_file`;
-        input.classList.add('form-control');
-        input.name = `blog[mainImage][0][file]`;
-        div.appendChild(input);
-        div.appendChild(input);
-        document.querySelector('.edit-blog').appendChild(div);
-    </script>
-{% endblock %}
+
