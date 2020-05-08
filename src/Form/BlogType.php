@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Blog;
 use App\Entity\Category;
+use App\Form\Type\DateTimePickerType;
 use App\Form\Type\TagsInputType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -26,7 +27,7 @@ class BlogType extends AbstractType
                     return $er
                         ->createQueryBuilder('c')
                         ->andWhere('c.environnement = :val')
-                        ->setParameter('val', '1')
+                        ->setParameter('val', '2')
                         ;
                 },
                 'choice_label' => 'type'
@@ -38,6 +39,10 @@ class BlogType extends AbstractType
             ->add('tags', TagsInputType::class, [
                 'label' => 'Ajouter des tags',
                 'required' => false,
+            ])
+            ->add('createdAt', DateTimePickerType::class, [
+                'label' => 'Date de publication',
+                'required' => false
             ])
         ;
     }

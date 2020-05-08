@@ -27,6 +27,8 @@ Encore
     .addEntry("css/portfolio", "./assets/js/portfolio.js")
     .addEntry("scss/style", "./assets/scss/style.scss")
     .addEntry("css/bootstrap", "./assets/css/bootstrap.css")
+    .addEntry("css/admin/admin", "./assets/admin/scss/admin.scss")
+    .addEntry("css/admin/taginput", "./assets/admin/scss/bootstrap-tagsinput.scss")
     // .addEntry("js/theme", "./assets/js/theme.js") // pour la navbar
     .addEntry("js/navbar", "./assets/js/navbar.js") // pour la navbar
     //.addEntry("page2", "./assets/js/page2.js")
@@ -38,8 +40,8 @@ Encore
     .addEntry("css/admin/icon-kit", "./assets/admin/css/icon-kit/dist/css/iconkit.min.css")
 
     .addEntry("js/admin/theme", "./assets/admin/js/theme.js")
-    .addEntry("js/admin/popper", "./assets/admin/plugins/popper.js/dist/umd/popper.min.js")
     .addEntry("js/admin/bootstrap", "./assets/admin/plugins/bootstrap/dist/js/bootstrap.min.js")
+    .addEntry("js/admin/admin", "./assets/admin/js/admin.js")
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -56,6 +58,11 @@ Encore
      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
+    .autoProvidejQuery()
+    .autoProvideVariables({
+        "window.Bloodhound": require.resolve('bloodhound-js'),
+        "jQuery.tagsinput": "bootstrap-tagsinput"
+    })
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())

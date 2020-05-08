@@ -9,6 +9,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\TagRepository;
 use App\Services\FileService;
 use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,7 +77,7 @@ class BlogController extends AbstractController
     public function index(BlogRepository $blogRepository, int $page): Response
     {
         return $this->render('blog/index.html.twig', [
-            'blogs_paginate' => $blogRepository->findAllPaginated($page),
+            'blogs_paginate' => $blogRepository->findAllPaginatedAdmin($page),
         ]);
     }
 
@@ -85,6 +86,7 @@ class BlogController extends AbstractController
      * @param Request $request
      * @param FileService $fileService
      * @return Response
+     * @throws Exception
      */
     public function new(Request $request, FileService $fileService): Response
     {
@@ -99,14 +101,14 @@ class BlogController extends AbstractController
                 $image->setCompleteUrl($data['filename']);
                 $image->setFolder($data['folder']);
                 $image->setExt('.webp');
-                $image->setUpdatedAt(new DateTime('now'));
-                $blog->setMainImage($image);
+                $image->setUpdatedAt(new DateTime());
                 $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
             }
+            $blog->setMainImage($image);
             $blog->setUser($this->getUser());
             $blog->setSlug($blog->getTitle());
-            $blog->setCreatedAt(new DateTime('now'));
-            $blog->setUpdatedAt(new DateTime('now'));
+            $blog->setUpdatedAt(new DateTime());
+//            dd($blog);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($blog);
             $entityManager->flush();

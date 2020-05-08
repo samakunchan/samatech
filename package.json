@@ -26,6 +26,12 @@
     "chart.js": "^2.9.3",
     "datatables.net": "^1.10.20",
     "jquery": "^3.4.1",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "bootstrap-tagsinput": "^0.7.1",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "typeahead.js": "^0.11.1",
+    "bloodhound-js": "^1.2.3",
+    "bootswatch": "^3.3.7",
+    "highlight.js": "^9.12.0"
   }
 }

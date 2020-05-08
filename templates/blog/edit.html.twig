@@ -3,6 +3,110 @@
 {% block title %}Edit Blog{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
+
+    {{ encore_entry_link_tags('css/admin/admin') }}
+    {{ encore_entry_link_tags('css/admin/taginput') }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+
+{% endblock %}
+{% block body %}
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-file-text bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Blog</h5>
+                        <span>Modification d'un article de mon blog.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('service_admin') }}">Blog</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">Modifier</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">{{ blog.slug | slice(0, 12)}}...</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+
+
+    <div class="col-lg-12 col-md-12">
+        <div class="card service-title">
+            <div class="card-header">
+                <h3>Ajouter</h3>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                <div class="card-body row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_errors(form.title) }}
+                            {{ form_label(form.title, 'Titre') }}
+                            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.content) }}
+                            {{ form_label(form.content, 'Description') }}
+                            {{ form_widget(form.content, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_errors(form.category) }}
+                            {{ form_label(form.category, 'Catégorie') }}
+                            {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_errors(form.tags) }}
+                            {{ form_label(form.tags, 'Tags') }}
+                            {{ form_widget(form.tags, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group edit-blog">
+                            {{ form_errors(form.mainImage) }}
+                            {{ form_label(form.mainImage, 'Image') }}
+                            {{ form_widget(form.mainImage, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        {% if form.mainImage.vars.data %}
+                            <div class="form-group">
+                                <div class="previous-img">
+                                    <img src="{{ asset('uploads/images/' ~ form.mainImage.vars.data.completeUrl ~ form.mainImage.vars.data.ext) }}" alt="Image" width="150">
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            {{ form_errors(form.createdAt) }}
+                            {{ form_label(form.createdAt, 'Date de publication') }}
+                            {{ form_widget(form.createdAt, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+                <button class="btn">{{ button_label|default('Mettre à jour ') }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <a class="btn bg-blue text-white" href="{{ path('blog_index') }}">Retour</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/admin/admin') }}
     <script src="https://cdn.tiny.cloud/1/6qd97lg5y99jsq2fp5obudoutdl0uwbsisp89bj8mkwsthmh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
@@ -78,90 +182,3 @@
         });
     </script>
 {% endblock %}
-{% block body %}
-    <!-- PAGE HEADER -->
-    <div class="page-header">
-        <div class="row align-items-end">
-            <div class="col-lg-8">
-                <div class="page-header-title">
-                    <i class="ik ik-file-text bg-blue"></i>
-                    <div class="d-inline">
-                        <h5>Blog</h5>
-                        <span>Modification d'un article de mon blog.</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <nav class="breadcrumb-container" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{ path('service_admin') }}">Blog</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">Modifier</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">{{ blog.slug | slice(0, 12)}}...</a>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <!-- /PAGE HEADER -->
-
-
-    <div class="col-lg-12 col-md-12">
-        <div class="card service-title">
-            <div class="card-header">
-                <h3>Ajouter</h3>
-            </div>
-            <div class="card-body">
-                {{ form_start(form) }}
-                <div class="card-body row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            {{ form_errors(form.title) }}
-                            {{ form_label(form.title, 'Titre') }}
-                            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_errors(form.content) }}
-                            {{ form_label(form.content, 'Description') }}
-                            {{ form_widget(form.content, { 'attr': {'class': 'form-control html-editor', 'rows': 10} }) }}
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            {{ form_errors(form.category) }}
-                            {{ form_label(form.category, 'Catégorie') }}
-                            {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_errors(form.tags) }}
-                            {{ form_label(form.tags, 'Tags') }}
-                            {{ form_widget(form.tags, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group edit-blog">
-                            {{ form_errors(form.mainImage) }}
-                            {{ form_label(form.mainImage, 'Image') }}
-                            {{ form_widget(form.mainImage, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <div class="form-group">
-                            <div class="previous-img">
-                                <img src="{{ asset('uploads/images/' ~ form.mainImage.vars.data.completeUrl ~ form.mainImage.vars.data.ext) }}" alt="Image" width="150">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn">{{ button_label|default('Mettre à jour ') }}</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-    <a class="btn bg-blue text-white" href="{{ path('blog_index') }}">Retour</a>
-{% endblock %}
-

@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  */
-class Tag
+class Tag implements JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -84,11 +85,6 @@ class Tag
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
     /**
      * @return Collection|Blog[]
      */
@@ -115,5 +111,15 @@ class Tag
         }
 
         return $this;
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->name;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
