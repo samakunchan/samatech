@@ -3,6 +3,7 @@
     <div class="blog_right_sidebar">
         <aside class="single_sidebar_widget search_widget">
             <div class="input-group">
+                <a href="{{ path('blog_search') }}" class="btn btn-blue">Rechercher</a>
                 <input type="text" class="form-control" placeholder="Search Posts">
                 <div class="input-group-btn">
                     <button class="btn btn-default" type="button"><i class="lnr lnr-magnifier"></i></button>
@@ -14,7 +15,11 @@
             <h3 class="widget_title">Popular Posts</h3>
             {% for post in posts | reverse %}
                 <div class="media post_item">
-{#                    <img src="{{ asset('uploads/images/' ~ post.mainImage[0].completeUrl ~ '.webp') }}" alt="post" width="80">#}
+                    {% if post.mainImage is not empty %}
+                        <img src="{{ asset('uploads/images/' ~ post.mainImage.completeUrl ~ post.mainImage.ext) }}" alt="post" width="80">
+                    {% else %}
+                        <img src="http://placehold.it/50x50" alt="{{ post.title }} image" width="80">
+                    {% endif %}
                     <div class="media-body">
                         <a href="javascript:void(0);"><h3>{{ post.title }}</h3></a>
                         <p>{{ post.createdAt | date('d/m/Y') }}</p>

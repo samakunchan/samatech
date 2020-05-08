@@ -9,6 +9,7 @@ use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
+use function Symfony\Component\String\u;
 
 /**
  * @method Blog|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,7 +32,7 @@ class BlogRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page);
     }
 
-    public function findAllPaginated(int $page = 1): Paginator
+    public function findAllPaginated($tag, int $page = 1): Paginator
     {
         try {
             $qb = $this->createQueryBuilder('b')
@@ -45,6 +46,10 @@ class BlogRepository extends ServiceEntityRepository
         } catch (Exception $e) {
         }
 
+        if (null !== $tag) {
+            $qb->andWhere(':tag MEMBER OF b.tags')
+                ->setParameter('tag', $tag);
+        }
         return (new Paginator($qb))->paginate($page);
     }
 
@@ -65,6 +70,52 @@ class BlogRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    /**
+     * @param string $query
+     * @param int $limit
+     * @return Blog[]
+     */
+    public function findBySearchQuery(string $query, int $limit = Blog::NUM_ITEMS): array
+    {
+        $searchTerms = $this->extractSearchTerms($query);
+
+        if (0 === \count($searchTerms)) {
+            return [];
+        }
+
+        $queryBuilder = $this->createQueryBuilder('b');
+
+        foreach ($searchTerms as $key => $term) {
+            $queryBuilder
+                ->orWhere('b.title LIKE :t_'.$key)
+                ->setParameter('t_'.$key, '%'.$term.'%')
+            ;
+        }
+
+        return $queryBuilder
+            ->orderBy('b.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Transforms the search string into an array of search terms.
+     * @param string $searchQuery
+     * @return array
+     */
+    private function extractSearchTerms(string $searchQuery): array
+    {
+        $searchQuery = u($searchQuery)->replaceMatches('/[[:space:]]+/', ' ')->trim();
+        $terms = array_unique(u($searchQuery)->split(' '));
+
+        // ignore the search terms that are too short
+        return array_filter($terms, function ($term) {
+            return 2 <= u($term)->length();
+        });
+    }
+
     // /**
     //  * @return Blog[] Returns an array of Blog objects
     //  */

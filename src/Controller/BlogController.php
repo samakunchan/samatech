@@ -21,15 +21,22 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog", defaults={"page": "1"}, name="blog_show_list", methods={"GET"})
      * @Route("/blog/{page<[1-9]\d*>}", methods="GET", name="blog_show_list_paginated")
+     * @param Request $request
      * @param BlogRepository $blogRepository
      * @param CategoryRepository $categoryRepository
      * @param int $page
+     * @param TagRepository $tagRepository
      * @return Response
      */
-    public function list(BlogRepository $blogRepository, CategoryRepository $categoryRepository, int $page): Response
+    public function list(Request $request, BlogRepository $blogRepository, CategoryRepository $categoryRepository, int $page, TagRepository $tagRepository): Response
     {
+        $tag = null;
+        if ($request->query->has('tag')) {
+            $tag = $tagRepository->findOneBy(['name' => $request->query->get('tag')]);
+        }
+
         return $this->render('blog/list.html.twig', [
-            'posts_paginated' => $blogRepository->findAllPaginated($page),
+            'posts_paginated' => $blogRepository->findAllPaginated($tag, $page),
             'categories' => $categoryRepository->findBy(['environnement' => '2'])
         ]);
     }
@@ -182,5 +189,35 @@ class BlogController extends AbstractController
         }
 
         return $this->redirectToRoute('blog_index_paginated', ['page' => 1]);
+    }
+
+    /**
+     * @Route("/search", methods="GET", name="blog_search")
+     * @param Request $request
+     * @param BlogRepository $blogRepository
+     * @return Response
+     */
+    public function search(Request $request, BlogRepository $blogRepository): Response
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->render('blog/search.html.twig');
+        }
+
+        $query = $request->query->get('q', '');
+        $limit = $request->query->get('l', 10);
+        $foundPosts = $blogRepository->findBySearchQuery($query, $limit);
+
+        $results = [];
+        foreach ($foundPosts as $post) {
+            $results[] = [
+                'title' => htmlspecialchars($post->getTitle(), ENT_COMPAT | ENT_HTML5),
+                'date' => $post->getCreatedAt()->format('M d, Y'),
+                'author' => htmlspecialchars($post->getUser()->getFirstname(), ENT_COMPAT | ENT_HTML5),
+                'content' => substr($post->getContent(), 0, 150),
+                'url' => $this->generateUrl('blog_show_detail', ['slug' => $post->getSlug()]),
+            ];
+        }
+
+        return $this->json($results);
     }
 }
