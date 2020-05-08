@@ -4,7 +4,7 @@
 {% block body %}
     <main class="d-flex">
         <aside class="col-lg-6" style="margin-top: 100px">
-            <img src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl) }}" alt="{{ portfolio.title }} Image" width="100%">
+            <img src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~ portfolio.image[0].ext) }}" alt="{{ portfolio.title }} Image" width="100%">
         </aside>
         <section class="col-lg-6">
             <!--================ Start Banner Area =================-->
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p>{{ portfolio.description }}.</p>
+                        <p>{{ portfolio.description | inky_to_html }}</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
                             aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                             Duis aute irure dolor in reprehenderit.</p>

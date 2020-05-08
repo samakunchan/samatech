@@ -19,7 +19,7 @@
                 {{ form_widget(form.icone, { 'attr': {'class': 'form-control'} }) }}
                 {% for document in form.icone %}
                     <div class="previous-img-{{ loop.index -1 }}">
-                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="150">
+                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl~ document.vars.data.ext) }}" alt="Image" width="150">
                         {{ form_errors(document) }}
                     </div>
                 {% endfor %}
@@ -30,7 +30,7 @@
                 {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
                 {% for document in form.image %}
                     <div class="previous-img-{{ loop.index -1 }}">
-                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="150">
+                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl~ document.vars.data.ext) }}" alt="Image" width="150">
                         {{ form_errors(document) }}
                     </div>
                 {% endfor %}

@@ -49,12 +49,12 @@
     </div>
     <!-- /PAGE HEADER -->
     <div class="col-lg-12 col-md-12">
-        <div class="card service-title">
+        <div class="card ">
             <div class="card-header">
                 <a class="btn bg-blue text-white" href="{{ path('blog_new') }}">Ajouter</a>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table class="table service-title">
                     <thead>
                     <tr>
                         <th>Numéro</th>
@@ -63,7 +63,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for blog in blogs %}
+                    {% for blog in blogs_paginate.results %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ blog.title }}</td>
@@ -80,6 +80,54 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                {% if blogs_paginate.hasToPaginate %}
+                    <div class="navigation text-center">
+                        <ul class="pagination">
+                            {% if blogs_paginate.hasPreviousPage %}
+                                {{ dump(blogs_paginate.hasPreviousPage) }}
+                                <li class="paginate_button page-item next previous">
+                                    <a class="page-link" href="{{ path('blog_index_paginated', {page: blogs_paginate.previousPage}) }}" rel="previous">
+                                        <i class="ik ik-arrow-left"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="paginate_button page-item previous disabled">
+                                    <span class="page-link">
+                                        <i class="ik ik-arrow-left"></i>
+                                    </span>
+                                </li>
+                            {% endif %}
+
+                            {% for i in 1..blogs_paginate.lastPage %}
+                                {% if i == blogs_paginate.currentPage %}
+                                    <li class="paginate_button page-item active">
+                                        <span class="page-link">{{ i }}
+                                            <span class="sr-only">AAA</span>
+                                        </span>
+                                    </li>
+                                {% else %}
+                                    <li class="paginate_button page-item ">
+                                        <a class="page-link" href="{{ path('blog_index_paginated', {page: i}) }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if blogs_paginate.hasNextPage %}
+                                <li class="paginate_button page-item next">
+                                    <a class="page-link" href="{{ path('blog_index_paginated', {page: blogs_paginate.nextPage}) }}" rel="next">
+                                        <i class="ik ik-arrow-right"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="paginate_button page-item next disabled">
+                                    <span class="page-link">
+                                        <i class="ik ik-arrow-right"></i>
+                                    </span>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -49,7 +49,7 @@
                 {% for service in services %}
                     <div class="col-lg-3 col-md-6">
                         <div class="feature_item">
-                            <img src="{{ asset('uploads/' ~ service.icone[0].folder ~'/'~ service.icone[0].completeUrl ) }}" alt="{{ service.title }} image">
+                            <img src="{{ asset('uploads/' ~ service.icone[0].folder ~'/'~ service.icone[0].completeUrl~ service.icone[0].ext ) }}" alt="{{ service.title }} image">
                             <h4>{{ service.title }}</h4>
                             <p>{{ service.description }}</p>
                         </div>
@@ -88,9 +88,9 @@
                                     {% if portfolio.image.count is same as(0) %}
                                         <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="http://placehold.it/500x500" alt="{{ portfolio.title }} image">
                                     {% else %}
-                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~'.webp') }}" alt="{{ portfolio.title }}">
+                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~ portfolio.image[0].ext) }}" alt="{{ portfolio.title }}">
                                         <div class="overlay"></div>
-                                        <a href="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~'.webp') }}" class="img-gal">
+                                        <a href="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~ portfolio.image[0].ext) }}" class="img-gal">
                                             <div class="icon">
                                                 <span class="lnr lnr-cross"></span>
                                             </div>

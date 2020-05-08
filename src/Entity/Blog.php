@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,11 +35,6 @@ class Blog
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="blog", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $mainImage;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="blogs", cascade={"persist", "remove"})
      */
     private $tags;
@@ -55,11 +50,13 @@ class Blog
     private $user;
 
     /**
+     * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
+     * @var DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -69,9 +66,19 @@ class Blog
      */
     private $view;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
+     */
+    private $mainImage;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
+
     public function __construct()
     {
-        $this->mainImage = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -112,37 +119,6 @@ class Blog
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getMainImage(): Collection
-    {
-        return $this->mainImage;
-    }
-
-    public function addMainImage(Document $mainImage): self
-    {
-        if (!$this->mainImage->contains($mainImage)) {
-            $this->mainImage[] = $mainImage;
-            $mainImage->setBlog($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMainImage(Document $mainImage): self
-    {
-        if ($this->mainImage->contains($mainImage)) {
-            $this->mainImage->removeElement($mainImage);
-            // set the owning side to null (unless already changed)
-            if ($mainImage->getBlog() === $this) {
-                $mainImage->setBlog(null);
-            }
-        }
 
         return $this;
     }
@@ -199,24 +175,24 @@ class Blog
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?DateTimeInterface $createdAt): self
+    public function setCreatedAt(?DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -234,4 +210,29 @@ class Blog
 
         return $this;
     }
+
+    public function getMainImage(): ?Document
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(?Document $mainImage): self
+    {
+        $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
 }

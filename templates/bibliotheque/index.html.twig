@@ -193,7 +193,7 @@
                             <a class="d-flex card-img" href="#editLayoutItem{{ loop.index }}" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
                                 {% if document.folder is same as('images') %}
                                     <div class="image-select">
-                                        <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive
+                                        <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl~ document.ext) }}" alt="Donec sit amet est at sem iaculis aliquam." class="list-thumbnail responsive
                                     border-0">
                                     </div>
                                 {% elseif document.folder is same as('pdf') %}
@@ -242,21 +242,21 @@
                                 <div class="modal-body">
                                     {% if document.folder is same as('images') %}
                                         <div class="image-select text-center">
-                                            <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                            <img src="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl~ document.ext) }}"
                                                  alt="Donec sit amet est at sem iaculis aliquam."
                                                  class="w-50">
                                             {{ include('bibliotheque/_edit_form.html.twig') }}
                                         </div>
                                     {% elseif document.folder is same as('pdf') %}
                                         <object type="application/pdf"
-                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl~ document.ext) }}"
                                                 width="100%"
                                                 height="800">
                                         </object>
 
                                     {% else %}
                                         <object type="application/pdf"
-                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl) }}"
+                                                data="{{ asset('uploads/' ~ document.folder ~'/'~ document.completeUrl~ document.ext) }}"
                                                 width="100%"
                                                 height="800">
                                         </object>

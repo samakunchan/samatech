@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Blog;
+use App\Pagination\Paginator;
+use DateTime;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method Blog|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +21,31 @@ class BlogRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Blog::class);
+    }
+
+    public function findAllPaginatedAdmin(int $page = 1): Paginator
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->orderBy('b.createdAt', 'DESC')
+        ;
+        return (new Paginator($qb))->paginate($page);
+    }
+
+    public function findAllPaginated(int $page = 1): Paginator
+    {
+        try {
+            $qb = $this->createQueryBuilder('b')
+                ->addSelect('u', 't')
+                ->innerJoin('b.user', 'u')
+                ->leftJoin('b.tags', 't')
+                ->where('b.createdAt <= :now')
+                ->orderBy('b.createdAt', 'DESC')
+                ->andWhere('b.status = 1')
+                ->setParameter('now', new DateTime('now', new DateTimeZone('Europe/Paris')));
+        } catch (Exception $e) {
+        }
+
+        return (new Paginator($qb))->paginate($page);
     }
 
     public function findAllOrderByView()

@@ -1,0 +1,26 @@
+{#
+   Each field type is rendered by a template fragment, which is determined
+   by the name of your form type class (DateTimePickerType -> date_time_picker)
+   and the suffix "_widget". This can be controlled by overriding getBlockPrefix()
+   in DateTimePickerType.
+
+   See https://symfony.com/doc/current/form/create_custom_field_type.html#creating-the-form-type-template
+#}
+
+{% block date_time_picker_widget %}
+    <div class="input-group date" data-toggle="datetimepicker">
+        <span class="input-group-addon">
+            <span class="ik ik-calendar" style="font-size: 40px" aria-hidden="true"></span>
+        </span>
+        {{ block('datetime_widget') }}
+    </div>
+{% endblock %}
+
+{% block tags_input_widget %}
+    <div class="input-group">
+        <span class="input-group-addon">
+            <span class="ik ik-tag" style="font-size: 40px" aria-hidden="true"></span>
+        </span>
+        {{ form_widget(form, {'attr': {'data-toggle': 'tagsinput', 'data-tags': tags|json_encode}}) }}
+    </div>
+{% endblock %}

@@ -14,7 +14,7 @@
             <h3 class="widget_title">Popular Posts</h3>
             {% for post in posts | reverse %}
                 <div class="media post_item">
-                    <img src="{{ asset('uploads/images/' ~ post.mainImage[0].completeUrl ~ '.webp') }}" alt="post" width="80">
+{#                    <img src="{{ asset('uploads/images/' ~ post.mainImage[0].completeUrl ~ '.webp') }}" alt="post" width="80">#}
                     <div class="media-body">
                         <a href="javascript:void(0);"><h3>{{ post.title }}</h3></a>
                         <p>{{ post.createdAt | date('d/m/Y') }}</p>

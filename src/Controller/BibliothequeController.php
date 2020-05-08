@@ -61,14 +61,19 @@ class BibliothequeController extends AbstractController
             $files = $request->files->get('documents')['files'];
             foreach ($files as $file)
             {
-                $data = $fileService->transformToUrl($file);
+                $data = $fileService->transformToWebP($file);
                 $document = new Document();
                 $document->setCompleteUrl($data['filename']);
                 $document->setUpdatedAt(new DateTime('now'));
                 $document->setFolder($data['folder']);
+                if ($data['ext'] === '.pdf') { $document->setExt($data['ext']); } else { $document->setExt('.webp'); }
                 $entityManager->persist($document);
                 $entityManager->flush();
-                $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename']);
+                if ($data['ext'] === '.pdf') {
+                    $fileService->moveToFolder($this->getParameter($data['folder']), $data['filename'].$data['ext']);
+                } else {
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
+                }
             }
             $this->addFlash('notice','Les données ont été mis à jours');
         }

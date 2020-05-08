@@ -28,7 +28,11 @@
                         <div class="single-post row">
                             <div class="col-lg-12">
                                 <div class="feature-img text-center overflow-hidden" style="height: 20em; overflow: hidden">
-                                    <img class="img-fluid w-100" src="{{ asset('uploads/images/' ~blog.mainImage[0].completeUrl~'.webp') }}" alt="{{ blog.title }} image">
+                                    {% if blog.mainImage is not empty %}
+                                        <img class="img-fluid w-100" src="{{ asset('uploads/images/' ~blog.mainImage.completeUrl~blog.mainImage.ext) }}" alt="{{ blog.title }} image">
+                                    {% else %}
+                                        <img class="img-fluid w-100" src="http://placehold.it/300x300" alt="{{ blog.title }} image">
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 blog_details">

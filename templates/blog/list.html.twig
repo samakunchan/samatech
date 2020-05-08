@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="blog_left_sidebar">
-                            {% for post in posts | reverse %}
+                            {% for post in posts_paginated.results %}
                                 <article class="row blog_item">
                                     <div class="col-md-3">
                                         <div class="blog_info text-right">
@@ -68,7 +68,11 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="blog_post">
-                                            <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~post.mainImage[0].completeUrl~'.webp') }}" alt="{{ post.title }} image">
+                                            {% if post.mainImage is not empty %}
+                                                <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~ post.mainImage.completeUrl~ post.mainImage.ext) }}" alt="{{ post.title }} image">
+                                            {% else %}
+                                                <img class="w-50 float-left mr-3" src="http://placehold.it/300x300" alt="{{ post.title }} image">
+                                            {% endif %}
                                             <div class="blog_details">
                                                 <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}"><h2>{{ post.title }}</h2></a>
                                                 <p>{{ post.content | slice(0, 200) | inky_to_html }}</p>
@@ -77,8 +81,69 @@
                                         </div>
                                     </div>
                                 </article>
+                            {% else %}
+                            <article class="blog_item">
+                                <div class="col-md-12 text-center">
+                                    Aucun article n'est disponible actuellement.
+                                </div>
+                            </article>
                             {% endfor %}
                         </div>
+                        {% if posts_paginated.hasToPaginate %}
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+                                    {% if posts_paginated.hasPreviousPage %}
+                                        <li class="paginate_button page-item next previous">
+                                            <a class="page-link" href="{{ path('blog_show_list', {page: posts_paginated.previousPage}) }}" rel="previous">
+                                                <span aria-hidden="true">
+                                                    <span class="lnr lnr-chevron-left"></span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="paginate_button page-item previous">
+                                            <a href="javascript:void(0);" class="page-link" rel="previous">
+                                                <span aria-hidden="true">
+                                                    <span class="lnr lnr-chevron-left"></span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for i in 1..posts_paginated.lastPage %}
+                                        {% if i == posts_paginated.currentPage %}
+                                            <li class="paginate_button page-item active">
+                                                <span class="page-link">{{ i }}
+                                                    <span class="sr-only">AAA</span>
+                                                </span>
+                                            </li>
+                                        {% else %}
+                                            <li class="paginate_button page-item ">
+                                                <a class="page-link" href="{{ path('blog_show_list_paginated', {page: i}) }}">{{ i }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if posts_paginated.hasNextPage %}
+                                        <li class="paginate_button page-item next">
+                                            <a class="page-link" href="{{ path('blog_show_list_paginated', {page: posts_paginated.nextPage}) }}" rel="next">
+                                                <span aria-hidden="true">
+                                                    <span class="lnr lnr-chevron-right"></span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="paginate_button page-item next">
+                                            <a href="javascript:void(0);" class="page-link" rel="next">
+                                                <span aria-hidden="true">
+                                                    <span class="lnr lnr-chevron-right"></span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </div>
                     <div class="col-lg-3">
                         {{ render(controller('App\\Controller\\BlogController::blogSideBar')) }}

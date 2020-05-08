@@ -9,6 +9,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\TagRepository;
 use App\Services\FileService;
 use DateTime;
+use DateTimeZone;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class BlogController extends AbstractController
 {
     /**
-     * @Route("/blog", name="blog_show_list", methods={"GET"})
+     * @Route("/blog", defaults={"page": "1"}, name="blog_show_list", methods={"GET"})
+     * @Route("/blog/{page<[1-9]\d*>}", methods="GET", name="blog_show_list_paginated")
      * @param BlogRepository $blogRepository
      * @param CategoryRepository $categoryRepository
+     * @param int $page
      * @return Response
      */
-    public function list(BlogRepository $blogRepository, CategoryRepository $categoryRepository): Response
+    public function list(BlogRepository $blogRepository, CategoryRepository $categoryRepository, int $page): Response
     {
         return $this->render('blog/list.html.twig', [
-            'posts' => $blogRepository->findAll(),
+            'posts_paginated' => $blogRepository->findAllPaginated($page),
             'categories' => $categoryRepository->findBy(['environnement' => '2'])
         ]);
     }
@@ -47,7 +51,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/blog/{slug}", name="blog_show_detail", methods={"GET"})
+     * @Route("/blog/show/{slug}", name="blog_show_detail", methods={"GET"})
      * @param Blog $blog
      * @return Response
      */
@@ -63,15 +67,18 @@ class BlogController extends AbstractController
             'blog' => $blog,
         ]);
     }
+
     /**
-     * @Route("/admin/blog", name="blog_index", methods={"GET"})
+     * @Route("/admin/blog", defaults={"page": "1"}, name="blog_index", methods={"GET"})
+     * @Route("/admin/blog/{page<[1-9]\d*>}", methods="GET", name="blog_index_paginated")
      * @param BlogRepository $blogRepository
+     * @param int $page
      * @return Response
      */
-    public function index(BlogRepository $blogRepository): Response
+    public function index(BlogRepository $blogRepository, int $page): Response
     {
         return $this->render('blog/index.html.twig', [
-            'blogs' => $blogRepository->findAll(),
+            'blogs_paginate' => $blogRepository->findAllPaginatedAdmin($page),
         ]);
     }
 
@@ -80,6 +87,7 @@ class BlogController extends AbstractController
      * @param Request $request
      * @param FileService $fileService
      * @return Response
+     * @throws Exception
      */
     public function new(Request $request, FileService $fileService): Response
     {
@@ -88,28 +96,25 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentsCollection = [$form->getData()->getMainImage()[0]];
-            // Fais pas attention a ce foreach
-            foreach ($documentsCollection as $key => $result){
-                if ($result) {
-                    $data = $fileService->transformToWebP($result->getFile());
-                    $result->setCompleteUrl($data['filename']);
-                    $result->setFolder($data['folder']);
-                    $result->setBlog($blog);
-                    $result->setUpdatedAt(new DateTime('now'));
-                    $blog->addMainImage($result);
-                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
-                }
+            $image = $form->getData()->getMainImage();
+            if ($image) {
+                $data = $fileService->transformToWebP($image->getFile());
+                $image->setCompleteUrl($data['filename']);
+                $image->setFolder($data['folder']);
+                $image->setExt('.webp');
+                $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
+                $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
             }
+            $blog->setMainImage($image);
             $blog->setUser($this->getUser());
             $blog->setSlug($blog->getTitle());
-            $blog->setCreatedAt(new DateTime('now'));
-            $blog->setUpdatedAt(new DateTime('now'));
+            if ($blog->getCreatedAt() == null) { $blog->setCreatedAt(new DateTime('now', new DateTimeZone('Europe/Paris'))); }
+            $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($blog);
             $entityManager->flush();
 
-            return $this->redirectToRoute('blog_index');
+            return $this->redirectToRoute('blog_index_paginated', ['page' => 1]);
         }
 
         return $this->render('blog/new.html.twig', [
@@ -124,33 +129,27 @@ class BlogController extends AbstractController
      * @param Blog $blog
      * @param FileService $fileService
      * @return Response
+     * @throws Exception
      */
     public function edit(Request $request, Blog $blog, FileService $fileService): Response
     {
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentsCollection = [$form->getData()->getMainImage()];
-            foreach ($documentsCollection as $document) {
-                foreach ($document as $image) {
-                    if ($image && $image->getFile()) {
-                        $dataEdit = $fileService->transformToWebP($image->getFile());
-                        $image->setCompleteUrl($dataEdit['filename']);
-                        $image->setBlog($blog);
-                        $image->setFolder('images');
-                        $blog->addMainImage($image);
-                        if ($image->getTempFileName()) {
-                            $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
-                        } else {
-                            $image->setUpdatedAt(new DateTime('now'));
-                            $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
-                        }
-                    }
+            $image = $form->getData()->getMainImage();
+            if ($image && $image->getFile()) {
+                $dataEdit = $fileService->transformToWebP($image->getFile());
+                $image->setCompleteUrl($dataEdit['filename']);
+                $image->setFolder('images');
+                $image->setExt('.webp');
+                if ($image->getTempFileName()) {
+                    $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
+                } else {
+                    $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
                 }
             }
-
-            $blog->setUpdatedAt(new DateTime('now'));
+            $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('blog_index');
@@ -163,7 +162,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/blog/{id}", name="blog_delete", methods={"DELETE"})
+     * @Route("/admin/blog/delete/{id}", name="blog_delete", methods={"DELETE"})
      * @param Request $request
      * @param Blog $blog
      * @return Response
@@ -171,15 +170,17 @@ class BlogController extends AbstractController
     public function delete(Request $request, Blog $blog): Response
     {
         if ($this->isCsrfTokenValid('delete'.$blog->getId(), $request->request->get('_token'))) {
-            $image = $this->getParameter($blog->getMainImage()[0]->getFolder()).'/'.$blog->getMainImage()[0]->getCompleteUrl();
-            if (file_exists($image.'.webp')) {
-                unlink($image.'.webp');
+            if ($blog->getMainImage() !== null) {
+                $image = $this->getParameter($blog->getMainImage()->getFolder()).'/'.$blog->getMainImage()->getCompleteUrl();
+                if (file_exists($image.'.webp')) {
+                    unlink($image.'.webp');
+                }
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($blog);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('blog_index');
+        return $this->redirectToRoute('blog_index_paginated', ['page' => 1]);
     }
 }
