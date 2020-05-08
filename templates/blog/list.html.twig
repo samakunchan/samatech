@@ -53,18 +53,18 @@
                             {% for post in posts_paginated.results %}
                                 <article class="row blog_item">
                                     <div class="col-md-3">
-                                    <div class="blog_info text-right">
-                                        <div class="post_tag">
-                                            {% for tag in post.tags %}
-                                                <a href="javascript:void(0);">{{ tag | title}} {% if loop.last is same as(false) %},{% endif %}</a>
-                                            {% endfor %}
+                                        <div class="blog_info text-right">
+                                            <div class="post_tag">
+                                                {% for tag in post.tags %}
+                                                    <a href="javascript:void(0);">{{ tag | title}} {% if loop.last is same as(false) %},{% endif %}</a>
+                                                {% endfor %}
+                                            </div>
+                                            <ul class="blog_meta list">
+                                                <li><a href="javascript:void(0);">{{ post.createdAt | date('d/m/Y à H:m:s') }}<i class="lnr lnr-calendar-full"></i></a></li>
+                                                <li><a href="javascript:void(0);">{% if post.view > 1 %} {{ post.view }} Vues {% elseif post.view is same as(1) %} 1 Vue {% else %} Aucune Vue {% endif %} <i class="lnr lnr-eye"></i></a></li>
+                                                <li><a href="{{ path('blog_show_detail', {'slug': post.slug}) }}#disqus_thread">06 Comments<i class="lnr lnr-bubble"></i></a></li>
+                                            </ul>
                                         </div>
-                                        <ul class="blog_meta list">
-                                            <li><a href="javascript:void(0);">{{ post.createdAt | date('d/m/Y à H:m:s') }}<i class="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="javascript:void(0);">{% if post.view > 1 %} {{ post.view }} Vues {% elseif post.view is same as(1) %} 1 Vue {% else %} Aucune Vue {% endif %} <i class="lnr lnr-eye"></i></a></li>
-                                            <li><a href="{{ path('blog_show_detail', {'slug': post.slug}) }}#disqus_thread">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                        </ul>
-                                    </div>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="blog_post">
@@ -81,6 +81,12 @@
                                         </div>
                                     </div>
                                 </article>
+                            {% else %}
+                            <article class="blog_item">
+                                <div class="col-md-12 text-center">
+                                    Aucun article n'est disponible actuellement.
+                                </div>
+                            </article>
                             {% endfor %}
                         </div>
                         {% if posts_paginated.hasToPaginate %}

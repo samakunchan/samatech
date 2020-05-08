@@ -40,6 +40,7 @@ class BlogRepository extends ServiceEntityRepository
                 ->leftJoin('b.tags', 't')
                 ->where('b.createdAt <= :now')
                 ->orderBy('b.createdAt', 'DESC')
+                ->andWhere('b.status = 1')
                 ->setParameter('now', new DateTime('now', new DateTimeZone('Europe/Paris')));
         } catch (Exception $e) {
         }

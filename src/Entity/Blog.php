@@ -71,6 +71,11 @@ class Blog
      */
     private $mainImage;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
 
     public function __construct()
     {
@@ -214,6 +219,18 @@ class Blog
     public function setMainImage(?Document $mainImage): self
     {
         $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

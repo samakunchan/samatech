@@ -9,6 +9,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\TagRepository;
 use App\Services\FileService;
 use DateTime;
+use DateTimeZone;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,14 +102,14 @@ class BlogController extends AbstractController
                 $image->setCompleteUrl($data['filename']);
                 $image->setFolder($data['folder']);
                 $image->setExt('.webp');
-                $image->setUpdatedAt(new DateTime());
+                $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
                 $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
             }
             $blog->setMainImage($image);
             $blog->setUser($this->getUser());
             $blog->setSlug($blog->getTitle());
-            $blog->setUpdatedAt(new DateTime());
-//            dd($blog);
+            if ($blog->getCreatedAt() == null) { $blog->setCreatedAt(new DateTime('now', new DateTimeZone('Europe/Paris'))); }
+            $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($blog);
             $entityManager->flush();
@@ -128,6 +129,7 @@ class BlogController extends AbstractController
      * @param Blog $blog
      * @param FileService $fileService
      * @return Response
+     * @throws Exception
      */
     public function edit(Request $request, Blog $blog, FileService $fileService): Response
     {
@@ -143,11 +145,11 @@ class BlogController extends AbstractController
                 if ($image->getTempFileName()) {
                     $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
                 } else {
-                    $image->setUpdatedAt(new DateTime('now'));
+                    $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
                     $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
                 }
             }
-            $blog->setUpdatedAt(new DateTime('now'));
+            $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('blog_index');
