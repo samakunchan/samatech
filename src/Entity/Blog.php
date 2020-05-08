@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Blog
 {
+    public const NUM_ITEMS = 10;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

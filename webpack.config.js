@@ -25,6 +25,7 @@ Encore
      */
     .addEntry("app", "./assets/js/app.js") // j'ai désactivé ça parce que c'est pas facile a repérer
     .addEntry("css/portfolio", "./assets/js/portfolio.js")
+    .addEntry('search', './assets/js/search.js')
     .addEntry("scss/style", "./assets/scss/style.scss")
     .addEntry("css/bootstrap", "./assets/css/bootstrap.css")
     .addEntry("css/admin/admin", "./assets/admin/scss/admin.scss")

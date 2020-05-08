@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Blog{% endblock %}
-
+{% block stylesheets %}
+    <style>
+        .blog_info .post_tag a {
+            font: 300 14px/21px "Roboto", sans-serif;
+            color: #000000;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <main>
         <!--================ Start Banner Area =================-->
@@ -36,10 +43,13 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 blog_details">
-                                <div class="blog_info float-left p-5">
+                                <div class="blog_info float-left p-5 text-right">
                                     <div class="post_tag">
                                         {% for tag in blog.tags %}
-                                            <a href="javascript:void(0);">{{ tag | title}} {% if loop.last is same as(false) %},{% endif %}</a>
+                                            <a href="{{ path('blog_show_list', {'tag': tag.name == app.request.query.get('tag') ? null : tag.name}) }}"
+                                               class="{{ tag.name == app.request.query.get('tag') ? 'active' : '' }}">
+                                                {{ tag | title}} {% if loop.last is same as(false) %},{% endif %}
+                                            </a>
                                         {% endfor %}
                                     </div>
                                     <ul class="blog_meta list">
