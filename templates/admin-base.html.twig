@@ -20,114 +20,18 @@
                     <button type="button" class="btn-icon mobile-nav-toggle d-lg-none">
                         <span></span>
                     </button>
-                    <div class="header-search">
-                        <div class="input-group">
-                            <span class="input-group-addon search-close">
-                                <i class="ik ik-x"></i>
-                            </span>
-                            <label>
-                                <input type="text" class="form-control">
-                            </label>
-                            <span class="input-group-addon search-btn">
-                                <i class="ik ik-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <button type="button" id="navbar-fullscreen" class="nav-link">
-                        <i class="ik ik-maximize"></i>
+                    <!-- ACTIVE LE GROS MODAL -->
+                    <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal">
+                        <i class="ik ik-search"></i>
                     </button>
+                    <!-- /ACTIVE LE GROS MODAL -->
                     <button type="button" class="nav-link ml-3">
-                        <i class="ik ik-home"></i>
-                    </button>
-                    <button type="button" class="nav-link ml-3">
-                        <a href="{{ path('home') }}"><i class="ik ik-home"></i></a>
+                        <a href="{{ path('home') }}" class="text-white">
+                            <i class="ik ik-home"></i>
+                        </a>
                     </button>
                 </div>
                 <div class="top-menu d-flex align-items-center">
-
-
-                    <!-- DROPDOWN NOTIFICATION ALERT -->
-                    <div class="dropdown">
-                        <!-- BOUTON QUI LANCE LE DROPDOWN -->
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="notiDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ik ik-bell"></i>
-                            <span class="badge bg-danger">3</span>
-                        </a>
-                        <!-- /BOUTON QUI LANCE LE DROPDOWN -->
-
-                        <!-- DROPDOWN PANEL DES NOTIFICATION -->
-                        <div class="dropdown-menu dropdown-menu-right notification-dropdown" aria-labelledby="notiDropdown">
-                            <h4 class="header">Notifications</h4>
-                            <div class="notifications-wrap">
-                                <a href="javascript:void(0);" class="media">
-                                    <span class="d-flex">
-                                        <i class="ik ik-check"></i>
-                                    </span>
-                                    <span class="media-body">
-                                        <strong class="heading-font-family media-heading">Invitation accepted</strong>
-                                        <span class="media-content">Your have been Invited ...</span>
-                                    </span>
-                                </a>
-                                <a href="javascript:void(0);" class="media">
-                                    <span class="d-flex">
-                                        <i class="ik ik-calendar"></i>
-                                    </span>
-                                    <span class="media-body">
-                                        <strong class="heading-font-family media-heading">To Do</strong>
-                                        <span class="media-content">Meeting with Nathan on Friday 8 AM ...</span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="footer">
-                                <a href="javascript:void(0);">See all activity</a>
-                            </div>
-                        </div>
-                        <!-- /DROPDOWN PANEL DES NOTIFICATION -->
-                    </div>
-                    <!-- /DROPDOWN NOTIFICATION ALERT -->
-
-
-                    <!-- ACTIVE LA SIDEBAR RIGHT -->
-                    <button type="button" class="nav-link ml-10 right-sidebar-toggle">
-                        <i class="ik ik-message-square"></i>
-                        <span class="badge bg-success">3</span>
-                    </button>
-                    <!-- /ACTIVE LA SIDEBAR RIGHT -->
-
-                    <!-- LES PETITES ICONES -->
-                    <div class="dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="menuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ik ik-plus"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right menu-grid" aria-labelledby="menuDropdown">
-                            <a class="dropdown-item" href="{{ path('admin') }}" data-toggle="tooltip" data-placement="top" title="Dashboard">
-                                <i class="ik ik-bar-chart-2"></i>
-                            </a>
-                            <a class="dropdown-item" href="{{ path('contact_index') }}" data-toggle="tooltip" data-placement="top" title="Message">
-                                <i class="ik ik-mail"></i>
-                            </a>
-                            <a class="dropdown-item" href="{{ path('admin_account') }}" data-toggle="tooltip" data-placement="top" title="Accounts">
-                                <i class="ik ik-users"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Sales">
-                                <i class="ik ik-shopping-cart"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Purchase">
-                                <i class="ik ik-briefcase"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Pages">
-                                <i class="ik ik-clipboard"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- /LES PETITES ICONES -->
-
-                    <!-- ACTIVE LE GROS MODAL -->
-                    <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal">
-                        <i class="ik ik-grid"></i>
-                    </button>
-                    <!-- /ACTIVE LE GROS MODAL -->
-
                     <!-- USER NOTFICATION -->
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="javascript:void(0);" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -199,7 +103,7 @@
                         </div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('contact_index') or app.request.get('_route') is same as('contact_show') %} active open{% endif %}">
                             <a href="javascript:void(0);">
-                                <i class="ik ik-command"></i>
+                                <i class="ik ik-mail"></i>
                                 <span>Messages</span>
                             </a>
                             <div class="submenu-content">
@@ -208,9 +112,8 @@
                         </div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('bibliotheque_list') or app.request.get('_route') is same as('bibliotheque_add_documents') %} active open{% endif %}">
                             <a href="javascript:void(0)">
-                                <i class="ik ik-layers"></i>
+                                <i class="ik ik-archive"></i>
                                 <span>Media</span>
-                                <span class="badge badge-danger">150+</span>
                             </a>
                             <div class="submenu-content">
                                 <a href="{{ path('bibliotheque_list') }}" class="menu-item">Bibliothèque</a>
@@ -226,9 +129,8 @@
                             or app.request.get('_route') is same as('environnement_index')
                         %} active open{% endif %}">
                             <a href="javascript:void(0);">
-                                <i class="ik ik-menu"></i>
+                                <i class="ik ik-sidebar"></i>
                                 <span>Articles</span>
-                                <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
                                 <a href="{{ path('blog_index_paginated', {page: 1}) }}" class="menu-item">Tous les articles</a>
@@ -237,7 +139,7 @@
                         </div>
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('service_admin') or app.request.get('_route') is same as('service_new') %} active open{% endif %}">
                             <a href="javascript:void(0);">
-                                <i class="ik ik-box"></i>
+                                <i class="ik ik-grid"></i>
                                 <span>Services</span>
                             </a>
                             <div class="submenu-content">
@@ -248,9 +150,8 @@
                         <div class="nav-item has-sub {% if app.request.get('_route') is same as('portfolio_index')
                             or app.request.get('_route') is same as('portfolio_new') %} active open{% endif %}">
                             <a href="javascript:void(0);">
-                                <i class="ik ik-gitlab"></i>
+                                <i class="ik ik-book-open"></i>
                                 <span>Portfolio</span>
-                                <span class="badge badge-success">New</span>
                             </a>
                             <div class="submenu-content">
                                 <a href="{{ path('portfolio_index') }}" class="menu-item">Liste des portfolios</a>
@@ -259,7 +160,7 @@
                         </div>
                         <div class="nav-item {% if app.request.get('_route') is same as('admin_about') %} active{% endif %}">
                             <a href="{{ path('admin_edit_about', {'slug': 'a-propos-de-moi'}) }}">
-                                <i class="ik ik-package"></i>
+                                <i class="ik ik-user"></i>
                                 <span>A propos</span>
                             </a>
                         </div>
@@ -268,16 +169,12 @@
                         <!-- CONFIGURATION -->
                         <div class="nav-lavel">Configuration</div>
                         <div class="nav-item {% if app.request.get('_route') is same as('environnement_index') %} active{% endif %}">
-{#                            <a href="{{ path('admin_settings') }}">#}
-{#                                <i class="ik ik-terminal"></i>#}
-{#                                <span>Paramètres</span>#}
-{#                            </a>#}
                             <a href="{{ path('environnement_index') }}">
-                                <i class="ik ik-git-pull-request"></i>
+                                <i class="ik ik-layers"></i>
                                 <span>Environnement</span>
                             </a>
                             <a href="{{ path('cgv_edit', {'slug': 'conditions-generales-de-ventes'}) }}">
-                                <i class="ik ik-git-pull-request"></i>
+                                <i class="ik ik-file-text"></i>
                                 <span>Conditions générales de ventes</span>
                             </a>
                         </div>
@@ -293,177 +190,6 @@
         <div class="main-content">
             <div class="container-fluid">
                 {% block body %}{% endblock %}
-            </div>
-        </div>
-
-        <!-- ASIDE DROITE -->
-        <aside class="right-sidebar">
-            <div class="sidebar-chat" data-plugin="chat-sidebar">
-                <div class="sidebar-chat-info">
-                    <h6>Chat List</h6>
-                    <form class="mr-t-10">
-                        <div class="form-group">
-                            <label>
-                                <input type="text" class="form-control" placeholder="Search for friends ...">
-                            </label>
-                            <i class="ik ik-search"></i>
-                        </div>
-                    </form>
-                </div>
-                <div class="chat-list">
-                    <div class="list-group row">
-                        <a href="javascript:void(0)" class="list-group-item" data-chat-user="Gene Newman">
-                            <figure class="user--online">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Gene Newman</span>
-                                <span class="username">@gene_newman</span>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item" data-chat-user="Billy Black">
-                            <figure class="user--online">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Billy Black</span>
-                                <span class="username">@billyblack</span>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item" data-chat-user="Herbert Diaz">
-                            <figure class="user--online">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Herbert Diaz</span>
-                                <span class="username">@herbert</span>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item" data-chat-user="Sylvia Harvey">
-                            <figure class="user--busy">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Sylvia Harvey</span>
-                                <span class="username">@sylvia</span></span>
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item active" data-chat-user="Marsha Hoffman">
-                            <figure class="user--busy">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Marsha Hoffman</span>
-                                <span class="username">@m_hoffman</span>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item" data-chat-user="Mason Grant">
-                            <figure class="user--offline">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Mason Grant</span>
-                                <span class="username">@masongrant</span>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
-                            <figure class="user--offline">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                            </figure>
-                            <span>
-                                <span class="name">Shelly Sullivan</span>
-                                <span class="username">@shelly</span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </aside>
-        <!-- /ASIDE DROITE -->
-
-        <div class="chat-panel" hidden>
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <a href="javascript:void(0);"><i class="ik ik-message-square text-success"></i></a>
-                    <span class="user-name">John Doe</span>
-                    <button type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div class="widget-chat-activity flex-1">
-                        <div class="messages">
-                            <div class="message media reply">
-                                <figure class="user--online">
-                                    <a href="javascript:void(0);">
-                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                                    </a>
-                                </figure>
-                                <div class="message-body media-body">
-                                    <p>Epic Cheeseburgers come in all kind of styles.</p>
-                                </div>
-                            </div>
-                            <div class="message media">
-                                <figure class="user--online">
-                                    <a href="javascript:void(0);">
-                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                                    </a>
-                                </figure>
-                                <div class="message-body media-body">
-                                    <p>Cheeseburgers make your knees weak.</p>
-                                </div>
-                            </div>
-                            <div class="message media reply">
-                                <figure class="user--offline">
-                                    <a href="javascript:void(0);">
-                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                                    </a>
-                                </figure>
-                                <div class="message-body media-body">
-                                    <p>Cheeseburgers will never let you down.</p>
-                                    <p>They'll also never run around or desert you.</p>
-                                </div>
-                            </div>
-                            <div class="message media">
-                                <figure class="user--online">
-                                    <a href="javascript:void(0);">
-                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                                    </a>
-                                </figure>
-                                <div class="message-body media-body">
-                                    <p>A great cheeseburger is a gastronomical event.</p>
-                                </div>
-                            </div>
-                            <div class="message media reply">
-                                <figure class="user--busy">
-                                    <a href="javascript:void(0);">
-                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                                    </a>
-                                </figure>
-                                <div class="message-body media-body">
-                                    <p>There's a cheesy incarnation waiting for you no matter what you palete preferences are.</p>
-                                </div>
-                            </div>
-                            <div class="message media">
-                                <figure class="user--online">
-                                    <a href="javascript:void(0);">
-                                        <img src="https://via.placeholder.com/50" class="rounded-circle" alt="">
-                                    </a>
-                                </figure>
-                                <div class="message-body media-body">
-                                    <p>If you are a vegan, we are sorry for you loss.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form action="javascript:void(0)" class="card-footer" method="post">
-                    <div class="d-flex justify-content-end">
-                        <textarea class="border-0 flex-1" rows="1" placeholder="Type your message here"></textarea>
-                        <button class="btn btn-icon" type="submit">
-                            <i class="ik ik-arrow-right text-success"></i>
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
 

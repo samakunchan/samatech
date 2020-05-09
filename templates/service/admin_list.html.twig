@@ -1,6 +1,9 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block body %}
+{% block title %}Services - Administration{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
     <style>
         .feature_item {
             padding: 45px 25px;
@@ -27,6 +30,8 @@
             box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
         }
     </style>
+{% endblock %}
+{% block body %}
     <div class="page-header">
         <div class="row align-items-end">
             <div class="col-lg-8">
