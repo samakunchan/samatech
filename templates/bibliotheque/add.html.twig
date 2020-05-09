@@ -1,6 +1,37 @@
 {% extends 'admin-base.html.twig' %}
 
+{% block title %}Nouveau Document - {{ parent() }}{% endblock %}
+
 {% block body %}
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-image bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Bibliothèque</h5>
+                        <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">bibliothèque</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0);">liste</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Ajouter</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
     <h1>Ajouter un document</h1>
     {{ form_start(form, {'attr': {'id': 'form'}}) }}
         {{ form_errors(form.files) }}

@@ -1,23 +1,25 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
-
+{% block title %}Contact - {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .service-title i{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
+        }
+    </style>
+{% endblock %}
 {% block body %}
-<style>
-    .service-title i{
-        width: 30px;
-        height: 30px;
-        border-radius: 5px;
-        color: #fff;
-        font-size: 22px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        -webkit-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
-        -moz-box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5);
-        box-shadow: 0 2px 12px -3px rgba(0, 0, 0, 0.5)
-    }
-</style>
 <!-- PAGE HEADER -->
 <div class="page-header">
     <div class="row align-items-end">

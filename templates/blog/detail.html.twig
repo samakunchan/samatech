@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog{% endblock %}
+{% block title %}Blog - {{ parent() }}{% endblock %}
+
 {% block stylesheets %}
     <style>
         .blog_info .post_tag a {
