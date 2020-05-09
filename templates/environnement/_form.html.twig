@@ -16,6 +16,10 @@
                     {{ form_errors(category.type) }}
                     {{ form_widget(category.type, { 'attr': {'class': 'form-control'} }) }}
                 </div>
+                <div class="previous-cat-icone-{{ loop.index -1 }}">
+                    {{ form_errors(category.icone) }}
+                    {{ form_widget(category.icone, { 'attr': {'class': 'form-control'} }) }}
+                </div>
                 <div class="previous-cat-desc-{{ loop.index -1 }}">
                     {{ form_errors(category.description) }}
                     {{ form_widget(category.description, { 'attr': {'class': 'form-control'} }) }}

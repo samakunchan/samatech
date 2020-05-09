@@ -76,6 +76,7 @@ class EnvironnementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($environnement->getCategories() as $category) {
                 $category->setEnvironnement($environnement);
+                $category->setSlug($category->getType());
             }
             $this->getDoctrine()->getManager()->flush();
 
