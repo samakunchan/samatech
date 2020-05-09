@@ -9,6 +9,13 @@
             font: 300 14px/21px "Roboto", sans-serif;
             color: #000000;
         }
+        .categories_post a{
+            color: #212529;
+        }
+        .categories_post a:hover{
+            color: #212529;
+            text-decoration: none;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -35,12 +42,16 @@
                     {% for category in categories %}
                         <div class="item">
                             <div class="categories_post">
-                                <img src="https://placem.at/places?txt=Hello+World&random=1" alt="post">
-                                <div class="categories_details">
+                                <a href="{{ path('category_show', {'slug': category.slug}) }}">
+                                    <i class="{{ category.icone }}" style="font-size: 100px"></i>
+                                </a>
+                                <div class="categories_details mt-4">
                                     <div class="categories_text">
-                                        <a href="javascript:void(0);"><h5>{{ category.type }}</h5></a>
+                                        <a href="{{ path('category_show', {'slug': category.slug}) }}">
+                                            <h5>{{ category.type }}</h5>
+                                        </a>
                                         <div class="border_line"></div>
-                                        <small>{{ category.description }}</small>
+
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +104,7 @@
                             {% else %}
                             <article class="blog_item">
                                 <div class="col-md-12 text-center">
-                                    Aucun article n'est disponible actuellement.
+                                    Aucun article trouvé.
                                 </div>
                             </article>
                             {% endfor %}

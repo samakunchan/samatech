@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Categories{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .categories_post a{
+            color: #212529;
+        }
+        .categories_post a:hover{
+            color: #212529;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <!--================ Start Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content text-center">
+                    <h2>Categories</h2>
+                    <div class="page_link">
+                        <a href="{{ path('home') }}">Home</a>
+                        <a href="{{ path('blog_show_list') }}">Blog</a>
+                        <a href="{{ path('category') }}">Categories</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Banner Area =================-->
+    <section class="category_list_area">
+        <div class="container-fluid">
+            <div class="row">
+                {% for category in categories %}
+                    <div class="item col-lg-3 m-5">
+                        <div class="categories_post">
+                            <a href="{{ path('category_show', { 'slug': category.slug }) }}">
+                                <i class="{{ category.icone }}" style="font-size: 100px"></i>
+                            </a>
+                            <div class="categories_details mt-4">
+                                <div class="categories_text">
+                                    <a href="{{ path('category_show', {'slug': category.slug}) }}">
+                                        <h5>{{ category.type }}</h5>
+                                    </a>
+                                    <div class="border_line"></div>
+                                    <small>{{ category.description }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

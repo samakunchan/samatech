@@ -53,6 +53,16 @@ class Category
      */
     private $contacts;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $icone;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
@@ -222,6 +232,32 @@ class Category
                 $contact->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $cleanText = preg_replace('/\W+/', '-', $slug);
+        $cleanText = strtolower(trim($cleanText, '-'));
+        $this->slug = $cleanText;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(?string $icone): self
+    {
+        $this->icone = $icone;
 
         return $this;
     }

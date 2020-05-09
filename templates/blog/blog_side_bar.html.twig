@@ -3,12 +3,8 @@
     <div class="blog_right_sidebar">
         <aside class="single_sidebar_widget search_widget">
             <div class="input-group">
-                <a href="{{ path('blog_search') }}" class="btn btn-blue">Rechercher</a>
-                <input type="text" class="form-control" placeholder="Search Posts">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="button"><i class="lnr lnr-magnifier"></i></button>
-                </div>
-            </div><!-- /input-group -->
+                <a href="{{ path('blog_search') }}"><i class="lnr lnr-magnifier" style="font-size: 30px;"></i></a>
+            </div>
             <div class="br"></div>
         </aside>
         <aside class="single_sidebar_widget popular_post_widget">
@@ -21,7 +17,7 @@
                         <img src="http://placehold.it/50x50" alt="{{ post.title }} image" width="80">
                     {% endif %}
                     <div class="media-body">
-                        <a href="javascript:void(0);"><h3>{{ post.title }}</h3></a>
+                        <a href="{{ path('blog_show_detail', {'slug': post.slug }) }}"><h3>{{ post.title }}</h3></a>
                         <p>{{ post.createdAt | date('d/m/Y') }}</p>
                     </div>
                 </div>
