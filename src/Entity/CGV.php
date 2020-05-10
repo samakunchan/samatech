@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CGVRepository")
@@ -17,16 +18,26 @@ class CGV
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\IdenticalTo("Conditions générales de vente", message="Le champ doit être identique à {{ compared_value_type }} {{ compared_value }}")
+     * @Assert\Length(min="6", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="6", minMessage="La contenu doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="text")
      */
     private $content;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le slug n'a pas pu être effectuer.")
+     * @Assert\Length(min="3", minMessage="Le slug doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */
     private $slug;

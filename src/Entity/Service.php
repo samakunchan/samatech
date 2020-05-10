@@ -20,28 +20,38 @@ class Service
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $title;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="6", minMessage="La description doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $description;
 
     /**
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="serviceIcone", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $icone;
 
     /**
+     * TODO Changer ceci en OTO
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="serviceImage", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $image;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="services", cascade={"persist"})
      */
     private $user;

@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AboutRepository")
  */
@@ -20,11 +20,17 @@ class About
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="6", minMessage="La description doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="text")
      */
     private $description;
@@ -35,11 +41,15 @@ class About
     private $documents;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Type("datetime")
+     * @ORM\Column(type="datetime")
      */
     private $updatedAt;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le slug n'a pas pu être effectuer.")
+     * @Assert\Length(min="3", minMessage="Le slug doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=15)
      */
     private $slug;
@@ -109,12 +119,12 @@ class About
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -128,7 +138,9 @@ class About
 
     public function setSlug(string $slug): self
     {
-        $this->slug = $slug;
+        $cleanText = preg_replace('/\W+/', '-', $slug);
+        $cleanText = strtolower(trim($cleanText, '-'));
+        $this->slug = $cleanText;
 
         return $this;
     }

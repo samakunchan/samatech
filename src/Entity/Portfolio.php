@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PortfolioRepository")
@@ -19,32 +20,46 @@ class Portfolio
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="6", minMessage="La description doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
+     * TODO Changer ceci en OTO
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="portfolio", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $image;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="portfolios")
      */
     private $category;
 
     /**
+     * @Assert\Valid
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="portfolios", cascade={"persist", "remove"})
      */
     private $tags;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le slug n'a pas pu être effectuer.")
+     * @Assert\Length(min="3", minMessage="Le slug doit avoir au moins {{ limit }} caractères.")
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
