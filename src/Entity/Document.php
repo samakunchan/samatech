@@ -20,17 +20,26 @@ class Document
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(min="10", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max="50")
      */
     private $completeUrl;
 
     /**
+     * @Assert\Type("datetime")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
     /**
+     * @Assert\File(
+     *     maxSize = "1800k",
+     *     maxSizeMessage="La taille du fichier est élévé: {{ size }} {{ suffix }}. Maximum: {{ limit }} {{ suffix }}",
+     *     mimeTypes = {"image/png", "image/jpeg", "image/jpg, application/pdf", "application/x-pdf", "text/plain"},
+     *     mimeTypesMessage = "Seul les fichiers de type {{ types }} sont autorisés."
+     * )
      * @var UploadedFile $file
      */
     private $file;
@@ -38,46 +47,59 @@ class Document
     private $tempFileName;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Choice({"images", "pdf", "non-repertorier"}, message="Veuillez choisir parmis les valeurs autorisés: {{ choices }}")
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $folder;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="documents")
      */
     private $about;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="icone")
      */
     private $serviceIcone;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="image")
      */
     private $serviceImage;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="image")
-     */
-    private $category;
-
-    /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Portfolio", inversedBy="image")
      */
     private $portfolio;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="document")
      */
     private $contact;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */
     private $ext;
@@ -196,18 +218,6 @@ class Document
     public function setServiceImage(?Service $serviceImage): self
     {
         $this->serviceImage = $serviceImage;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }

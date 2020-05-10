@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EnvironnementRepository")
@@ -19,11 +20,16 @@ class Environnement
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="environnement", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $categories;

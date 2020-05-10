@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -19,53 +20,66 @@ class Category
     private $id;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(min="3", minMessage="Le type doit avoir au moins {{ limit }} caractères.")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(min="6", minMessage="La description doit avoir au moins {{ limit }} caractères.")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="category", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $image;
-
-    /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Environnement", inversedBy="categories")
      */
     private $environnement;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Portfolio", mappedBy="category", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $portfolios;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Blog", mappedBy="category")
      */
     private $blogs;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Contact", mappedBy="categories")
      */
     private $contacts;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message="Le slug n'a pas pu être effectuer.")
+     * @Assert\Length(min="3", minMessage="Le slug doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(min="5", minMessage="Le code de l'icone doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $icone;
 
     public function __construct()
     {
-        $this->image = new ArrayCollection();
         $this->portfolios = new ArrayCollection();
         $this->blogs = new ArrayCollection();
         $this->contacts = new ArrayCollection();
@@ -96,37 +110,6 @@ class Category
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getImage(): Collection
-    {
-        return $this->image;
-    }
-
-    public function addImage(Document $image): self
-    {
-        if (!$this->image->contains($image)) {
-            $this->image[] = $image;
-            $image->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Document $image): self
-    {
-        if ($this->image->contains($image)) {
-            $this->image->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getCategory() === $this) {
-                $image->setCategory(null);
-            }
-        }
 
         return $this;
     }

@@ -21,45 +21,58 @@ class Contact
     private $id;
 
     /**
+     * @Assert\Type("string")
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
+     * @Assert\Length(min="6", minMessage="Votre message doit avoir au moins {{ limit }} caractères.")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      */
     private $name;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Email(message="La valeur indiqué n'est pas un email valide.")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $email;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="contacts")
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $categories;
 
     /**
+     * @Assert\Type("string")
+     * @Assert\Length(min="6", minMessage="Votre message doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
 
     /**
+     * @Assert\Type("object")
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="contact", cascade={"persist","remove"})
      */
     private $document;
 
     /**
+     * @Assert\Type("datetime")
      * @ORM\Column(type="datetime")
      */
     private $contactedAt;
 
     /**
-     * @ORM\Column(type="text")
+     * @Assert\Type("string")
      * @Assert\NotBlank(message="Le champ ne doit pas être vide")
+     * @Assert\Length(min="10", minMessage="Votre message doit avoir au moins {{ limit }} caractères.")
+     * @ORM\Column(type="text")
      */
     private $message;
 
     /**
+     * @Assert\Type("bool")
      * @ORM\Column(type="boolean")
      */
     private $readed;
