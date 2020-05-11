@@ -36,15 +36,7 @@ class Portfolio
     private $description;
 
     /**
-     * TODO Changer ceci en OTO
-     * @Assert\Valid
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="portfolio", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $image;
-
-    /**
      * @Assert\Type("object")
-     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="portfolios")
      */
     private $category;
@@ -63,9 +55,14 @@ class Portfolio
      */
     private $slug;
 
+    /**
+     * @Assert\Type("object")
+     * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
+     */
+    private $image;
+
     public function __construct()
     {
-        $this->image = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -94,37 +91,6 @@ class Portfolio
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getImage(): Collection
-    {
-        return $this->image;
-    }
-
-    public function addImage(Document $image): self
-    {
-        if (!$this->image->contains($image)) {
-            $this->image[] = $image;
-            $image->setPortfolio($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Document $image): self
-    {
-        if ($this->image->contains($image)) {
-            $this->image->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getPortfolio() === $this) {
-                $image->setPortfolio(null);
-            }
-        }
 
         return $this;
     }
@@ -180,4 +146,17 @@ class Portfolio
 
         return $this;
     }
+
+    public function getImage(): ?Document
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Document $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
 }

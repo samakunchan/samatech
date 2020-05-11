@@ -2,6 +2,11 @@
 
 {% block title %}Edit Portfolio{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('css/admin/taginput') }}
+{% endblock %}
+
 {% block body %}
     <!-- PAGE HEADER -->
     <div class="page-header">
@@ -75,12 +80,13 @@
                             {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
                         </div>
                         <div class="form-group">
-                            {% for document in form.image %}
-                                <div class="previous-img-{{ loop.index -1 }}">
-                                    <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl ~ '.webp') }}" alt="Image" width="150">
-                                    {{ form_errors(document) }}
+                            {% if form.image.vars.data %}
+                                <div class="form-group">
+                                    <div class="previous-img">
+                                        <img src="{{ asset('uploads/images/' ~ form.image.vars.data.completeUrl ~ form.image.vars.data.ext) }}" alt="Image" width="150">
+                                    </div>
                                 </div>
-                            {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -94,19 +100,7 @@
 
 {% endblock %}
 {% block javascripts %}
-    <script>
-        document.querySelector('.edit-portfolio').textContent = '';
-        const div = document.createElement('div');
-        div.classList.add(`previous-portfolio-0`);
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.id = `portfolio_image_0`;
-        input.classList.add('form-control');
-        input.name = `portfolio[image][0][file]`;
-        div.appendChild(input);
-        div.appendChild(input);
-        document.querySelector('.edit-portfolio').appendChild(div);
-    </script>
+    {{ encore_entry_script_tags('js/admin/tag') }}
     <script src="https://cdn.tiny.cloud/1/6qd97lg5y99jsq2fp5obudoutdl0uwbsisp89bj8mkwsthmh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({

@@ -4,11 +4,11 @@
 {% block body %}
     <main class="d-flex">
         <aside class="col-lg-6" style="margin-top: 100px">
-            <img src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~ portfolio.image[0].ext) }}" alt="{{ portfolio.title }} Image" width="100%">
+            <img src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }} Image" width="100%">
         </aside>
         <section class="col-lg-6">
             <!--================ Start Banner Area =================-->
-            <section class="banner_area ">
+            <section class="banner_area">
                 <div class="banner_inner d-flex align-items-center">
                     <div class="container">
                         <div class="banner_content text-center">

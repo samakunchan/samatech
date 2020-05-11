@@ -13,24 +13,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+// TODO Faire absolument les images du portfolio en OTO sinon, ensuite dans le template du coté de l'aside gauche, faire en sorte de vérifier quand une image n'existe pas.
 
+// TODO meme chose pour /about.
+
+// TODO l'url /portfolio tout court doit exécuter une redirection vers la /home parce que je n'ai pas l'intention de faire exister /portfolio.
+
+// TODO Faire des fixtures pour les tests avec les https://placem.at/places comme images et lnr lnr-cog pour les icones.
+
+// TODO Mettre l'image en OTO et faire le setPhoto pour About.
+
+// TODO Faire les metas.
+
+// TODO Faire un logout
+
+// TODO Faire une extension des 2 bases sinon je ne pourrai pas faire de meta ou récolter les notifications
+
+// TODO Faire le cache comme la demo
+
+// TODO Trouver un moyen de provide jquery pour le taginput
 class ContactController extends AbstractController
 {
-    /**
-     * @Route("/admin/contact", defaults={"page": "1"}, methods={"GET"}, name="contact_index")
-     * @Route("/admin/contact/{page<[1-9]\d*>}", methods="GET", name="contact_index_paginated")
-     * @param ContactRepository $contactRepository
-     * @param int $page
-     * @return Response
-     */
-    public function index(ContactRepository $contactRepository, int $page): Response
-    {
-        return $this->render('contact/index.html.twig', [
-            'paginate_contacts' => $contactRepository->findLatest($page),
-            'unread' => $contactRepository->findBy(['readed' => false])
-        ]);
-    }
-
     /**
      * @Route("/contact", name="contact_new", methods={"GET","POST"})
      * @param Request $request
@@ -77,6 +80,21 @@ class ContactController extends AbstractController
     }
 
     /**
+     * @Route("/admin/contact", defaults={"page": "1"}, methods={"GET"}, name="contact_index")
+     * @Route("/admin/contact/{page<[1-9]\d*>}", methods="GET", name="contact_index_paginated")
+     * @param ContactRepository $contactRepository
+     * @param int $page
+     * @return Response
+     */
+    public function index(ContactRepository $contactRepository, int $page): Response
+    {
+        return $this->render('contact/index.html.twig', [
+            'paginate_contacts' => $contactRepository->findLatest($page),
+            'unread' => $contactRepository->findBy(['readed' => false])
+        ]);
+    }
+
+    /**
      * @Route("admin/contact/show/{id}", name="contact_show", methods={"GET"})
      * @param Contact $contact
      * @return Response
@@ -94,7 +112,7 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="contact_delete", methods={"DELETE"})
+     * @Route("admin/contact/delete/{id}", name="contact_delete", methods={"DELETE"})
      * @param Request $request
      * @param Contact $contact
      * @return Response
