@@ -150,19 +150,19 @@
             return false;
         });
 
-        document.addEventListener('click', function(event) {
-            var $rightSidebar = document.getElementsByClassName('right-sidebar')[0],
-                $chatPanel = document.getElementsByClassName('chat-panel')[0];
-            var isInsideContainer = $rightSidebar.contains( event.target ) || $chatPanel.contains(event.target);
-            if( !isInsideContainer ) {
-              document.body.classList.remove('right-sidebar-expand');
-              var toggle = document.getElementsByClassName('right-sidebar-toggle');
-              for( var i = 0; i < toggle.length; i++ ) {
-                toggle[i].classList.remove('active');
-              }
-              $chatPanel.hidden = 'hidden';
-            }
-        });
+        // document.addEventListener('click', function(event) {
+        //     var $rightSidebar = document.getElementsByClassName('right-sidebar')[0],
+        //         $chatPanel = document.getElementsByClassName('chat-panel')[0];
+        //     var isInsideContainer = $rightSidebar.contains( event.target ) || $chatPanel.contains(event.target);
+        //     if( !isInsideContainer ) {
+        //       document.body.classList.remove('right-sidebar-expand');
+        //       var toggle = document.getElementsByClassName('right-sidebar-toggle');
+        //       for( var i = 0; i < toggle.length; i++ ) {
+        //         toggle[i].classList.remove('active');
+        //       }
+        //       $chatPanel.hidden = 'hidden';
+        //     }
+        // });
 
         var el = $('[data-plugin="chat-sidebar"]');
         if( !el.length ) return;

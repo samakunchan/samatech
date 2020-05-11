@@ -7,7 +7,6 @@ use App\Form\PortfolioType;
 use App\Repository\CategoryRepository;
 use App\Repository\PortfolioRepository;
 use App\Services\FileService;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,21 +54,15 @@ class PortfolioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentsCollection = [$form->getData()->getImage()[0]];
-            foreach ($documentsCollection as $key => $result){
-                if ($result) {
-                    $data = $fileService->transformToWebP($result->getFile());
-                    $result->setCompleteUrl($data['filename']);
-                    $result->setFolder($data['folder']);
-                    $result->setPortfolio($portfolio);
-                    $result->setUpdatedAt(new DateTime('now'));
-                    $portfolio->addImage($result);
-                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
-                }
+            if ($portfolio->getImage()->getFile()) {
+                $fileService->moveToFolderAndModifyToWebP(
+                    $this->getParameter($portfolio->getImage()->getFolder()),
+                    $portfolio->getImage()->getExt(),
+                    $portfolio->getImage()->getCompleteUrl()
+                );
+                $portfolio->getImage()->setExt('.webp');
             }
-
             $entityManager = $this->getDoctrine()->getManager();
-            $portfolio->setSlug($form->getData()->getTitle());
             $entityManager->persist($portfolio);
             $entityManager->flush();
 
@@ -95,23 +88,22 @@ class PortfolioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $documentsCollection = [$form->getData()->getImage()];
-            foreach ($documentsCollection as $document) {
-                foreach ($document as $image) {
-                    if ($image && $image->getFile()) {
-                        $dataEdit = $fileService->transformToWebP($image->getFile());
-                        $image->setCompleteUrl($dataEdit['filename']);
-                        $image->setPortfolio($portfolio);
-                        $image->setFolder('images');
-                        $portfolio->addImage($image);
-                        if ($image->getTempFileName()) {
-                            $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
-                        } else {
-                            $image->setUpdatedAt(new DateTime('now'));
-                            $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
-                        }
-                    }
+            if ($portfolio->getImage()->getFile()) {
+                if ($portfolio->getImage()->getTempFileName()) {
+                    $fileService->uploadFolder(
+                        $this->getParameter($portfolio->getImage()->getFolder()),
+                        // Je substr parce que les ext sont comme ça ".png" et j'analyse juste "png" pas le point
+                        substr($portfolio->getImage()->getExt(), 1),
+                        $portfolio->getImage()->getCompleteUrl(),
+                        $portfolio->getImage()->getTempFileName().'.webp');
+                } else {
+                    $fileService->moveToFolderAndModifyToWebP(
+                        $this->getParameter($portfolio->getImage()->getFolder()),
+                        $portfolio->getImage()->getExt(),
+                        $portfolio->getImage()->getCompleteUrl()
+                    );
                 }
+                $portfolio->getImage()->setExt('.webp');
             }
             $this->getDoctrine()->getManager()->flush();
 
@@ -133,9 +125,11 @@ class PortfolioController extends AbstractController
     public function delete(Request $request, Portfolio $portfolio): Response
     {
         if ($this->isCsrfTokenValid('delete'.$portfolio->getId(), $request->request->get('_token'))) {
-            $image = $this->getParameter($portfolio->getImage()[0]->getFolder()).'/'.$portfolio->getImage()[0]->getCompleteUrl();
-            if (file_exists($image.'.webp')) {
-                unlink($image.'.webp');
+            if ($portfolio->getImage() !== null) {
+                $image = $this->getParameter($portfolio->getImage()->getFolder()).'/'.$portfolio->getImage()->getCompleteUrl();
+                if (file_exists($image.'.webp')) {
+                    unlink($image.'.webp');
+                }
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($portfolio);

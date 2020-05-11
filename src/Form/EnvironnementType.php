@@ -6,6 +6,8 @@ use App\Entity\Environnement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EnvironnementType extends AbstractType
@@ -21,6 +23,14 @@ class EnvironnementType extends AbstractType
                 'required' => false,
                 'label' => false,
             ])
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                /** @var Environnement */
+                $categories = $event->getData()->getCategories();
+                foreach ($categories as $category) {
+                    $category->setSlug($category->getType());
+                    $category->setEnvironnement($event->getData());
+                }
+            })
         ;
     }
 

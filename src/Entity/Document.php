@@ -34,19 +34,6 @@ class Document
     private $updatedAt;
 
     /**
-     * @Assert\File(
-     *     maxSize = "1800k",
-     *     maxSizeMessage="La taille du fichier est élévé: {{ size }} {{ suffix }}. Maximum: {{ limit }} {{ suffix }}",
-     *     mimeTypes = {"image/png", "image/jpeg", "image/jpg, application/pdf", "application/x-pdf", "text/plain"},
-     *     mimeTypesMessage = "Seul les fichiers de type {{ types }} sont autorisés."
-     * )
-     * @var UploadedFile $file
-     */
-    private $file;
-
-    private $tempFileName;
-
-    /**
      * @Assert\Type("string")
      * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @Assert\Choice({"images", "pdf", "non-repertorier"}, message="Veuillez choisir parmis les valeurs autorisés: {{ choices }}")
@@ -56,7 +43,6 @@ class Document
 
     /**
      * @Assert\Type("string")
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -85,13 +71,6 @@ class Document
     /**
      * @Assert\Type("object")
      * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="App\Entity\Portfolio", inversedBy="image")
-     */
-    private $portfolio;
-
-    /**
-     * @Assert\Type("object")
-     * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="document")
      */
     private $contact;
@@ -103,6 +82,19 @@ class Document
      * @ORM\Column(type="string", length=255)
      */
     private $ext;
+
+    /**
+     * @Assert\File(
+     *     maxSize = "1800k",
+     *     maxSizeMessage="La taille du fichier est élévé: {{ size }} {{ suffix }}. Maximum: {{ limit }} {{ suffix }}",
+     *     mimeTypes = {"image/png", "image/jpeg", "image/jpg, application/pdf", "application/x-pdf", "text/plain"},
+     *     mimeTypesMessage = "Seul les fichiers de type {{ types }} sont autorisés.",
+     * )
+     * @var UploadedFile $file
+     */
+    private $file;
+
+    private $tempFileName;
 
     /**
      * @return mixed
@@ -218,18 +210,6 @@ class Document
     public function setServiceImage(?Service $serviceImage): self
     {
         $this->serviceImage = $serviceImage;
-
-        return $this;
-    }
-
-    public function getPortfolio(): ?Portfolio
-    {
-        return $this->portfolio;
-    }
-
-    public function setPortfolio(?Portfolio $portfolio): self
-    {
-        $this->portfolio = $portfolio;
 
         return $this;
     }

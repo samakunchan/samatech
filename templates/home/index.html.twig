@@ -85,16 +85,16 @@
                             <div class="portfolio_box">
                                 <div class="single_portfolio"></div>
                                 <div class="single_portfolio">
-                                    {% if portfolio.image.count is same as(0) %}
-                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="http://placehold.it/500x500" alt="{{ portfolio.title }} image">
-                                    {% else %}
-                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~ portfolio.image[0].ext) }}" alt="{{ portfolio.title }}">
+                                    {% if portfolio.image %}
+                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }}">
                                         <div class="overlay"></div>
-                                        <a href="{{ asset('uploads/'~ portfolio.image[0].folder ~'/'~ portfolio.image[0].completeUrl~ portfolio.image[0].ext) }}" class="img-gal">
+                                        <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal">
                                             <div class="icon">
                                                 <span class="lnr lnr-cross"></span>
                                             </div>
                                         </a>
+                                    {% else %}
+                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="http://placehold.it/500x500" alt="{{ portfolio.title }} image">
                                     {% endif %}
                                 </div>
                                 <div class="short_info">
