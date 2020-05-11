@@ -23,7 +23,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.environnement = :val')
-            ->setParameter('val', '4')
+            ->setParameter('val', '3')
             ->getQuery()
             ->getResult()
             ;

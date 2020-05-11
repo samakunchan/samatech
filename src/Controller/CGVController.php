@@ -9,13 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/cgv")
- */
 class CGVController extends AbstractController
 {
     /**
-     * @Route("/new", name="cgv_new", methods={"GET","POST"})
+     * @Route("admin/cgv/new", name="cgv_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -41,7 +38,7 @@ class CGVController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="cgv_show", methods={"GET"})
+     * @Route("/cgv/{slug}", name="cgv_show", methods={"GET"})
      * @param CGV $cGV
      * @return Response
      */
@@ -53,7 +50,7 @@ class CGVController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{slug}", name="cgv_edit", methods={"GET","POST"})
+     * @Route("admin/cgv/edit/{slug}", name="cgv_edit", methods={"GET","POST"})
      * @param Request $request
      * @param CGV $cGV
      * @return Response

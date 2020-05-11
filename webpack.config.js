@@ -42,7 +42,7 @@ Encore
 
     .addEntry("js/admin/theme", "./assets/admin/js/theme.js")
     .addEntry("js/admin/bootstrap", "./assets/admin/plugins/bootstrap/dist/js/bootstrap.min.js")
-    .addEntry("js/admin/admin", "./assets/admin/js/admin.js")
+    .addEntry("js/admin/tag", "./assets/admin/js/tag.js")
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
@@ -59,7 +59,7 @@ Encore
      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
-    .autoProvidejQuery()
+    // .autoProvidejQuery()
     .autoProvideVariables({
         "window.Bloodhound": require.resolve('bloodhound-js'),
         "jQuery.tagsinput": "bootstrap-tagsinput"
