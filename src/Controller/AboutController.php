@@ -28,20 +28,14 @@ class AboutController extends AbstractController
         $form = $this->createForm(AboutType::class, $about);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            $documentsCollection = [$form->getData()->getDocuments()[0]];
-            foreach ($documentsCollection as $document) {
-                if ($document->getFile()) {
-                    $dataEdit = $fileService->transformToWebP($document->getFile());
-                    $document->setCompleteUrl($dataEdit['filename']);
-                    $document->setAbout($about);
-                    $document->setUpdatedAt(new DateTime('now'));
-                    $document->setFolder('images');
-                    $document->setExt('.webp');
-                    $about->addDocument($document);
-                    if ($document->getTempFileName()) {
-                        $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $document->getTempFileName());
-                    }
+            if ($about->getImage()->getFile()) {
+                if ($about->getImage()->getTempFileName()) {
+                    $fileService->uploadFolder($this->getParameter($about->getImage()->getFolder()), $about->getImage()->getExt(), $about->getImage()->getCompleteUrl(),$about->getImage()->getTempFileName().'.webp');
+                } else {
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($about->getImage()->getFolder()), $about->getImage()->getExt(), $about->getImage()->getCompleteUrl()
+                    );
                 }
+                $about->getImage()->setExt('.webp');
             }
             $about->setUpdatedAt(new DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
@@ -57,6 +51,6 @@ class AboutController extends AbstractController
      */
     public function show(AboutRepository $aboutRepository)
     {
-        return $this->render('about/show.html.twig', ['data' => $aboutRepository->findOneBy(['slug'=> 'a-propos-de-moi'])]);
+        return $this->render('about/show.html.twig', ['about' => $aboutRepository->findOneBy(['slug'=> 'a-propos-de-moi'])]);
     }
 }

@@ -14,15 +14,14 @@
         </div>
         <div class="col-lg-6">
             <div class="from-group">
-                {{ form_errors(form.documents) }}
-                {{ form_label(form.documents, 'Image') }}
-                {% for document in form.documents %}
-                    {{ form_errors(document) }}
-                    <div class="previous-img-{{ loop.index -1 }}">
-                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl) }}" alt="Image" width="300">
+                {{ form_errors(form.image) }}
+                {{ form_label(form.image, 'Image') }}
+                {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
+                {% if form.image.vars.data %}
+                    <div class="previous-img">
+                        <img src="{{ asset('uploads/'~ form.image.vars.data.folder ~ '/' ~ form.image.vars.data.completeUrl ~ form.image.vars.data.ext) }}" alt="{{ form.image.vars.data.title }}" width="300">
                     </div>
-                {% endfor %}
-                {{ form_widget(form.documents, { 'attr': {'class': 'form-control'} }) }}
+                {% endif %}
             </div>
         </div>
         <button type="submit" class="btn my-4 primary_btn">{{ button_label|default('Mettre à jour ton profil') }}</button>

@@ -49,12 +49,6 @@ class Document
     private $title;
 
     /**
-     * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="documents")
-     */
-    private $about;
-
-    /**
      * @Assert\Type("object")
      * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="document")
@@ -131,18 +125,6 @@ class Document
     public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getAbout(): ?About
-    {
-        return $this->about;
-    }
-
-    public function setAbout(?About $about): self
-    {
-        $this->about = $about;
 
         return $this;
     }

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
@@ -12,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class About
 {
+    public const DEFAULT_SLUG = 'a propos de moi';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -36,11 +35,6 @@ class About
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="about", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $documents;
-
-    /**
      * @Assert\Type("datetime")
      * @ORM\Column(type="datetime")
      */
@@ -54,10 +48,11 @@ class About
      */
     private $slug;
 
-    public function __construct()
-    {
-        $this->documents = new ArrayCollection();
-    }
+    /**
+     * @Assert\Type("object")
+     * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
+     */
+    private $image;
 
     public function getId(): ?int
     {
@@ -88,37 +83,6 @@ class About
         return $this;
     }
 
-    /**
-     * @return Collection|Document[]
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
-
-    public function addDocument(Document $image): self
-    {
-        if (!$this->documents->contains($image)) {
-            $this->documents[] = $image;
-            $image->setAbout($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDocument(Document $documents): self
-    {
-        if ($this->documents->contains($documents)) {
-            $this->documents->removeElement($documents);
-            // set the owning side to null (unless already changed)
-            if ($documents->getAbout() === $this) {
-                $documents->setAbout(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
@@ -141,6 +105,18 @@ class About
         $cleanText = preg_replace('/\W+/', '-', $slug);
         $cleanText = strtolower(trim($cleanText, '-'));
         $this->slug = $cleanText;
+
+        return $this;
+    }
+
+    public function getImage(): ?Document
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Document $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
