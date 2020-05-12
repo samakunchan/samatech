@@ -7,6 +7,7 @@ use App\Form\PortfolioType;
 use App\Repository\CategoryRepository;
 use App\Repository\PortfolioRepository;
 use App\Services\FileService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class PortfolioController extends AbstractController
      * @Route("/portfolio/{slug}", name="portfolio_show", methods={"GET"})
      * @param Portfolio $portfolio
      * @return Response
+     * @Cache(smaxage=60)
      */
     public function show(Portfolio $portfolio): Response
     {

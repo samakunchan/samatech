@@ -8,6 +8,7 @@ use App\Repository\AboutRepository;
 use App\Services\FileService;
 use DateTime;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,6 +49,7 @@ class AboutController extends AbstractController
      * @Route("/a-propos-de-moi", name="about")
      * @param AboutRepository $aboutRepository
      * @return Response
+     * @Cache(smaxage=60)
      */
     public function show(AboutRepository $aboutRepository)
     {
