@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="keywords" content="Samakunchan Technology, Blog,{% for category in categories %} {{ category.type}}, {% endfor%}{% for post in posts_paginated.results %}{{ post.title }}, {% endfor %}">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="Cette page est destiné aux partages de mes connaissances, ainsi que les informations de communication.">
+    <meta itemprop="description" content="Cette page est destiné aux partages de mes connaissances, ainsi que les informations de communication.">
+    <meta property="og:description" content="Cette page est destiné aux partages de mes connaissances, ainsi que les informations de communication.">
+    <meta name="twitter:description" content="Cette page est destiné aux partages de mes connaissances, ainsi que les informations de communication.">
+{% endblock %}
+
 {% block title %}Blog listes - {{ parent() }}{% endblock %}
 {% block stylesheets %}
 {{ parent() }}

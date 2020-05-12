@@ -57,15 +57,17 @@ class PortfolioType extends AbstractType
             ])
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /** @var Portfolio */
-                if ($event->getData()->getImage()->getFile() !== null) {
+                if ($event->getData()->getImage() !== null) {
                     $image = $event->getData()->getImage();
-                    $data = $this->fileService->transformToWebP($image->getFile());
-                    $image->setCompleteUrl($data['filename']);
-                    $image->setFolder($data['folder']);
-                    $image->setExt($data['ext']);
-                    $image->setTitle('Image portfolio '. $event->getData()->getTitle());
-                    $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
-                    $event->getData()->setImage($image);
+                    if ($image->getFile()) {
+                        $data = $this->fileService->transformToWebP($image->getFile());
+                        $image->setCompleteUrl($data['filename']);
+                        $image->setFolder($data['folder']);
+                        $image->setExt($data['ext']);
+                        $image->setTitle('Image portfolio '. $event->getData()->getTitle());
+                        $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
+                        $event->getData()->setImage($image);
+                    }
                 }
                 $event->getData()->setSlug($event->getData()->getTitle());
             })

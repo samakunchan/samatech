@@ -3,6 +3,38 @@
     <head>
         <meta charset="UTF-8">
         <link rel="icon" href="{{ asset('build/assets/media/images/favicon.546a996a.png') }}" type="image/png">
+        <meta name="author" content="Samakunchan Technology">
+        <meta name="publisher" content="Samakunchan Technology">
+        <meta name="headline" content="Samakunchan Technology">
+        <meta name="mainEntityOfPage" content="https://samakunchan-technology.com/">
+        <meta name="image" content="https://samakunchan-technology.com/{{ asset('build/assets/media/images/logo.6e097222.png') }}">
+
+        <meta itemprop="name" content="Samakunchan Technology - Développeur Web Freelance">
+        <meta itemprop="url" content="https://my-services.samakunchan.fr/">
+        <meta itemprop="author" content="Samakunchan Technology">
+        <meta itemprop="publisher" content="Samakunchan Technology">
+        <meta itemprop="headline" content="Samakunchan Technology">
+        <meta itemprop="mainEntityOfPage" content="https://samakunchan-technology.com/">
+        <meta itemprop="image" content="https://samakunchan-technology.com/{{ asset('build/assets/media/images/logo.6e097222.png') }}">
+
+        <!-- Facebook Open Graph data https://developers.facebook.com/ to use debogger -->
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:title" content="Samakunchan Technology - Développeur Web Freelance">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://samakunchan-technology.com/">
+        <meta property="og:image" content="https://samakunchan-technology.com/{{ asset('build/assets/media/images/logo.6e097222.png') }}">
+        <meta property="og:site_name" content="Samakunchan Technology">
+
+        <!-- Twitter Card data -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@Samakunchan">
+        <meta name="twitter:creator" content="@Samakunchan">
+        <meta name="twitter:title" content="Samakunchan Technology - Développeur Web Freelance">
+        <!-- Twitter Summary card images must be at least 200x200px -->
+        <meta name="twitter:image" content="https://samakunchan-technology.com/{{ asset('build/assets/media/images/logo.6e097222.png') }}">
+        {% block metakeyword %}{% endblock %}
+        {% block metadescription %}{% endblock %}
+
         <title>{% block title %}Samakunchan Technology{% endblock %}</title>
         {{ encore_entry_link_tags('scss/style')}}
         {{ encore_entry_link_tags('css/bootstrap')}}
@@ -44,20 +76,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('service_index') }}">Services</a>
                                 </li>
-                                <li class="nav-item submenu dropdown">
-                                    <a href="{{ path('blog_show_list') }}"
-                                       class="nav-link dropdown-toggle"
-                                       data-toggle="dropdown"
-                                       role="button"
-                                       aria-haspopup="true"
-                                       aria-expanded="false">
-                                        Blog
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ path('blog_show_list') }}">Blog</a>
-                                        </li>
-                                    </ul>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('blog_show_list') }}">Blog</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('contact_new') }}">Contact</a>

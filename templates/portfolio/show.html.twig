@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="keywords" content="Samakunchan Technology, {{ portfolio.title }}, {% for tag in portfolio.tags  %}{{ tag }}, {% endfor %}">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="{{ portfolio.description | slice(0, 150) }}">
+    <meta itemprop="description" content="{{ portfolio.description | slice(0, 150) }}">
+    <meta property="og:description" content="{{ portfolio.description | slice(0, 150) }}">
+    <meta name="twitter:description" content="{{ portfolio.description | slice(0, 150) }}">
+{% endblock %}
+
 {% block title %}Portfolio - {{ parent() }}{% endblock %}
 {% block body %}
     <main class="d-flex">

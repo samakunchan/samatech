@@ -87,10 +87,10 @@ class PortfolioController extends AbstractController
         $form = $this->createForm(PortfolioType::class, $portfolio);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($portfolio->getImage()->getFile()) {
-                if ($portfolio->getImage()->getTempFileName()) {
+            if ($portfolio->getImage() !== null) {
+                if ($portfolio->getImage()->getTempFileName() && $portfolio->getImage()->getFile()) {
                     $fileService->uploadFolder($this->getParameter($portfolio->getImage()->getFolder()), $portfolio->getImage()->getExt(), $portfolio->getImage()->getCompleteUrl(),$portfolio->getImage()->getTempFileName().'.webp');
-                } else {
+                } elseif ($portfolio->getImage()->getFile()) {
                     $fileService->moveToFolderAndModifyToWebP($this->getParameter($portfolio->getImage()->getFolder()), $portfolio->getImage()->getExt(), $portfolio->getImage()->getCompleteUrl()
                     );
                 }
