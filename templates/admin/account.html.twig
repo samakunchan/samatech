@@ -1,0 +1,64 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-settings bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>Mon compte</h5>
+                        <span>Mes informations personnels, quelques mots à propos de moi ect...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('admin') }}"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ path('admin') }}">Paramètre</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Mon compte</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- /PAGE HEADER -->
+    <div class="row">
+        <div class="col-md-6">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-warning alert-dismissible fade show">
+                {{ message }}
+            </div>
+        {% endfor %}
+            <div class="card">
+                <div class="card-header"><h3>Informations personnels</h3></div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'id': 'form'}}) }}
+                    <div class="form-group">
+                        {{ form_errors(form.firstname) }}
+                        {{ form_label(form.firstname, 'Prénom') }}
+                        {{ form_widget(form.firstname, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_errors(form.lastname) }}
+                        {{ form_widget(form.lastname, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_errors(form.email) }}
+                        {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-primary" href="{{ path('reset_password') }}">Modifier le mot de passe</a>
+                    </div>
+                    <button type="submit" class="btn btn-block my-4 primary_btn">{{ button_label|default('Mettre à jour ton profil') }}</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
