@@ -1,10 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="keywords" content="Samakunchan Technology, contact, devis, projet, collaboration">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="C'est ma page de contact. N'hésitez pas à faire appel à mes services. Du lundi au Vendredi:  9h00 à 18h00. Email: cedric.badjah@gmail.com">
+    <meta itemprop="description" content="C'est ma page de contact. N'hésitez pas à faire appel à mes services. Du lundi au Vendredi:  9h00 à 18h00. Email: cedric.badjah@gmail.com">
+    <meta property="og:description" content="C'est ma page de contact. N'hésitez pas à faire appel à mes services. Du lundi au Vendredi:  9h00 à 18h00. Email: cedric.badjah@gmail.com">
+    <meta name="twitter:description" content="C'est ma page de contact. N'hésitez pas à faire appel à mes services. Du lundi au Vendredi:  9h00 à 18h00. Email: cedric.badjah@gmail.com">
+{% endblock %}
+
 {% block title %}Me Contacter - {{ parent() }}{% endblock %}
 
 {% block body %}
     <h1>Create new Contact</h1>
-
 
     <main>
         <!--================ Start Banner Area =================-->

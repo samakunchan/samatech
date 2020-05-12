@@ -1,5 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="dateModified" content="{{ blog.updatedAt | date }}">
+    <meta itemprop="dateModified" content="{{ blog.updatedAt | date }}">
+    <meta name="keywords" content="Samakunchan Technology, {{ blog.title }}, {% endfor%}{% for tag in blog.tags %} {{ tag.name }},{% endfor%}">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="{{ blog.content | slice(0, 150) }}">
+    <meta itemprop="description" content="{{ blog.content | slice(0, 150) }}">
+    <meta property="og:description" content="{{ blog.content | slice(0, 150) }}">
+    <meta name="twitter:description" content="{{ blog.content | slice(0, 150) }}">
+{% endblock %}
+
 {% block title %}Blog - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
@@ -38,7 +51,7 @@
                                 <div class="col-lg-12">
                                     <div class="feature-img text-center overflow-hidden" style="height: 20em; overflow: hidden">
                                         {% if blog.mainImage is not empty %}
-                                            <img class="img-fluid w-100" src="{{ asset('uploads/images/' ~blog.mainImage.completeUrl~blog.mainImage.ext) }}" alt="{{ blog.title }} image">
+                                            <img class="img-fluid w-100" src="{{ asset('uploads/images/' ~ blog.mainImage.completeUrl~blog.mainImage.ext) }}" alt="{{ blog.title }} image">
                                         {% else %}
                                             <img class="img-fluid w-100" src="http://placehold.it/300x300" alt="{{ blog.title }} image">
                                         {% endif %}

@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="keywords" content="Samakunchan Technology, Catégorie, {% for category in categories %}{{ category.type }}, {% endfor %}">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="Cette page permet de voir l'ensemble des catégories de la page blog. Ceci permet une meilleur navigation entre les différentes page et permet de trouver le plus rapidement possible un article.">
+    <meta itemprop="description" content="Cette page permet de voir l'ensemble des catégories de la page blog. Ceci permet une meilleur navigation entre les différentes page et permet de trouver le plus rapidement possible un article.">
+    <meta property="og:description" content="Cette page permet de voir l'ensemble des catégories de la page blog. Ceci permet une meilleur navigation entre les différentes page et permet de trouver le plus rapidement possible un article.">
+    <meta name="twitter:description" content="Cette page permet de voir l'ensemble des catégories de la page blog. Ceci permet une meilleur navigation entre les différentes page et permet de trouver le plus rapidement possible un article.">
+{% endblock %}
+
 {% block title %}Categories - {{ parent() }}{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <style>

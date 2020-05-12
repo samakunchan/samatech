@@ -1,124 +1,135 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="keywords" content="Samakunchan Technology, accueil, {% for portfolio in portfolios %}{{ portfolio.title }}, {% for tag in portfolio.tags  %}{{ tag }}, {% endfor %}{% endfor %}{% for service in services %}{{ service.title }}, {% endfor %}">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="Samakunchan Technology est mon site portail de service de création de site web. Rapide et disponible. Devis et diagnostic gratuit. Contactez-pour plus d'infos">
+    <meta itemprop="description" content="Samakunchan Technology est mon site portail de service de création de site web. Rapide et disponible. Devis et diagnostic gratuit. Contactez-pour plus d'infos">
+    <meta property="og:description" content="Samakunchan Technology est mon site portail de service de création de site web. Rapide et disponible. Devis et diagnostic gratuit. Contactez-pour plus d'infos">
+    <meta name="twitter:description" content="Samakunchan Technology est mon site portail de service de création de site web. Rapide et disponible. Devis et diagnostic gratuit. Contactez-pour plus d'infos">
+{% endblock %}
+
 {% block title %}Accueil - {{ parent() }}{% endblock %}
 
 {% block body %}
-<main>
-    <!--================ Start Home Banner Area =================-->
-    <section class="home_banner_area">
-        <div class="banner_inner">
+    <main>
+        <!--================ Start Home Banner Area =================-->
+        <section class="home_banner_area">
+            <div class="banner_inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="banner_content">
+                                <h3 class="text-uppercase">Bonjour</h3>
+                                <h1 class="text-uppercase">Je suis Cédric Badjah</h1>
+                                <h5 class="text-uppercase">Developpeur Web</h5>
+                                <div class="d-flex align-items-center">
+                                    <a class="primary_btn" href="{{ path('contact_new') }}"><span>Travailler avec moi</span></a>
+                                    <a class="primary_btn tr-bg" href="{{ path('about') }}"><span>En savoir plus sur moi</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="home_right_img">
+                                <img class="" src="{{ asset('build/assets/media/images/about-us.52bec8f6.png') }}" alt="Image de la landing page">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ End Home Banner Area =================-->
+
+        <!--================ Start Service Area =================-->
+        <section class="features_area">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <div class="main_title">
+                            <h2 class="primary-color">Mes services</h2>
+                            <p>
+                                <q>Il n'y a pas de service auquel l'homme se porte avec plus de satisfaction que de donner un conseil. </q><br>
+                                Proverbe de Axel Oxenstiern - Réflexions et maximes (1645)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row feature_inner">
+                    {% for service in services %}
+                        <div class="col-lg-3 col-md-6">
+                            <div class="feature_item">
+                                {% if service.icone %}
+                                    <img src="{{ asset('uploads/' ~ service.icone.folder ~'/'~ service.icone.completeUrl~ service.icone.ext ) }}" alt="{{ service.icone.title }}">
+                                {% else %}
+                                    <img src="http://placeimg.com/150/150/tech" alt="{{ service.icone.title }} temporaire">
+                                {% endif %}
+                                <h4>{{ service.title }}</h4>
+                                <p>{{ service.description }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!--================ End Service Area =================-->
+        <!--================Start Portfolio Area =================-->
+        <section class="portfolio_area" id="portfolio">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-7">
-                        <div class="banner_content">
-                            <h3 class="text-uppercase">Bonjour</h3>
-                            <h1 class="text-uppercase">Je suis Cédric Badjah</h1>
-                            <h5 class="text-uppercase">Developpeur Web</h5>
-                            <div class="d-flex align-items-center">
-                                <a class="primary_btn" href="{{ path('contact_new') }}"><span>Bosser avec moi</span></a>
-                                <a class="primary_btn tr-bg" href="{{ path('about') }}"><span>En savoir plus sur moi</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="home_right_img">
-                            <img class="" src="{{ asset('build/assets/media/images/about-us.52bec8f6.png') }}" alt="Image de la landing page">
+                    <div class="col-lg-12">
+                        <div class="main_title text-left">
+                            <h2>quality work <br> Recently done project </h2>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-    <!--================ End Home Banner Area =================-->
+                <div class="filters portfolio-filter">
+                    <ul>
+                        <li class="active" data-filter="*">all</li>
+                        {% for category in categories %}
+                            <li data-filter=".{{ category.type | lower }}">{{ category.type | title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
-    <!--================ Start Service Area =================-->
-    <section class="features_area">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <div class="main_title">
-                        <h2 class="primary-color">Mes services</h2>
-                        <p>
-                            <q>Il n'y a pas de service auquel l'homme se porte avec plus de satisfaction que de donner un conseil. </q><br>
-                            Proverbe de Axel Oxenstiern - Réflexions et maximes (1645)
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row feature_inner">
-                {% for service in services %}
-                    <div class="col-lg-3 col-md-6">
-                        <div class="feature_item">
-                            {% if service.icone %}
-                                <img src="{{ asset('uploads/' ~ service.icone.folder ~'/'~ service.icone.completeUrl~ service.icone.ext ) }}" alt="{{ service.icone.title }}">
-                            {% else %}
-                                <img src="http://placeimg.com/150/150/tech" alt="{{ service.icone.title }} temporaire">
-                            {% endif %}
-                            <h4>{{ service.title }}</h4>
-                            <p>{{ service.description }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    <!--================ End Service Area =================-->
-    <!--================Start Portfolio Area =================-->
-    <section class="portfolio_area" id="portfolio">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="main_title text-left">
-                        <h2>quality work <br> Recently done project </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="filters portfolio-filter">
-                <ul>
-                    <li class="active" data-filter="*">all</li>
-                    {% for category in categories %}
-                        <li data-filter=".{{ category.type | lower }}">{{ category.type | title }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="filters-content">
-                <div class="row portfolio-grid justify-content-center">
-                    {% for portfolio in portfolios %}
-                        <div class="col-lg-4 col-md-6 all {{ portfolio.category.type | lower }}">
-                            <div class="portfolio_box">
-                                <div class="single_portfolio"></div>
-                                <div class="single_portfolio">
-                                    {% if portfolio.image %}
-                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }}">
-                                        <div class="overlay"></div>
-                                        <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal">
-                                            <div class="icon">
-                                                <span class="lnr lnr-cross"></span>
-                                            </div>
-                                        </a>
-                                    {% else %}
-                                        <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="http://placehold.it/500x500" alt="{{ portfolio.title }} image">
-                                    {% endif %}
-                                </div>
-                                <div class="short_info">
-                                    <h4>
-                                        <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}">{{ portfolio.title }}</a>
-                                    </h4>
-                                    <p>
-                                        {% for tag in portfolio.tags %}
-                                            {{ tag }},
-                                        {% endfor %}
-                                    </p>
+                <div class="filters-content">
+                    <div class="row portfolio-grid justify-content-center">
+                        {% for portfolio in portfolios %}
+                            <div class="col-lg-4 col-md-6 all {{ portfolio.category.type | lower }}">
+                                <div class="portfolio_box">
+                                    <div class="single_portfolio"></div>
+                                    <div class="single_portfolio">
+                                        {% if portfolio.image %}
+                                            <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }}">
+                                            <div class="overlay"></div>
+                                            <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal">
+                                                <div class="icon">
+                                                    <span class="lnr lnr-cross"></span>
+                                                </div>
+                                            </a>
+                                        {% else %}
+                                            <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="http://placehold.it/500x500" alt="{{ portfolio.title }} image">
+                                        {% endif %}
+                                    </div>
+                                    <div class="short_info">
+                                        <h4>
+                                            <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}">{{ portfolio.title }}</a>
+                                        </h4>
+                                        <p>
+                                            {% for tag in portfolio.tags %}
+                                                {{ tag }},
+                                            {% endfor %}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
 
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!--================End Portfolio Area =================-->
-</main>
+        </section>
+        <!--================End Portfolio Area =================-->
+    </main>
 {% endblock %}

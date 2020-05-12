@@ -1,5 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block metakeyword %}
+    <meta name="keywords" content="Introduction, présentation, moi, Samakunchan Technology, Cédric, Badjah">
+{% endblock %}
+
+{% block metadescription %}
+    <meta name="description" content="{{ about.description | slice(0, 150) }}">
+    <meta itemprop="description" content="{{ about.description | slice(0, 150) }}">
+    <meta property="og:description" content="{{ about.description | slice(0, 150) }}">
+    <meta name="twitter:description" content="{{ about.description | slice(0, 150) }}">
+{% endblock %}
+
 {% block title %}A propos - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
