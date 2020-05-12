@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,7 @@ class CategoryController extends AbstractController
      * @Route("/categories", name="category")
      * @param CategoryRepository $categoryRepository
      * @return Response
+     * @Cache(smaxage=60)
      */
     public function index(CategoryRepository $categoryRepository)
     {

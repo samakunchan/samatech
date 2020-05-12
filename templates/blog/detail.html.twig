@@ -3,7 +3,7 @@
 {% block metakeyword %}
     <meta name="dateModified" content="{{ blog.updatedAt | date }}">
     <meta itemprop="dateModified" content="{{ blog.updatedAt | date }}">
-    <meta name="keywords" content="Samakunchan Technology, {{ blog.title }}, {% endfor%}{% for tag in blog.tags %} {{ tag.name }},{% endfor%}">
+    <meta name="keywords" content="Samakunchan Technology, {{ blog.title }}, {% for tag in blog.tags %} {{ tag.name }},{% endfor%}">
 {% endblock %}
 
 {% block metadescription %}

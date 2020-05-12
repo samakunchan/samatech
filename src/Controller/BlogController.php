@@ -11,6 +11,7 @@ use App\Services\FileService;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,7 @@ class BlogController extends AbstractController
      * @param int $page
      * @param TagRepository $tagRepository
      * @return Response
+     * @Cache(smaxage=60)
      */
     public function list(Request $request, BlogRepository $blogRepository, CategoryRepository $categoryRepository, int $page, TagRepository $tagRepository): Response
     {

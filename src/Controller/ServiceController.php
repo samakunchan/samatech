@@ -7,6 +7,7 @@ use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
 use App\Services\FileService;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ class ServiceController extends AbstractController
      * @Route("/services", name="service_index", methods={"GET"})
      * @param ServiceRepository $serviceRepository
      * @return Response
+     * @Cache(smaxage=60)
      */
     public function show(ServiceRepository $serviceRepository): Response
     {

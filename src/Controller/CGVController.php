@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CGV;
 use App\Form\CGVType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class CGVController extends AbstractController
      * @Route("admin/cgv/new", name="cgv_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
+     * @Cache(smaxage=60)
      */
     public function new(Request $request): Response
     {
