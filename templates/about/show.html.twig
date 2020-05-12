@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}A propos - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .img-perso-size{
+            width: 700px;
+            height: 700px;
+            object-fit: cover
+        }
+    </style>
+{% endblock %}
 {% block body %}
 <main>
     <!--================ Start Banner Area =================-->
@@ -19,28 +29,34 @@
     </section>
     <!--================ End Banner Area =================-->
 
-    <!--================ Start About Us Area =================-->
-    <section class="about_area section_gap">
-        <div class="container">
-            <div class="row justify-content-start align-items-center">
-                <div class="col-lg-5">
-                    <div class="about_img">
-                        <img class="single-gallery-image" src="{{ asset('uploads/' ~ data.documents[0].folder ~ '/' ~ data.documents[0].completeUrl) }}" alt="Ma photo" style="width: 700px; height:
-                        700px;
-                        object-fit: cover">
+    {% if about %}
+        <!--================ Start About Us Area =================-->
+        <section class="about_area section_gap">
+            <div class="container">
+                <div class="row justify-content-start align-items-center">
+                    <div class="col-lg-5">
+                        <div class="about_img">
+                            {% if about.image %}
+                                <img class="single-gallery-image img-perso-size" src="{{ asset('uploads/' ~ about.image.folder ~ '/' ~ about.image.completeUrl~ about.image.ext) }}"
+                                     alt="{{ about.image.title }}">
+                            {% else %}
+                                <img class="single-gallery-image img-perso-size" src="http://placeimg.com/400/400/people"
+                                     alt="Ma photo">
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="offset-lg-1 col-lg-5">
-                    <div class="main_title text-left">
-                        <h2>{{ data.title }}</h2>
-                        <p>{{ data.description | inky_to_html }}</p>
-                        <h3>Jetez un oeil à mes réalisations.</h3>
-                        <a class="primary_btn" href="javascript:void(0)"><span>Mes réalisations</span></a>
+                    <div class="offset-lg-1 col-lg-5">
+                        <div class="main_title text-left">
+                            <h2>{{ about.title }}</h2>
+                            <p>{{ about.description | inky_to_html }}</p>
+                            <h3>Jetez un oeil à mes réalisations.</h3>
+                            <a class="primary_btn" href="javascript:void(0)"><span>Mes réalisations</span></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!--================ End About Us Area =================-->
+        </section>
+        <!--================ End About Us Area =================-->
+    {% endif %}
 </main>
 {% endblock %}

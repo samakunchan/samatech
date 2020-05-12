@@ -63,6 +63,7 @@ class PortfolioType extends AbstractType
                     $image->setCompleteUrl($data['filename']);
                     $image->setFolder($data['folder']);
                     $image->setExt($data['ext']);
+                    $image->setTitle('Image portfolio '. $event->getData()->getTitle());
                     $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
                     $event->getData()->setImage($image);
                 }
