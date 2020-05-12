@@ -34,7 +34,6 @@ class BlogController extends AbstractController
         if ($request->query->has('tag')) {
             $tag = $tagRepository->findOneBy(['name' => $request->query->get('tag')]);
         }
-
         return $this->render('blog/list.html.twig', [
             'posts_paginated' => $blogRepository->findAllPaginated($tag, $page),
             'categories' => $categoryRepository->findBy(['environnement' => '2'])
@@ -103,18 +102,12 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->getData()->getMainImage();
-            if ($image) {
-                $data = $fileService->transformToWebP($image->getFile());
-                $image->setCompleteUrl($data['filename']);
-                $image->setFolder($data['folder']);
-                $image->setExt('.webp');
-                $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
-                $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
+            if ($blog->getMainImage()) {
+                $fileService->moveToFolderAndModifyToWebP($this->getParameter($blog->getMainImage()->getFolder()), $blog->getMainImage()->getExt(), $blog->getMainImage()->getCompleteUrl()
+                );
+                $blog->getMainImage()->setExt('.webp');
             }
-            $blog->setMainImage($image);
             $blog->setUser($this->getUser());
-            $blog->setSlug($blog->getTitle());
             if ($blog->getCreatedAt() == null) { $blog->setCreatedAt(new DateTime('now', new DateTimeZone('Europe/Paris'))); }
             $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $entityManager = $this->getDoctrine()->getManager();
@@ -143,18 +136,14 @@ class BlogController extends AbstractController
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->getData()->getMainImage();
-            if ($image && $image->getFile()) {
-                $dataEdit = $fileService->transformToWebP($image->getFile());
-                $image->setCompleteUrl($dataEdit['filename']);
-                $image->setFolder('images');
-                $image->setExt('.webp');
-                if ($image->getTempFileName()) {
-                    $fileService->uploadFolder($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename'], $image->getTempFileName().'.webp');
-                } else {
-                    $image->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
-                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['ext'], $dataEdit['filename']);
+            if ($blog->getMainImage() !== null) {
+                if ($blog->getMainImage()->getTempFileName() && $blog->getMainImage()->getFile()) {
+                    $fileService->uploadFolder($this->getParameter($blog->getMainImage()->getFolder()), $blog->getMainImage()->getExt(), $blog->getMainImage()->getCompleteUrl(),$blog->getMainImage()->getTempFileName().'.webp');
+                } elseif ($blog->getMainImage()->getFile()) {
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($blog->getMainImage()->getFolder()), $blog->getMainImage()->getExt(), $blog->getMainImage()->getCompleteUrl()
+                    );
                 }
+                $blog->getMainImage()->setExt('.webp');
             }
             $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $this->getDoctrine()->getManager()->flush();

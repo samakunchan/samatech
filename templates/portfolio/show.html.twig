@@ -4,7 +4,11 @@
 {% block body %}
     <main class="d-flex">
         <aside class="col-lg-6" style="margin-top: 100px">
-            <img src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }} Image" width="100%">
+            {% if portfolio.image %}
+                <img src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }} Image" width="100%">
+            {% else %}
+                <img src="http://placeimg.com/800/800/tech" alt="{{ portfolio.title }} Image" width="100%">
+            {% endif %}
         </aside>
         <section class="col-lg-6">
             <!--================ Start Banner Area =================-->

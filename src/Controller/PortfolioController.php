@@ -16,6 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class PortfolioController extends AbstractController
 {
     /**
+     * @Route("/portfolio", name="portfolio_index_redirected", methods={"GET"})
+     * @return Response
+     */
+    public function indexRedirected(): Response
+    {
+        return $this->redirectToRoute('home');
+    }
+
+    /**
      * @Route("/portfolio/{slug}", name="portfolio_show", methods={"GET"})
      * @param Portfolio $portfolio
      * @return Response
