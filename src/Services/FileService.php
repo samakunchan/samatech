@@ -102,6 +102,7 @@ class FileService
     public function moveToFolderAndModifyToWebP($folder, $ext, $fileName)
     {
         $this->file->move($folder, $fileName. $ext);
+        dump($ext);
         if ($ext === '.png') {
             $img = imagecreatefrompng($folder.'/'. $fileName. $ext);
         } else {
@@ -133,7 +134,7 @@ class FileService
             }
         }
         $this->file->move($folder, $fileName.'.'. $ext);
-        if ($ext === 'png') {
+        if ($ext === '.png') {
             $img = imagecreatefrompng($folder.'/'. $fileName.'.'. $ext);
         } else {
             $img = imagecreatefromjpeg($folder.'/'. $fileName.'.'. $ext);

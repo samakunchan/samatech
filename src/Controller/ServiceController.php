@@ -4,13 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Service;
 use App\Form\ServiceType;
-use App\Repository\DocumentRepository;
 use App\Repository\ServiceRepository;
 use App\Services\FileService;
-use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,33 +42,33 @@ class ServiceController extends AbstractController
      * @Route("/admin/services/new", name="service_new", methods={"GET","POST"})
      * @param Request $request
      * @param FileService $fileService
-     * @param DocumentRepository $documentRepository
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request, FileService $fileService, DocumentRepository $documentRepository): Response
+    public function new(Request $request, FileService $fileService): Response
     {
         $service = new Service();
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse([
-                'view'    => $this->renderView('service/_ajax_document.html.twig', ['documents' => $documentRepository->findAll()])
-            ]);
-        }
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $bothImages = [$form->getData()->getIcone()[0], $form->getData()->getImage()[0]];
-            foreach ($bothImages as $key => $result){
-                $data = $fileService->transformToWebP($result->getFile());
-                $result->setCompleteUrl($data['filename']);
-                $result->setUpdatedAt(new DateTime('now'));
-                $result->setFolder($data['folder']);
-                $result->setExt('.webp');
-                if ($key === 0) {$result->setServiceIcone($service);} else {$result->setServiceImage($service);}
-                if ($key === 0) {$service->addIcone($result);} else {$service->addImage($result);}
-                $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
+            if ($service->getImage() !== null) {
+                $fileService->moveToFolderAndModifyToWebP(
+                    $this->getParameter($service->getImage()->getFolder()),
+                    $service->getImage()->getExt(),
+                    $service->getImage()->getCompleteUrl()
+                );
+                $service->getImage()->setExt('.webp');
             }
-            $service->setUser($this->getUser());
+            if ($service->getIcone() !== null) {
+                $fileService->moveToFolderAndModifyToWebP(
+                    $this->getParameter($service->getIcone()->getFolder()),
+                    $service->getIcone()->getExt(),
+                    $service->getIcone()->getCompleteUrl()
+                );
+                $service->getIcone()->setExt('.webp');
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($service);
             $entityManager->flush();
@@ -93,16 +90,16 @@ class ServiceController extends AbstractController
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $bothImages = [$form->getData()->getIcone()[0], $form->getData()->getImage()[0]];
-            foreach ($bothImages as $key => $resultEdit){
-                if ($resultEdit->getFile()) {
-                    $dataEdit = $fileService->transformToWebP($resultEdit->getFile());
-                    $resultEdit->setCompleteUrl($dataEdit['filename']);
-                    $resultEdit->setUpdatedAt(new DateTime('now'));
-                    $resultEdit->setFolder($dataEdit['folder']);
-                    if ($key === 0) {$resultEdit->setServiceIcone($service);} else {$resultEdit->setServiceImage($service);}
-                    if ($key === 0) {$service->addIcone($resultEdit);} else {$service->addImage($resultEdit);}
-                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($dataEdit['folder']), $dataEdit['filename'], $resultEdit->getTempFileName());
+            $datas = ['icone' => $service->getIcone(), 'image' => $service->getImage()];
+            foreach ($datas as $data) {
+                if ($data !== null) {
+                    if ($data->getTempFileName() && $data->getFile()) {
+                        $fileService->uploadFolder($this->getParameter($data->getFolder()),$data->getExt(),$data->getCompleteUrl(),$data->getTempFileName() . '.webp');
+                    } elseif($data->getFile()) {
+                        $fileService->moveToFolderAndModifyToWebP($this->getParameter($data->getFolder()),$data->getExt(),$data->getCompleteUrl()
+                        );
+                    }
+                    $data->setExt('.webp');
                 }
             }
             $this->getDoctrine()->getManager()->flush();
@@ -120,12 +117,12 @@ class ServiceController extends AbstractController
     public function delete(Request $request, Service $service): Response
     {
         if ($this->isCsrfTokenValid('delete'.$service->getId(), $request->request->get('_token'))) {
-            $icone = $this->getParameter($service->getIcone()[0]->getFolder()).'/'.$service->getIcone()[0]->getCompleteUrl();
-            $image = $this->getParameter($service->getImage()[0]->getFolder()).'/'.$service->getImage()[0]->getCompleteUrl();
-            $datas = ['icone' => $icone, 'image' => $image];
+            $datas = ['icone' => $service->getIcone(), 'image' => $service->getImage()];
             foreach ($datas as $data) {
-                if (file_exists($data)) {
-                    unlink($data);
+                if ($data !== null) {
+                    if (file_exists($this->getParameter($data->getFolder()).'/'.$data->getCompleteUrl().'.webp')) {
+                        unlink($this->getParameter($data->getFolder()).'/'.$data->getCompleteUrl().'.webp');
+                    }
                 }
             }
             $entityManager = $this->getDoctrine()->getManager();

@@ -59,7 +59,7 @@ Encore
      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
-    // .autoProvidejQuery()
+    .autoProvidejQuery()
     .autoProvideVariables({
         "window.Bloodhound": require.resolve('bloodhound-js'),
         "jQuery.tagsinput": "bootstrap-tagsinput"

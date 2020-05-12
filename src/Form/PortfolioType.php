@@ -9,7 +9,6 @@ use App\Services\FileService;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityRepository;
-use Psr\Container\ContainerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -27,15 +26,9 @@ class PortfolioType extends AbstractType
      */
     private $fileService;
 
-    /**
-     * @var ContainerInterface $container
-     */
-    private $container;
-
-    public function __construct(FileService $fileService, ContainerInterface $container)
+    public function __construct(FileService $fileService)
     {
         $this->fileService = $fileService;
-        $this->container = $container;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

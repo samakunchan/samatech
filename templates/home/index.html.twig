@@ -49,7 +49,11 @@
                 {% for service in services %}
                     <div class="col-lg-3 col-md-6">
                         <div class="feature_item">
-                            <img src="{{ asset('uploads/' ~ service.icone[0].folder ~'/'~ service.icone[0].completeUrl~ service.icone[0].ext ) }}" alt="{{ service.title }} image">
+                            {% if service.icone %}
+                                <img src="{{ asset('uploads/' ~ service.icone.folder ~'/'~ service.icone.completeUrl~ service.icone.ext ) }}" alt="{{ service.icone.title }}">
+                            {% else %}
+                                <img src="http://placeimg.com/150/150/tech" alt="{{ service.icone.title }} temporaire">
+                            {% endif %}
                             <h4>{{ service.title }}</h4>
                             <p>{{ service.description }}</p>
                         </div>
