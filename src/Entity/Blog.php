@@ -67,7 +67,6 @@ class Blog
 
     /**
      * @Assert\Type("object")
-     * @Assert\NotNull()
      * @Assert\Valid
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="blog")
      */
@@ -96,7 +95,6 @@ class Blog
 
     /**
      * @Assert\Type("object")
-     * @Assert\NotNull()
      * @Assert\Valid
      * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
      */

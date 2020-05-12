@@ -60,3 +60,7 @@ yarn-error.log
 /templates/service/_ajax_document.html.twig
 /src/Services/Fetcher.php
 /public/uploads/thumbs/
+/src/DataFixtures/AboutFixtures.php
+/src/DataFixtures/CategoryFixtures.php
+/src/DataFixtures/EnvironnementFixtures.php
+/src/DataFixtures/PortfolioFixtures.php
