@@ -33,44 +33,9 @@
         </div>
     </div>
     <!-- /PAGE HEADER -->
-    <div class="mt-5 pt-5">
+    <div class="card service-title">
         {{ include('service/_form.html.twig') }}
     </div>
-    <a class="btn btn-info" href="{{ path('service_admin') }}">Retour</a>
-    <script>
-        const fileLinks = ['service_icone', 'service_image'];
-        fileLinks.forEach(data => {
-            const indexImage = document.getElementById(data).querySelectorAll('input').length;
-            document.getElementById(data).innerHTML = document.getElementById(data)
-                .getAttribute('data-prototype')
-                .replace(/__name__label__/g, "")
-                .replace(/__name__/g, ''+ indexImage +'');
-        });
-    </script>
 {% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        {#$(document).ready(function(){#}
-        {#    $("#document").on("click", function(){#}
-        {#        $.ajax({#}
-        {#            url: "{{ path('service_new')}}",#}
-        {#            type: 'GET',#}
-        {#            success: function (data) {#}
-        {#                $(".modal-body").html(data.view);#}
-        {#                for (let i = 0; i < document.getElementsByClassName('ajaxFile').length ; i++){#}
-        {#                    document.getElementsByClassName('ajaxFile')[i].addEventListener('click', () => {#}
-        {#                        console.log(document.getElementsByClassName('ajaxFile')[i].textContent)#}
-        {#                    });#}
-        {#                }#}
-        {#            },#}
-        {#            error : function() {#}
-        {#                alert('Un problème est survenu lors du chargement des fichiers.');#}
-        {#            }#}
-        {#        });#}
-        {#    });#}
-        {#});#}
 
-    </script>
-{% endblock %}
 

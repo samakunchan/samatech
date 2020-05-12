@@ -25,7 +25,12 @@
                     <div class="row justify-content-around align-items-center {% if loop.index is even %} flex-row-reverse {% endif %}">
                         <div class="col-lg-5">
                             <div class="service_img">
-                                <img src="{{ asset('uploads/' ~ service.image[0].folder ~'/'~ service.image[0].completeUrl ~ service.image[0].ext ) }}" alt="Image sur le Cross browser compatibility">
+                                {% if service.image %}
+                                    <img src="{{ asset('uploads/' ~ service.image.folder ~'/'~ service.image.completeUrl ~ service.image.ext ) }}" alt="{{ service.image.title }}">
+                                {% else %}
+                                    <img src="http://placeimg.com/150/150/tech" alt="{{ service.title }} image">
+                                {% endif %}
+
                             </div>
                         </div>
 

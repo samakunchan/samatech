@@ -52,27 +52,18 @@ class PortfolioController extends AbstractController
         $portfolio = new Portfolio();
         $form = $this->createForm(PortfolioType::class, $portfolio);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($portfolio->getImage()->getFile()) {
-                $fileService->moveToFolderAndModifyToWebP(
-                    $this->getParameter($portfolio->getImage()->getFolder()),
-                    $portfolio->getImage()->getExt(),
-                    $portfolio->getImage()->getCompleteUrl()
+                $fileService->moveToFolderAndModifyToWebP($this->getParameter($portfolio->getImage()->getFolder()), $portfolio->getImage()->getExt(), $portfolio->getImage()->getCompleteUrl()
                 );
                 $portfolio->getImage()->setExt('.webp');
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($portfolio);
             $entityManager->flush();
-
             return $this->redirectToRoute('portfolio_index');
         }
-
-        return $this->render('portfolio/new.html.twig', [
-            'portfolio' => $portfolio,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('portfolio/new.html.twig', ['portfolio' => $portfolio, 'form' => $form->createView()]);
     }
 
     /**
@@ -86,34 +77,20 @@ class PortfolioController extends AbstractController
     {
         $form = $this->createForm(PortfolioType::class, $portfolio);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($portfolio->getImage()->getFile()) {
                 if ($portfolio->getImage()->getTempFileName()) {
-                    $fileService->uploadFolder(
-                        $this->getParameter($portfolio->getImage()->getFolder()),
-                        // Je substr parce que les ext sont comme ça ".png" et j'analyse juste "png" pas le point
-                        substr($portfolio->getImage()->getExt(), 1),
-                        $portfolio->getImage()->getCompleteUrl(),
-                        $portfolio->getImage()->getTempFileName().'.webp');
+                    $fileService->uploadFolder($this->getParameter($portfolio->getImage()->getFolder()), $portfolio->getImage()->getExt(), $portfolio->getImage()->getCompleteUrl(),$portfolio->getImage()->getTempFileName().'.webp');
                 } else {
-                    $fileService->moveToFolderAndModifyToWebP(
-                        $this->getParameter($portfolio->getImage()->getFolder()),
-                        $portfolio->getImage()->getExt(),
-                        $portfolio->getImage()->getCompleteUrl()
+                    $fileService->moveToFolderAndModifyToWebP($this->getParameter($portfolio->getImage()->getFolder()), $portfolio->getImage()->getExt(), $portfolio->getImage()->getCompleteUrl()
                     );
                 }
                 $portfolio->getImage()->setExt('.webp');
             }
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('portfolio_index');
         }
-
-        return $this->render('portfolio/edit.html.twig', [
-            'portfolio' => $portfolio,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('portfolio/edit.html.twig', ['portfolio' => $portfolio, 'form' => $form->createView()]);
     }
 
     /**

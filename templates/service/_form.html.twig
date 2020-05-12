@@ -1,4 +1,8 @@
 {{ form_start(form) }}
+    <div class="card-header">
+        <h3 class="mr-5">Ajouter</h3>
+        <a class="btn btn-info ml-15" href="{{ path('service_admin') }}">Retour</a>
+    </div>
     <div class="card-body row">
         <div class="col-lg-6">
             <div class="form-group">
@@ -17,23 +21,21 @@
                 {{ form_errors(form.icone) }}
                 {{ form_label(form.icone, 'Icone') }}
                 {{ form_widget(form.icone, { 'attr': {'class': 'form-control'} }) }}
-                {% for document in form.icone %}
-                    <div class="previous-img-{{ loop.index -1 }}">
-                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl~ document.vars.data.ext) }}" alt="Image" width="150">
-                        {{ form_errors(document) }}
+                {% if form.icone.vars.data %}
+                    <div class="previous-img">
+                        <img src="{{ asset('uploads/'~ form.icone.vars.data.folder ~ '/' ~ form.icone.vars.data.completeUrl ~ form.icone.vars.data.ext) }}" alt="Image" width="150">
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
             <div class="form-group col-lg-6">
                 {{ form_errors(form.image) }}
                 {{ form_label(form.image, 'Image') }}
                 {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
-                {% for document in form.image %}
-                    <div class="previous-img-{{ loop.index -1 }}">
-                        <img src="{{ asset('uploads/images/' ~ document.vars.data.completeUrl~ document.vars.data.ext) }}" alt="Image" width="150">
-                        {{ form_errors(document) }}
+                {% if form.image.vars.data %}
+                    <div class="previous-img">
+                        <img src="{{ asset('uploads/'~ form.image.vars.data.folder ~ '/' ~ form.image.vars.data.completeUrl ~ form.image.vars.data.ext) }}" alt="Image" width="150">
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

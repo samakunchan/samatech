@@ -21,7 +21,7 @@ class Document
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(min="10", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
+     * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max="50")
      */
@@ -53,20 +53,6 @@ class Document
      * @ORM\ManyToOne(targetEntity="App\Entity\About", inversedBy="documents")
      */
     private $about;
-
-    /**
-     * @Assert\Type("object")
-     * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="icone")
-     */
-    private $serviceIcone;
-
-    /**
-     * @Assert\Type("object")
-     * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="App\Entity\Service", inversedBy="image")
-     */
-    private $serviceImage;
 
     /**
      * @Assert\Type("object")
@@ -188,30 +174,6 @@ class Document
     public function getTempFileName()
     {
         return $this->tempFileName;
-    }
-
-    public function getServiceIcone(): ?Service
-    {
-        return $this->serviceIcone;
-    }
-
-    public function setServiceIcone(?Service $serviceIcone): self
-    {
-        $this->serviceIcone = $serviceIcone;
-
-        return $this;
-    }
-
-    public function getServiceImage(): ?Service
-    {
-        return $this->serviceImage;
-    }
-
-    public function setServiceImage(?Service $serviceImage): self
-    {
-        $this->serviceImage = $serviceImage;
-
-        return $this;
     }
 
     public function getContact(): ?Contact

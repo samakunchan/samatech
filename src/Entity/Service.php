@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,31 +34,17 @@ class Service
     private $description;
 
     /**
-     * @Assert\Valid
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="serviceIcone", orphanRemoval=true, cascade={"persist", "remove"})
+     * @Assert\Type("object")
+     * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
      */
     private $icone;
 
     /**
-     * TODO Changer ceci en OTO
      * @Assert\Type("object")
-     * @Assert\Valid
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="serviceImage", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Document", cascade={"persist", "remove"})
      */
     private $image;
 
-    /**
-     * @Assert\Type("object")
-     * @Assert\Valid
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="services", cascade={"persist"})
-     */
-    private $user;
-
-    public function __construct()
-    {
-        $this->icone = new ArrayCollection();
-        $this->image = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -91,76 +75,26 @@ class Service
         return $this;
     }
 
-    /**
-     * @return Collection|Document[]
-     */
-    public function getIcone(): Collection
+    public function getIcone(): ?Document
     {
         return $this->icone;
     }
 
-    public function addIcone(Document $icone): self
+    public function setIcone(?Document $icone): self
     {
-        if (!$this->icone->contains($icone)) {
-            $this->icone[] = $icone;
-            $icone->setServiceIcone($this);
-        }
+        $this->icone = $icone;
 
         return $this;
     }
 
-    public function removeIcone(Document $icone): self
-    {
-        if ($this->icone->contains($icone)) {
-            $this->icone->removeElement($icone);
-            // set the owning side to null (unless already changed)
-            if ($icone->getServiceIcone() === $this) {
-                $icone->setServiceIcone(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getImage(): Collection
+    public function getImage(): ?Document
     {
         return $this->image;
     }
 
-    public function addImage(Document $image): self
+    public function setImage(?Document $image): self
     {
-        if (!$this->image->contains($image)) {
-            $this->image[] = $image;
-            $image->setServiceImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Document $image): self
-    {
-        if ($this->image->contains($image)) {
-            $this->image->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getServiceImage() === $this) {
-                $image->setServiceImage(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
+        $this->image = $image;
 
         return $this;
     }
