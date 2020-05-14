@@ -5,15 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\NewPasswordType;
 use App\Repository\UserRepository;
+use App\Services\Mailer;
 use LogicException;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -53,12 +50,11 @@ class SecurityController extends AbstractController
      * @Route("/reset-password", name="reset_password")
      * @param UserRepository $userRepository
      * @param TokenGeneratorInterface $tokenGenerator
-     * @param MailerInterface $mailer
+     * @param Mailer $mailer
      * @return Response
      * Il n'y a que moi comme utilisateur, donc osef de créer un formulaire
-     * @throws TransportExceptionInterface
      */
-    public function sendForgotPassword(UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerInterface $mailer): Response
+    public function sendForgotPassword(UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
     {
         $moiMeme = $userRepository->findOneBy(['email'=> 'sam@test.fr']);
         $token = $tokenGenerator->generateToken();
@@ -69,16 +65,8 @@ class SecurityController extends AbstractController
 
         $url = $this->generateUrl('update_reset_password', array('resetToken' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $email = (new TemplatedEmail())
-            ->from('notifications@samakunchan-technology.com')
-            ->to('sam@test.fr')
-            ->priority(Email::PRIORITY_HIGH)
-            ->subject('Réinitialisation de mot depasse')
-            ->htmlTemplate( 'security/request_password.html.twig')
-            ->context([ 'url' => $url ])
-            ;
 
-        $mailer->send($email);
+        $mailer->sendMailForANewPassword($moiMeme, $url);
         $this->addFlash('message', 'E-mail de réinitialisation du mot de passe envoyé !');
 
         return $this->redirectToRoute('app_login');

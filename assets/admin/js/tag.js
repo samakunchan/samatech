@@ -1,4 +1,3 @@
-// import 'jquery';
 import 'typeahead.js';
 import Bloodhound from "bloodhound-js";
 import 'bootstrap-tagsinput';

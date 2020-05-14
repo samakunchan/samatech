@@ -38,3 +38,4 @@ yarn-error.log
 /src/DataFixtures/EnvironnementFixtures.php
 /src/DataFixtures/UserFixtures.php
 /src/DataFixtures/PortfolioFixtures.php
+/src/DataFixtures/CGVFixtures.php
