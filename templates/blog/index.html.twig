@@ -62,6 +62,7 @@
                     <tr>
                         <th>Numéro</th>
                         <th>Title</th>
+                        <th>Status</th>
                         <th>actions</th>
                     </tr>
                     </thead>
@@ -70,6 +71,13 @@
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ blog.title }}</td>
+                            <td>
+                                {% if blog.status is same as(true) %}
+                                    Publier
+                                {% else %}
+                                    <span class="text-warning">Non publier</span>
+                                {% endif %}
+                            </td>
                             <td>
                                 <a href="{{ path('blog_edit', {'slug': blog.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>
                                 <a href="{{ path('blog_show_detail', {'slug': blog.slug}) }}"><i class="ik ik-eye bg-default"></i></a>
@@ -87,7 +95,6 @@
                     <div class="navigation text-center">
                         <ul class="pagination">
                             {% if blogs_paginate.hasPreviousPage %}
-                                {{ dump(blogs_paginate.hasPreviousPage) }}
                                 <li class="paginate_button page-item next previous">
                                     <a class="page-link" href="{{ path('blog_index_paginated', {page: blogs_paginate.previousPage}) }}" rel="previous">
                                         <i class="ik ik-arrow-left"></i>

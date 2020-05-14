@@ -75,7 +75,7 @@ class BibliothequeController extends AbstractController
                     $fileService->moveToFolderAndModifyToWebP($this->getParameter($data['folder']), $data['ext'], $data['filename']);
                 }
             }
-            $this->addFlash('notice','Les données ont été mis à jours');
+            $this->addFlash('notice','Téléchargement réussi.');
         }
         return $this->render('bibliotheque/add.html.twig', ['form' => $form->createView()]);
     }

@@ -25,14 +25,16 @@ Encore
      */
     .addEntry("app", "./assets/js/app.js") // j'ai désactivé ça parce que c'est pas facile a repérer
     .addEntry("css/portfolio", "./assets/js/portfolio.js")
-    .addEntry('search', './assets/js/search.js')
     .addEntry("scss/style", "./assets/scss/style.scss")
     .addEntry("css/bootstrap", "./assets/css/bootstrap.css")
     .addEntry("css/admin/admin", "./assets/admin/scss/admin.scss")
     .addEntry("css/admin/taginput", "./assets/admin/scss/bootstrap-tagsinput.scss")
     // .addEntry("js/theme", "./assets/js/theme.js") // pour la navbar
-    .addEntry("js/navbar", "./assets/js/navbar.js") // pour la navbar
+    .addEntry('search', './assets/js/search.js')
+    .addEntry("js/navbar", "./assets/js/navbar.js")
+    .addEntry("js/input-file", "./assets/js/input-file.js")
     //.addEntry("page2", "./assets/js/page2.js")
+
     /*
      * Les entrées CSS/JS de la partie admin
      */
@@ -59,7 +61,7 @@ Encore
      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
-    .autoProvidejQuery()
+    // .autoProvidejQuery()
     .autoProvideVariables({
         "window.Bloodhound": require.resolve('bloodhound-js'),
         "jQuery.tagsinput": "bootstrap-tagsinput"

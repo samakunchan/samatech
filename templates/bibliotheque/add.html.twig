@@ -1,7 +1,62 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block title %}Nouveau Document - {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    <style>
+        .inf__drop-area * {
+            box-sizing: border-box;
+        }
 
+        .inf__drop-area {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 65px;
+            width: 450px;
+            max-width: 100%;
+            border: 1px dashed #c4c4c4;
+            border-radius: 3px;
+            padding: 0 20px;
+            transition: 0.2s;
+        }
+
+        .inf__drop-area.is-active {
+            background-color: rgba(0, 20, 20, 0.03);
+        }
+
+        input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        input[type="file"]:focus {
+            outline: none;
+        }
+
+        .inf__btn {
+            display: inline-block;
+            border: 1px solid #c4c4c4;
+            border-radius: 3px;
+            padding: 5px 12px;
+            margin-right: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .inf__hint {
+            flex: 1;
+            font-size: 11px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <div class="page-header">
         <div class="row align-items-end">
@@ -10,7 +65,7 @@
                     <i class="ik ik-image bg-blue"></i>
                     <div class="d-inline">
                         <h5>Bibliothèque</h5>
-                        <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                        <span>Upload de fichier .png, .jpg, .jpeg, .pdf, .txt</span>
                     </div>
                 </div>
             </div>
@@ -32,11 +87,32 @@
             </div>
         </div>
     </div>
-    <h1>Ajouter un document</h1>
+    <div class="col-md-10">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-warning alert-dismissible fade show">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
     {{ form_start(form, {'attr': {'id': 'form'}}) }}
-        {{ form_errors(form.files) }}
-        {{ form_label(form.files, 'Ajouter des fichiers') }}
-        {{ form_widget(form.files, { 'attr': {'class': 'form-control'} }) }}
-    <button type="submit" class="btn btn-block my-4 primary_btn">{{ button_label|default('Telecharger') }}</button>
+        <div class="col-lg-12 col-md-12">
+            <div class="card service-title">
+                <div class="card-header">
+                    <h3 class="col-lg-6">Ajouter un document ou plusieurs document <br><small class="text-info">Les pdfs sont trop lourd pour être chargé à plusieurs.</small></h3>
+                </div>
+                <div class="card-body">
+                    <div class="card-body row">
+                        {{ form_errors(form.files) }}
+                        {{ form_widget(form.files, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <button type="submit" class="btn primary_btn">{{ button_label|default('Telecharger') }}</button>
+                </div>
+            </div>
+        </div>
     {{ form_end(form) }}
+
+{% endblock %}
+{% block javascripts %}
+    </script>
+    {{ encore_entry_script_tags('js/input-file') }}
 {% endblock %}

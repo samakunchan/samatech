@@ -119,77 +119,9 @@
 
     <div class="row">
         <div class="col-md-12">
-            <!-- NAVIGATION -->
-            <div class="mb-2 clearfix">
-                <a class="btn pt-0 pl-0 d-md-none d-lg-none" data-toggle="collapse" href="#displayOptions" role="button" aria-expanded="true" aria-controls="displayOptions">
-                    Display Options
-                    <i class="ik ik-chevron-down align-middle"></i>
-                </a>
-                <div class="collapse d-md-block display-options" id="displayOptions">
-
-                    <!-- GRID BUTTON -->
-                    <div class="mr-3 d-inline-block float-md-left dispaly-option-buttons">
-                        <a href="javascript:void(0);" class="mr-1 view-list active">
-                            <i class="ik ik-menu view-icon"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="mr-1 view-thumb">
-                            <i class="ik ik-list view-icon"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="mr-1 view-grid">
-                            <i class="ik ik-grid view-icon"></i>
-                        </a>
-                    </div>
-                    <!-- /GRID BUTTON -->
-
-                    <div class="d-block d-md-inline-block">
-                        <div class="btn-group float-md-left mr-1 mb-1">
-                            <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Order By
-                                <i class="ik ik-chevron-down mr-0 align-middle"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                            </div>
-                        </div>
-                        <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                            <form action="">
-                                <input type="text" class="form-control" placeholder="Search.." required>
-                                <button type="submit" class="btn btn-icon"><i class="ik ik-search"></i></button>
-                                <button type="button" id="adv_wrap_toggler" class="adv-btn ik ik-chevron-down dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="adv-search-wrap dropdown-menu dropdown-menu-right" aria-labelledby="adv_wrap_toggler">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Full Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                    <button class="btn btn-theme">Search</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="float-md-right">
-                        <span class="text-muted text-small mr-2">Displaying 1-10 of 210 items </span>
-                        <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            20
-                            <i class="ik ik-chevron-down mr-0 align-middle"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">10</a>
-                            <a class="dropdown-item" href="#">20</a>
-                            <a class="dropdown-item" href="#">30</a>
-                            <a class="dropdown-item" href="#">50</a>
-                            <a class="dropdown-item" href="#">100</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /NAVIGATION -->
             <div class="separator mb-20"></div>
-
             <div class="row layout-wrap" id="layout-wrap">
-                {% for document in total | reverse %}
+                {% for document in total | reverse | slice(0, 10) %}
                     <div class="col-12 list-item">
                         <div class="card d-flex flex-row mb-3">
                             <a class="d-flex card-img" href="#editLayoutItem{{ loop.index }}" data-toggle="modal" data-target="#editLayoutItem{{ loop.index }}">
@@ -264,11 +196,11 @@
                                         </object>
                                     {% endif %}
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <a href="javascript:void(0);" class="btn btn-primary">Edit</a>
-                                    <button type="button" class="btn btn-danger list-delete">Delete</button>
-                                </div>
+{#                                <div class="modal-footer">#}
+{#                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#                                    <a href="javascript:void(0);" class="btn btn-primary">Edit</a>#}
+{#                                    <button type="button" class="btn btn-danger list-delete">Delete</button>#}
+{#                                </div>#}
                             </div>
                         </div>
                     </div>

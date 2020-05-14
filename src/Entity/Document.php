@@ -35,7 +35,6 @@ class Document
 
     /**
      * @Assert\Type("string")
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @Assert\Choice({"images", "pdf", "non-repertorier"}, message="Veuillez choisir parmis les valeurs autorisés: {{ choices }}")
      * @ORM\Column(type="string", length=50, nullable=true)
      */
@@ -57,7 +56,6 @@ class Document
 
     /**
      * @Assert\Type("string")
-     * @Assert\NotBlank(message="Le champ ne doit pas être vide.")
      * @Assert\Length(min="3", minMessage="Le titre doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255)
      */

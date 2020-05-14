@@ -162,9 +162,7 @@
         fetch('http://api.weatherapi.com/v1/current.json?key=6f069061751d4e5b8fe91438200505&q=Montpellier')
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 let day = '';
-                console.log(new Date(data.location.localtime).getDay())
                 if (new Date(data.location.localtime).getDay() === 1 ){
                     day = 'Lundi';
                 } else if (new Date(data.location.localtime).getDay() === 2 ){

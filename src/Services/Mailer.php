@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Contact;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Swift_Message;
@@ -65,6 +66,36 @@ final class Mailer
                             'message' => $contact->getMessage(),
                             'phone' => $contact->getPhone()
                         )
+                    ),
+                    'text/html'
+                );
+        } catch (LoaderError $e) {
+        } catch (RuntimeError $e) {
+        } catch (SyntaxError $e) {
+        }
+        return $this->mailer->send($message);
+    }
+
+    /**
+     * @param User $user
+     * @param $url
+     * @return int
+     */
+    public function sendMailForANewPassword(User $user, $url)
+    {
+        try {
+            $message = (new Swift_Message())
+                ->setFrom('notifications@samakunchan-technology.com')
+                ->setSubject('Requete pour le changement de mot de passe.')
+                ->setTo('badjah.cedric@gmail.com')
+                ->setBody(
+                    $this->twig->render(
+                        'security/request_password.html.twig',
+                        [
+                            'name' => $user->getFirstname().' '.$user->getLastname(),
+                            'email' => $user->getEmail(),
+                            'url' => $url
+                        ]
                     ),
                     'text/html'
                 );
