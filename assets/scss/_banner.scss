@@ -3,7 +3,6 @@
 
 .home_banner_area {
 	z-index: 1;
-	// background: url(../media/images/banner/home-banner.png) no-repeat top center;
 	background-position: center;
 	background-size: cover;
 	.banner_inner {
@@ -72,7 +71,7 @@
 .banner_area {
 	position: relative;
 	z-index: 1;
-	@media (max-width: 1199px) {
+	@media (max-width: 768px) {
 		min-height: 350px;
 	}
 	.banner_inner {
@@ -81,13 +80,10 @@
 		content: "-";
 		width: 100%;
 		min-height: 200px;
-		// background: url(../media/images/banner/technology-banner.jpg) no-repeat right bottom;
 		background-image: linear-gradient(to right, #46d2ed 0%, #24478f 100%), radial-gradient(circle at top left, #46d2ed, #24478f);
 		z-index: 1;
-		@media (max-width: 1199px) {
+		@media (max-width: 768px) {
 			min-height: 350px;
-		}
-		@media (max-width: 991px) {
 			background: $primary-color2;
 			width: 100%;
 		}
@@ -97,9 +93,15 @@
 			align-items: center;
 			margin-left: 50px;
 			margin-top: 100px;
-			@media (max-width: 991px) {
+			@media (max-width: 1200px) {
 				margin-left: 0;
+			}
+			@media (max-width: 768px) {
 				margin-top: 50px;
+				display: block;
+				h3{
+					font-size: 3.75rem;
+				}
 			}
 			h2 {
 				color: #fff;
@@ -119,6 +121,9 @@
 					font-family: $primary-font;
 					margin-right: 20px;
 					position: relative;
+					@media (max-width: 768px) {
+						font-size: 18px;
+					}
 					&:before {
 						content: "/";
 						position: absolute;

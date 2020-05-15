@@ -13,6 +13,16 @@
 
 {% block title %}Accueil - {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .block-home-portfolio{
+            background: #cdf7ff;
+            border-top: 1px solid white;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <main>
         <!--================ Start Home Banner Area =================-->
@@ -84,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="filters portfolio-filter">
+                <div class="filters portfolio-filter d-none d-sm-block">
                     <ul>
                         <li class="active" data-filter="*">all</li>
                         {% for category in categories %}
@@ -94,7 +104,7 @@
                 </div>
 
                 <div class="filters-content">
-                    <div class="row portfolio-grid justify-content-center">
+                    <div class="row portfolio-grid justify-content-center d-none d-sm-block">
                         {% for portfolio in portfolios %}
                             <div class="col-lg-4 col-md-6 all {{ portfolio.category.type | lower }}">
                                 <div class="portfolio_box">
@@ -125,7 +135,27 @@
                                 </div>
                             </div>
                         {% endfor %}
-
+                    </div>
+                    <div class="row d-block d-sm-none">
+                        {% for portfolio in portfolios %}
+                        <div class="col-lg-4 col-md-6 p-3 block-home-portfolio">
+                            <div>
+                                <h4 class="title-color">{{ portfolio.title }}</h4>
+                                <div class="d-flex justify-content-around">
+                                    <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal icon-contour title-color" style="color: #0b0b0b">
+                                        <div class="icon">
+                                            <h2 class="lnr lnr-eye"></h2>
+                                        </div>
+                                    </a>
+                                    <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}" class="icon-contour title-color">
+                                        <div class="icon">
+                                            <h2 class="lnr lnr-book"></h2>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

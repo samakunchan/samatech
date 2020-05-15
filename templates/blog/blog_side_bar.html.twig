@@ -1,9 +1,12 @@
 
 {% block body %}
-    <div class="blog_right_sidebar">
+    <div class="blog_right_sidebar d-lg-block">
         <aside class="single_sidebar_widget search_widget">
             <div class="input-group">
-                <a href="{{ path('blog_search') }}"><i class="lnr lnr-magnifier" style="font-size: 30px;"></i></a>
+                <a href="javascript:void(0);" class="hide-right-js icon-contour m-2 d-block d-lg-none"><i class="lnr lnr-arrow-right" style="font-size: 30px;"></i></a>
+                <a href="{{ path('blog_search') }}" class="icon-contour m-2"><i class="lnr lnr-magnifier" style="font-size: 30px;"></i></a>
+            </div>
+            <div class="input-group">
             </div>
             <div class="br"></div>
         </aside>
@@ -53,3 +56,4 @@
         </aside>
     </div>
 {% endblock %}
+
