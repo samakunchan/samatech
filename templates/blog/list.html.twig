@@ -13,7 +13,7 @@
 
 {% block title %}Blog listes - {{ parent() }}{% endblock %}
 {% block stylesheets %}
-{{ parent() }}
+    {{ parent() }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <style>
         .blog_info .post_tag a {
@@ -46,6 +46,7 @@
             </div>
         </section>
         <!--================ End Banner Area =================-->
+
         <!--================Blog Categorie Area =================-->
         <section class="blog_categorie_area mt-5">
             <div class="container">
@@ -72,10 +73,14 @@
             </div>
         </section>
         <!--================Blog Categorie Area =================-->
+
         <!--================Blog Area =================-->
         <section class="blog_area">
             <div class="container-fluid">
                 <div class="row">
+                    <!-- BOUTON DE LA SIDEBAR TABLET/MOBILE -->
+                    <div class="voir-plus-btn-sidebar d-block d-lg-none">Voir plus</div>
+                    <!-- BOUTON DE LA SIDEBAR TABLET/MOBILE -->
                     <div class="col-lg-9">
                         <div class="blog_left_sidebar">
                             {% for post in posts_paginated.results %}
@@ -196,6 +201,15 @@
             responsiveClass:true,
             items: 4,
             center: true
+        })
+    </script>
+    <script>
+        $('.blog_right_sidebar').hide();
+        $('.hide-right-js').click(function () {
+            $('.blog_right_sidebar').toggle('toggle');
+        })
+        $('.voir-plus-btn-sidebar').click(function () {
+            $('.blog_right_sidebar').toggle('toggle');
         })
     </script>
 {% endblock %}

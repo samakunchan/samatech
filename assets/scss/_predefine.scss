@@ -183,3 +183,20 @@ strong{
 	background: #46d2ed2b;
 	box-shadow: 0 4px 8px rgba(77, 87, 222, 0.3);
 }
+.icon-contour{
+	border-radius: 15%;
+	border: 1px solid white;
+	padding: 10px;
+}
+.voir-plus-btn-sidebar{
+	position: fixed;
+	top: 50%;
+	padding: 15px;
+	color: white;
+	right: 0;
+	background-color: #24478f;
+	-webkit-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+	cursor: pointer;
+	z-index: 2;
+}

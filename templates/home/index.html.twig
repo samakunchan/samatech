@@ -20,11 +20,6 @@
             background: #cdf7ff;
             border-top: 1px solid white;
         }
-        .icon-home-portfolio{
-            border-radius: 15%;
-            border: 1px solid white;
-            padding: 10px;
-        }
     </style>
 {% endblock %}
 
@@ -147,12 +142,12 @@
                             <div>
                                 <h4 class="title-color">{{ portfolio.title }}</h4>
                                 <div class="d-flex justify-content-around">
-                                    <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal icon-home-portfolio title-color" style="color: #0b0b0b">
+                                    <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal icon-contour title-color" style="color: #0b0b0b">
                                         <div class="icon">
                                             <h2 class="lnr lnr-eye"></h2>
                                         </div>
                                     </a>
-                                    <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}" class="icon-home-portfolio title-color">
+                                    <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}" class="icon-contour title-color">
                                         <div class="icon">
                                             <h2 class="lnr lnr-book"></h2>
                                         </div>

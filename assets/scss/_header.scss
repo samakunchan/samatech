@@ -3,7 +3,7 @@
     position: absolute;
     width: 100%;
     z-index: 9999;
-    background: #ffffff;
+    // background: #ffffff;
     .menu_nav {
         width: 100%;
     }
@@ -129,7 +129,6 @@
             -webkit-transition: transform 500ms ease, background 500ms ease-in-out;
             box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
             .navbar {
-                // padding: .5rem 1rem;
                 .nav {
                     .nav-item {
                         .nav-link {
@@ -139,16 +138,6 @@
                 }
             }
         }
-        // .navbar-on{
-        //     transform: translateY(80px);
-        //     transition: transform 500ms ease, background 500ms ease-in-out;
-        //     -webkit-transition: transform 500ms ease, background 500ms ease-in-out;
-        // }
-        // .navbar-off{
-        //     transform: translateY(0px);
-        //     transition: transform 500ms ease, background 500ms ease-in-out;
-        //     -webkit-transition: transform 500ms ease, background 500ms ease-in-out;
-        // }
     }
     &.white_menu {
         .navbar {
