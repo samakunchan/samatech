@@ -118,6 +118,9 @@
 	box-shadow: 0 10px 30px rgba(118, 85, 225, 0.3);
 	span {
 		padding: 0 42px;
+		@media (max-width: 1200px) {
+			padding: 0 30px;
+		}
 	}
 	&.tr-bg {
 		background-image: linear-gradient(#ffffff, #ffffff),
@@ -157,12 +160,7 @@ p{
 strong{
 	color: $title-color;
 }
-// .navbar-on{
-// 	transform: translateY(80px);
-// }
-// .navbar-off{
-// 	transform: translateY(0px);
-// }
+
 .sam-shadowed{
 	box-shadow: 0 4px 15px rgba(77, 87, 222, 0.3);
 }

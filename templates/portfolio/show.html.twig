@@ -12,16 +12,24 @@
 {% endblock %}
 
 {% block title %}Portfolio - {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .aside_show_portfolio{
+            margin-top: 100px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <main class="d-flex">
-        <aside class="col-lg-6" style="margin-top: 100px">
+        <aside class="col-lg-6 aside_show_portfolio d-none d-md-block">
             {% if portfolio.image %}
                 <img src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }} Image" width="100%">
             {% else %}
                 <img src="http://placeimg.com/800/800/tech" alt="{{ portfolio.title }} Image" width="100%">
             {% endif %}
         </aside>
-        <section class="col-lg-6">
+        <section class="col-lg-6 col-md-6 col-sm-12">
             <!--================ Start Banner Area =================-->
             <section class="banner_area">
                 <div class="banner_inner d-flex align-items-center">
@@ -31,7 +39,7 @@
                             <div class="page_link">
                                 <a href="{{ path('home') }}">Home</a>
                                 <a href="javascript:void(0);">Portfolio</a>
-                                <a href="javascript:void(0)">{{ portfolio.title | title | slice(0, 12)}}</a>
+                                <a href="javascript:void(0)">{{ portfolio.title | title | slice(0, 13)}}</a>
                             </div>
                         </div>
                     </div>
