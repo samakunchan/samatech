@@ -22,7 +22,6 @@ class Tag implements JsonSerializable
 
     /**
      * @Assert\Type("string")
-     * @Assert\Length(min="3", minMessage="Le slug doit avoir au moins {{ limit }} caractères.")
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
