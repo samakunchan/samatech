@@ -195,17 +195,7 @@
 		max-width: 100%;
 	}
 	.categories_details {
-		//position: absolute;
-		//top: 20px;
-		//left: 20px;
-		//right: 20px;
-		//bottom: 20px;
-		//background: rgba(34, 34, 34, 0.80);
-		//color: $primary-color;
 		transition: all 0.3s linear;
-		//display: flex;
-		//align-items: center;
-		//justify-content: center;
 		h5 {
 			margin-bottom: 0;
 			font-size: 18px;
@@ -228,11 +218,11 @@
 			height: 2px;
 		}
 	}
-	//&:hover {
-	//	.categories_details {
-	//		background: rgba($primary-color, 0.85);
-	//	}
-	//}
+	&:hover {
+		.categories_details {
+			background: rgba($primary-color, 0.85);
+		}
+	}
 }
 
 /*============ blog_left_sidebar css ==============*/

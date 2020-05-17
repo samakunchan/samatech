@@ -36,22 +36,30 @@
             <h2 class="title-color mt-5 mb-5">Les articles de la catégorie: {{ category.type }}</h2>
             <div class="row">
                 {% for post in category.blogs %}
-                    <article class="blog_item col-md-6">
-                        <div class="">
-                            <div class="blog_post">
-                                {% if post.mainImage is not empty %}
-                                    <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~ post.mainImage.completeUrl~ post.mainImage.ext) }}" alt="{{ post.title }} image">
-                                {% else %}
-                                    <img class="w-50 float-left mr-3" src="http://placehold.it/300x300" alt="{{ post.title }} image">
-                                {% endif %}
-                                <div class="blog_details">
-                                    <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}"><h2>{{ post.title }}</h2></a>
-                                    <p>{{ post.content | slice(0, 200) | inky_to_html }}</p>
-                                    <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}" class="primary_btn"><span>Lire l'article</span></a>
+                    {% if post.status is same as(true) %}
+                        <article class="blog_item col-md-6">
+                            <div>
+                                <div class="blog_post">
+                                    {% if post.mainImage is not empty %}
+                                        <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~ post.mainImage.completeUrl~ post.mainImage.ext) }}" alt="{{ post.title }} image">
+                                    {% else %}
+                                        <img class="w-50 float-left mr-3" src="http://placehold.it/300x300" alt="{{ post.title }} image">
+                                    {% endif %}
+                                    <div class="blog_details">
+                                        <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}"><h2>{{ post.title }}</h2></a>
+                                        <p>{{ post.content | slice(0, 200) | inky_to_html }}</p>
+                                        <a href="{{ path('blog_show_detail', {'slug': post.slug}) }}" class="primary_btn"><span>Lire l'article</span></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    {% else %}
+                        <article class="blog_item col-md-6">
+                            <div>
+                                1 article mais indisponible pour le moment.
+                            </div>
+                        </article>
+                    {% endif %}
                 {% else %}
                     <article class="blog_item">
                         <div class="col-md-12 text-center">

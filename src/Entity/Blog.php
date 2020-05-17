@@ -44,8 +44,6 @@ class Blog
     /**
      * @Assert\Type("object")
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="blogs")
-     * @Assert\Valid
-     * @Assert\NotNull()
      */
     private $category;
 

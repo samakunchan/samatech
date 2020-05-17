@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use function count;
+use function Symfony\Component\String\u;
 
 /**
  * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,6 +28,51 @@ class TagRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    /**
+     * @param string $query
+     * @param int $limit
+     * @return Tag[]
+     */
+    public function findBySearchQuery(string $query, int $limit = Tag::NUM_ITEMS): array
+    {
+        $searchTerms = $this->extractSearchTerms($query);
+
+        if (0 === count($searchTerms)) {
+            return [];
+        }
+
+        $queryBuilder = $this->createQueryBuilder('t');
+
+        foreach ($searchTerms as $key => $term) {
+            $queryBuilder
+                ->orWhere('t.name LIKE :t_'.$key)
+                ->setParameter('t_'.$key, '%'.$term.'%')
+            ;
+        }
+
+        return $queryBuilder
+            ->innerJoin('t.blogs', 'b')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Transforms the search string into an array of search terms.
+     * @param string $searchQuery
+     * @return array
+     */
+    private function extractSearchTerms(string $searchQuery): array
+    {
+        $searchQuery = u($searchQuery)->replaceMatches('/[[:space:]]+/', ' ')->trim();
+        $terms = array_unique(u($searchQuery)->split(' '));
+
+        // ignore the search terms that are too short
+        return array_filter($terms, function ($term) {
+            return 2 <= u($term)->length();
+        });
     }
 
     // /**
