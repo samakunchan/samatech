@@ -24,8 +24,11 @@
             color: #212529;
         }
         .categories_post a:hover{
-            color: #212529;
+            color: #24478f;
             text-decoration: none;
+        }
+        .blog_right_sidebar::-webkit-scrollbar {
+            display: none;
         }
     </style>
 {% endblock %}
@@ -63,12 +66,20 @@
                                             <h5>{{ category.type }}</h5>
                                         </a>
                                         <div class="border_line"></div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+                <div class="slider-nav text-center">
+                    <a href="javascript:void(0);" class="left-arrow owl-prev">
+                        <i class="lnr lnr-chevron-left"></i>
+                    </a>
+                    <div class="slider-dot-container"></div>
+                    <a href="javascript:void(0);" class="right-arrow owl-next">
+                        <i class="lnr lnr-chevron-right"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -200,8 +211,20 @@
             margin: 10,
             responsiveClass:true,
             items: 4,
-            center: true
-        })
+            center: true,
+            dotsContainer: $(".owl-carousel.owl-theme").parents(".blog_categorie_area .container").find(".slider-dot-container")
+        }).data("owl.carousel").onResize(),
+            $(".owl-dot").click(function() {
+                $($(this).parents(".blog_categorie_area .container").find(".owl-carousel")).owlCarousel().trigger("to.owl.carousel", [$(this).index(), 300])
+            }),
+            $(".owl-prev").click(function(e) {
+                e.preventDefault(),
+                    $($(this).parents(".blog_categorie_area .container").find(".owl-carousel")).owlCarousel().trigger("prev.owl.carousel", [300])
+            }),
+            $(".owl-next").click(function(e) {
+                e.preventDefault(),
+                    $($(this).parents(".blog_categorie_area .container").find(".owl-carousel")).owlCarousel().trigger("next.owl.carousel", [300])
+            })
     </script>
     <script>
         $('.blog_right_sidebar').hide();

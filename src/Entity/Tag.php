@@ -14,6 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Tag implements JsonSerializable
 {
     /**
+     * NUM_ITEMS sert à déterminer le nombre de post à afficher pour la pagination
+     * Il est utiliser dans la méthode findBySearchQuery du BlogRepository
+     */
+    public const NUM_ITEMS = 10;
+    /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")

@@ -34,9 +34,19 @@
                 <div class="top-menu d-flex align-items-center">
                     <!-- USER NOTFICATION -->
                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="{{ path('admin_account') }}" id="userDropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="avatar" src="https://eu.ui-avatars.com/api/?name={{app.user.firstname}}+{{app.user.lastname}}&background=0D8ABC&color=fff" alt="Mon avatar">
                         </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="{{ path('admin_account') }}">
+                                <i class="ik ik-user dropdown-icon"></i>
+                                Profile
+                            </a>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">
+                                <i class="ik ik-power dropdown-icon"></i>
+                                Logout
+                            </a>
+                        </div>
                     </div>
                     <!-- /USER NOTFICATION -->
                 </div>

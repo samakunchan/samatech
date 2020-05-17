@@ -9,6 +9,7 @@ use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
+use function count;
 use function Symfony\Component\String\u;
 
 /**
@@ -57,6 +58,7 @@ class BlogRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->orderBy('b.view', 'ASC')
+            ->andWhere('b.status = 1')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult()
@@ -80,7 +82,7 @@ class BlogRepository extends ServiceEntityRepository
     {
         $searchTerms = $this->extractSearchTerms($query);
 
-        if (0 === \count($searchTerms)) {
+        if (0 === count($searchTerms)) {
             return [];
         }
 
@@ -95,6 +97,7 @@ class BlogRepository extends ServiceEntityRepository
 
         return $queryBuilder
             ->orderBy('b.createdAt', 'DESC')
+            ->andWhere('b.status = 1')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

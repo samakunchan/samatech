@@ -150,7 +150,7 @@ class BlogController extends AbstractController
             $blog->setUpdatedAt(new DateTime('now', new DateTimeZone('Europe/Paris')));
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('blog_index');
+            // return $this->redirectToRoute('blog_index');
         }
 
         return $this->render('blog/edit.html.twig', [
@@ -197,10 +197,13 @@ class BlogController extends AbstractController
         $query = $request->query->get('q', '');
         $limit = $request->query->get('l', 10);
         $foundPosts = $blogRepository->findBySearchQuery($query, $limit);
+//        Ne pas oublier d'ajouter le TagRepository
+//        $foundPostByTags = $tagRepository->findBySearchQuery($query, $limit);
 
         $results = [];
         foreach ($foundPosts as $post) {
             $results[] = [
+                'id', htmlspecialchars($post->getId(), ENT_COMPAT | ENT_HTML5),
                 'title' => htmlspecialchars($post->getTitle(), ENT_COMPAT | ENT_HTML5),
                 'date' => $post->getCreatedAt()->format('M d, Y'),
                 'author' => htmlspecialchars($post->getUser()->getFirstname(), ENT_COMPAT | ENT_HTML5),
@@ -208,7 +211,24 @@ class BlogController extends AbstractController
                 'url' => $this->generateUrl('blog_show_detail', ['slug' => $post->getSlug()]),
             ];
         }
+//        Le temps d'éxécution est super long quand on ajoute les tags, mais c'est surtout quand un tagName === postTitle.
+//        Il mouline 2 fois et ça rallonge le temps. En plus créé des doublons.
+//        Infos pour régler les doublons: https://www.it-swarm.dev/fr/php/array-unique-pour-les-objets/968060465/
+//        foreach ($foundPostByTags as $tag) {
+//            foreach ($tag->getBlogs() as $post) {
+//                $results[] = [
+//                    'id', htmlspecialchars($post->getId(), ENT_COMPAT | ENT_HTML5),
+//                    'title' => htmlspecialchars($post->getTitle(), ENT_COMPAT | ENT_HTML5),
+//                    'date' => $post->getCreatedAt()->format('M d, Y'),
+//                    'author' => htmlspecialchars($post->getUser()->getFirstname(), ENT_COMPAT | ENT_HTML5),
+//                    'content' => substr($post->getContent(), 0, 150),
+//                    'url' => $this->generateUrl('blog_show_detail', ['slug' => $post->getSlug()]),
+//                ];
+//            }
+//        }
+//        dump($results);
 
         return $this->json($results);
     }
+
 }
