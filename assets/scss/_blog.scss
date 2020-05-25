@@ -270,6 +270,28 @@
 			}
 		}
 	}
+	.blog_meta_detail {
+		li {
+			padding-right: 15px;
+			a {
+				font: 300 14px/20px $primary-font;
+				color: #777777;
+				vertical-align: middle;
+				padding-bottom: 12px;
+				i {
+					color: $title-color;
+					font-size: 16px;
+					font-weight: 600;
+					padding-left: 15px;
+					line-height: 20px;
+					vertical-align: middle;
+				}
+				&:hover {
+					color: $primary-color;
+				}
+			}
+		}
+	}
 }
 .blog_post {
 	img {

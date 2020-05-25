@@ -62,8 +62,8 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-md-12 blog_details">
-                                    <div class="blog_info float-left p-5 text-right">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="blog_info p-3">
                                         <div class="post_tag">
                                             {% for tag in blog.tags %}
                                                 <a href="{{ path('blog_show_list', {'tag': tag.name == app.request.query.get('tag') ? null : tag.name}) }}"
@@ -72,12 +72,27 @@
                                                 </a>
                                             {% endfor %}
                                         </div>
-                                        <ul class="blog_meta list">
-                                            <li><a href="javascript:void(0);" class="w-100 text-right">{{ blog.user.firstname | title }} {{ blog.user.lastname | title }}<i class="lnr lnr-user"></i></a></li>
-                                            <li><a href="javascript:void(0);" class="w-100 text-right">{{ blog.createdAt | date('d/m/Y à H:m:s') }}<i class="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="javascript:void(0);" class="w-100 text-right">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                            <li><a href="javascript:void(0);" class="w-100 text-right">{% if blog.view > 1 %} {{ blog.view }} Vues {% elseif blog.view is same as(1) %} 1 Vue {% else %} Aucune Vue {% endif %}<i class="lnr lnr-eye"></i></a></li>
-                                            <li><a href="#disqus_thread" class="w-100 text-right"><i class="lnr lnr-bubble"></i></a></li>
+                                        <ul class="blog_meta_detail d-flex list">
+                                            <li>
+                                                <a href="javascript:void(0);" class="w-100 text-right">
+                                                    <i class="lnr lnr-user"></i>
+                                                    {{ blog.user.firstname | title }} {{ blog.user.lastname | title }}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" class="w-100 text-right">
+                                                    <i class="lnr lnr-calendar-full"></i>
+                                                    {{ blog.createdAt | date('d/m/Y à H:m:s') }}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" class="w-100 text-right">
+                                                    <i class="lnr lnr-eye"></i>
+                                                    {% if blog.view > 1 %} {{ blog.view }} Vues {% elseif blog.view is same as(1) %} 1 Vue {% else %} Aucune Vue {% endif %}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#disqus_thread" class="w-100 text-right"><i class="lnr lnr-bubble"></i></a></li>
                                         </ul>
                                     </div>
                                     <h1>{{ blog.title }}</h1>
