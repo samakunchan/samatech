@@ -51,7 +51,11 @@
                     <div class="container">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <a class="navbar-brand logo_h" href="{{ path('home') }}">
-                            <img src="{{asset('build/assets/media/images/logo.6e097222.png')}}" alt="Logo du site">
+                            <picture>
+                                <source srcset="{{ asset('uploads/images/logo-5ec23714320e6.webp') }}" type="image/webp">
+                                <source srcset="{{ asset('build/assets/media/images/logo.6e097222.png') }}" type="image/png">
+                                <img src="{{ asset('build/assets/media/images/logo.6e097222.png') }}" alt="Logo du site">
+                            </picture>
                         </a>
                         <button class="navbar-toggler"
                                 type="button"
@@ -110,7 +114,11 @@
                         <div class="footer_top flex-column">
                             <div class="footer_logo">
                                 <a href="javascript:void(0)">
-                                    <img src="{{asset('build/assets/media/images/logo.6e097222.png')}}" alt="Logo du site">
+                                    <picture>
+                                        <source srcset="{{ asset('uploads/images/logo-5ec23714320e6.webp') }}" type="image/webp">
+                                        <source srcset="{{ asset('build/assets/media/images/logo.6e097222.png') }}" type="image/png">
+                                        <img src="{{ asset('build/assets/media/images/logo.6e097222.png') }}" alt="Logo du site">
+                                    </picture>
                                 </a>
                             <p class="sam-color-primary">
                                 Copyright © {{ 'now'|date('Y') }} Samakunchan Technology |
@@ -141,7 +149,7 @@
         {% block javascripts %}
         {# Ci dessous c'est important pour le portfolio #}
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+{#            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>#}
             {{ encore_entry_script_tags('css/portfolio') }}
         {% endblock %}
     </body>

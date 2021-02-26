@@ -75,7 +75,7 @@
                     <div class="card-body">
                         <h6>Les projets:</h6>
                         <div class="profiletimeline mt-0 service-title">
-                            {% for portfolio in portfolios %}
+                            {% for portfolio in portfolios | reverse %}
                                 <h6>{{ portfolio.title }}</h6>
                                 <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}"><i class="ik ik-eye bg-default"></i></a>
                                 <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>
@@ -98,7 +98,7 @@
                         <div class="card-body">
                             <h6>Les projets:</h6>
                             <div class="profiletimeline mt-0 service-title">
-                                {% for portfolio in category.portfolios %}
+                                {% for portfolio in category.portfolios | reverse %}
                                     <h6>{{ portfolio.title }}</h6>
                                     <a href="{{ path('portfolio_show', {'slug': portfolio.slug}) }}"><i class="ik ik-eye bg-default"></i></a>
                                     <a href="{{ path('portfolio_edit', {'slug': portfolio.slug}) }}"><i class="ik ik-edit bg-blue"></i></a>

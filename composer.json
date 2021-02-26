@@ -8,10 +8,11 @@
         "ext-gd": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
+        "ext-json": "*",
         "fzaninotto/faker": "^1.9",
         "google/recaptcha": "^1.2",
         "laminas/laminas-code": "^3.4",
-        "liip/test-fixtures-bundle": "^1.7",
+        "liip/test-fixtures-bundle": "^1.9",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.0.*",
         "symfony/browser-kit": "5.0.*",
@@ -40,8 +41,7 @@
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*",
         "twig/cssinliner-extra": "^3.0",
-        "twig/inky-extra": "^3.0",
-      "ext-json": "*"
+        "twig/inky-extra": "^3.0"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.3",
