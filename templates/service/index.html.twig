@@ -37,7 +37,11 @@
                         <div class="col-lg-5">
                             <div class="service_img">
                                 {% if service.image %}
-                                    <img src="{{ asset('uploads/' ~ service.image.folder ~'/'~ service.image.completeUrl ~ service.image.ext ) }}" alt="{{ service.image.title }}">
+                                    <picture>
+                                        <source srcset="{{ asset('uploads/' ~ service.image.folder ~'/'~ service.image.completeUrl~ service.image.ext ) }}" type="image/webp">
+                                        <source srcset="{{ asset('uploads/' ~ service.image.folder ~'/safari-la-pute/'~ service.image.completeUrl~ '.jpg' ) }}" type="image/jpg">
+                                        <img src="{{ asset('uploads/' ~ service.image.folder ~'/safari-la-pute/'~ service.image.completeUrl~ '.jpg' ) }}" alt="{{ service.image.title }}">
+                                    </picture>
                                 {% else %}
                                     <img src="http://placeimg.com/150/150/tech" alt="{{ service.title }} image">
                                 {% endif %}

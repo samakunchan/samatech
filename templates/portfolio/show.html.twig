@@ -24,7 +24,11 @@
     <main class="d-flex">
         <aside class="col-lg-6 aside_show_portfolio d-none d-md-block">
             {% if portfolio.image %}
-                <img src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }} Image" width="100%">
+                <picture>
+                    <source srcset="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" type="image/webp">
+                    <source srcset="{{ asset('uploads/'~ portfolio.image.folder ~'/safari-la-pute/'~ portfolio.image.completeUrl~ '.jpg') }}" type="image/jpg">
+                    <img src="{{ asset('uploads/'~ portfolio.image.folder ~'/safari-la-pute/'~ portfolio.image.completeUrl~ '.jpg') }}" alt="{{ portfolio.title }}" width="100%">
+                </picture>
             {% else %}
                 <img src="http://placeimg.com/800/800/tech" alt="{{ portfolio.title }} Image" width="100%">
             {% endif %}

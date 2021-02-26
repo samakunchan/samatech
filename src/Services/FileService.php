@@ -102,7 +102,6 @@ class FileService
     public function moveToFolderAndModifyToWebP($folder, $ext, $fileName)
     {
         $this->file->move($folder, $fileName. $ext);
-        dump($ext);
         if ($ext === '.png') {
             $img = imagecreatefrompng($folder.'/'. $fileName. $ext);
         } else {
@@ -113,6 +112,7 @@ class FileService
         imagesavealpha($img, true);
         imagewebp($img, $folder .'/'. $fileName.'.webp', 100);
         imagedestroy($img);
+        copy($folder.'/'.$fileName. $ext, $folder.'/safari-la-pute/'.$fileName. '.jpg');
         unlink($folder.'/'.$fileName. $ext);
     }
 

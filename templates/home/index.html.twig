@@ -43,7 +43,11 @@
                         </div>
                         <div class="col-lg-5">
                             <div class="home_right_img">
-                                <img class="" src="{{ asset('build/assets/media/images/about-us.52bec8f6.png') }}" alt="Image de la landing page">
+                                <picture>
+                                    <source srcset="{{ asset('uploads/images/aboutus-5ec2391fa84c7.webp') }}" type="image/webp">
+                                    <source srcset="{{ asset('uploads/images/safari-la-pute/aboutus-5ec2391fa84c7.jpg') }}" type="image/jpg">
+                                    <img src="{{ asset('uploads/images/safari-la-pute/aboutus-5ec2391fa84c7.jpg') }}" alt="Image de la landing page">
+                                </picture>
                             </div>
                         </div>
                     </div>
@@ -71,7 +75,11 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="feature_item">
                                 {% if service.icone %}
-                                    <img src="{{ asset('uploads/' ~ service.icone.folder ~'/'~ service.icone.completeUrl~ service.icone.ext ) }}" alt="{{ service.icone.title }}">
+                                    <picture>
+                                        <source srcset="{{ asset('uploads/' ~ service.icone.folder ~'/'~ service.icone.completeUrl~ service.icone.ext ) }}" type="image/webp">
+                                        <source srcset="{{ asset('uploads/' ~ service.icone.folder ~'/safari-la-pute/'~ service.icone.completeUrl~ '.jpg' ) }}" type="image/jpg">
+                                        <img src="{{ asset('uploads/' ~ service.icone.folder ~'/safari-la-pute/'~ service.icone.completeUrl~ '.jpg' ) }}" alt="{{ service.icone.title }}">
+                                    </picture>
                                 {% else %}
                                     <img src="http://placeimg.com/150/150/tech" alt="{{ service.icone.title }} temporaire">
                                 {% endif %}
@@ -111,9 +119,13 @@
                                     <div class="single_portfolio"></div>
                                     <div class="single_portfolio">
                                         {% if portfolio.image %}
-                                            <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" alt="{{ portfolio.title }}">
+                                            <picture>
+                                                <source srcset="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" type="image/webp">
+                                                <source srcset="{{ asset('uploads/'~ portfolio.image.folder ~'/safari-la-pute/'~ portfolio.image.completeUrl~ '.jpg') }}" type="image/jpg">
+                                                <img class="img-fluid w-100" style="height: 450px; object-fit: contain" src="{{ asset('uploads/'~ portfolio.image.folder ~'/safari-la-pute/'~ portfolio.image.completeUrl~ '.jpg') }}" alt="{{ portfolio.title }}">
+                                            </picture>
                                             <div class="overlay"></div>
-                                            <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl~ portfolio.image.ext) }}" class="img-gal">
+                                            <a href="{{ asset('uploads/'~ portfolio.image.folder ~'/'~ portfolio.image.completeUrl ~ portfolio.image.ext) }}" class="img-gal">
                                                 <div class="icon">
                                                     <span class="lnr lnr-cross"></span>
                                                 </div>

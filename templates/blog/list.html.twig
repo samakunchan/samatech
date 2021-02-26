@@ -116,7 +116,11 @@
                                     <div class="col-md-9">
                                         <div class="blog_post">
                                             {% if post.mainImage is not empty %}
-                                                <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/' ~ post.mainImage.completeUrl~ post.mainImage.ext) }}" alt="{{ post.title }} image">
+                                                <picture>
+                                                    <source srcset="{{ asset('uploads/images/' ~ post.mainImage.completeUrl~ post.mainImage.ext) }}" type="image/webp">
+                                                    <source srcset="{{ asset('uploads/images/safari-la-pute/' ~ post.mainImage.completeUrl~ '.jpg') }}" type="image/jpg">
+                                                    <img class="w-50 float-left mr-3" src="{{ asset('uploads/images/safari-la-pute/' ~ post.mainImage.completeUrl~ '.jpg') }}" alt="{{ post.title }} image">
+                                                </picture>
                                             {% else %}
                                                 <img class="w-50 float-left mr-3" src="http://placehold.it/300x300" alt="{{ post.title }} image">
                                             {% endif %}
