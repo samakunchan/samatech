@@ -65,7 +65,7 @@
             <small><span class="text-blue">Categorie</span>: {{ contact.category.type }}</small><br>
             <small><span class="text-blue">Date</span>: {{ contact.contactedAt ? contact.contactedAt|date('d/m/Y à H:i:s') : '' }}</small>
             <hr>
-            <p>{{ contact.message }}</p>
+            <p class="pre-wrap">{{ contact.message }}</p>
             {% if contact.document.count is not same as(0) %}
                 {% for document in contact.document %}
                     {% if document.folder is same as('pdf') %}
